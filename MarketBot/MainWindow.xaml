@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketBot"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Width="1000" Height="800">
     <Grid>
-        <Button x:Name="Test" Click="Test_Click"/>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />                      
+        </Grid.ColumnDefinitions>
+
+        <Label x:Name="Money" Grid.Column="3" Grid.ColumnSpan="2" Content="Money" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"  Margin="0" HorizontalContentAlignment="Center"/>
+        <Label x:Name="Nickname" Grid.Column="3" Grid.ColumnSpan="2" Content="Nickname" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"   Margin="0,50,0,0" HorizontalContentAlignment="Center" />
+        <Image x:Name="Photo" Grid.Column="4"  Grid.ColumnSpan="2" Margin="25,25,25,25"/>
     </Grid>
 </Window>
