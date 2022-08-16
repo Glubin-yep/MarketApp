@@ -8,21 +8,28 @@
         Title="MainWindow" Width="1000" Height="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="15"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="15"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="15"/>
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
             <ColumnDefinition />
-            <ColumnDefinition />                      
+            <ColumnDefinition />
+            <ColumnDefinition Width="15"/>
         </Grid.ColumnDefinitions>
 
-        <Label x:Name="Money" Grid.Column="3" Grid.ColumnSpan="2" Content="Money" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"  Margin="0" HorizontalContentAlignment="Center"/>
-        <Label x:Name="Nickname" Grid.Column="3" Grid.ColumnSpan="2" Content="Nickname" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"   Margin="0,50,0,0" HorizontalContentAlignment="Center" />
-        <Image x:Name="Photo" Grid.Column="4"  Grid.ColumnSpan="2" Margin="25,25,25,25"/>
+        <Label x:Name="Money" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Content="Money" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"  Margin="0" HorizontalContentAlignment="Center"/>
+        <Label x:Name="Nickname" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="2" Content="Nickname" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"   Margin="0,50,0,0" HorizontalContentAlignment="Center" />
+        <Image x:Name="Photo" Grid.Row="1" Grid.Column="5" Margin="17,25,17,25"/>
+
+        <Label x:Name="TradeStatus" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Content="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"  Margin="0" HorizontalContentAlignment="Center"/>
+        
     </Grid>
 </Window>

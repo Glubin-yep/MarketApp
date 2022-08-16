@@ -1,17 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace MarketBot
 {
-    public partial class MainWindow
+    class User_Date
     {
-        public class Balans
+        public struct Balans
         {
             public double money { get; set; }
             public string currency { get; set; }
             public bool success { get; set; }
         }
 
-        public class Player
+        public struct Player
         {
             public string steamid { get; set; }
             public int communityvisibilitystate { get; set; }
@@ -30,14 +34,22 @@ namespace MarketBot
             public int personastateflags { get; set; }
         }
 
-        public class Response
+        public struct Response
         {
             public IList<Player> players { get; set; }
         }
 
-        public class User
+        public struct User
         {
             public Response response { get; set; }
+        }
+        public struct Ping
+        {
+            public bool success { get; set; }
+            public string ping { get; set; }
+            public bool online { get; set; }
+            public bool p2p { get; set; }
+            public bool steamApiKey { get; set; }
         }
 
     }
