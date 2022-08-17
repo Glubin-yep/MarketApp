@@ -174,10 +174,48 @@ namespace MarketBot
             }
             return responseData;
         }
+        public static string GetId(string current_item)
+        {
+            string[] strings = current_item.Split(":");
+            return strings[strings.Length - 1];
+        }
         public static string SetSell(string id, int price, string currency)
         {
             string responseData = string.Empty;
             string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389&id={id}&price={price}&cur={currency}";
+
+            HttpWebRequest request = WebRequest.Create(actionUrl) as HttpWebRequest;
+            request.Method = "GET";
+            request.ContentType = "application/json";
+
+            using (HttpClient client = new HttpClient())
+
+            {
+
+                try
+                {
+                    using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                    {
+                        using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                        {
+                            responseData = reader.ReadToEnd();
+                            reader.Close();
+                        }
+
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+            return responseData;
+        }
+        public static string SetPrice(string item_id, int price, string currency)
+        {
+            string responseData = string.Empty;
+            string actionUrl = $"https://market.csgo.com/api/v2/set-price?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389&item_id={item_id}&price={price}&cur={currency}";
 
             HttpWebRequest request = WebRequest.Create(actionUrl) as HttpWebRequest;
             request.Method = "GET";

@@ -93,5 +93,11 @@ namespace MarketBot
             public bool success { get; set; }
             public string item_id { get; set; }
         }
+        public struct Update
+        {
+            public bool success { get; set; }
+            public string error { get; set; }
+        }
+
     }
 }
