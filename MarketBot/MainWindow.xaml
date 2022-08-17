@@ -30,6 +30,11 @@
         <Image x:Name="Photo" Grid.Row="1" Grid.Column="5" Margin="17,25,17,25"/>
 
         <Label x:Name="TradeStatus" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Content="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20"  Margin="0" HorizontalContentAlignment="Center"/>
-        
+        <Button x:Name="Iteams_Button" Grid.Column="1" Content="Load Your Iteams" HorizontalAlignment="Center" Margin="0,74,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Iteams_Button_Click"/>
+        <ListBox x:Name="ItemsLB" Grid.Column="2"  Grid.ColumnSpan="2" Grid.Row="2"  />
+        <Button x:Name="Inventory_Button" Grid.Column="1" Content="Load Your Inventory" HorizontalAlignment="Center" Margin="0,33,0,0" Grid.Row="3" VerticalAlignment="Top" Click="Inventory_Button_Click"/>
+        <ListBox x:Name="InventoryLB" Grid.Column="2"  Grid.ColumnSpan="2" Grid.Row="3"  d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="InventoryLB_SelectionChanged" />
+        <Button x:Name="Sell" Grid.Column="1" Content="Sell" HorizontalAlignment="Center" Margin="0,74,0,0" Grid.Row="3" VerticalAlignment="Top" Click="Sell_Click" IsEnabled="False" />
+
     </Grid>
 </Window>
