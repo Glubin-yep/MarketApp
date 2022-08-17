@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
@@ -12,8 +13,7 @@ namespace MarketBot
     public partial class MainWindow : Window
     {
         private Timer aTimer;
-        string current_item = string.Empty;
-        string current_sell_item = string.Empty;
+        
 
         public MainWindow()
         {
@@ -90,17 +90,19 @@ namespace MarketBot
 
         private void Sell_Click(object sender, RoutedEventArgs e)
         {
-            var sell = JsonConvert.DeserializeObject<User_Date.Sell>(HttpGetInfo.SetSell(HttpGetInfo.GetId(current_item),999_999_999,"RUB"));
+            var sell = JsonConvert.DeserializeObject<User_Date.Sell>(HttpGetInfo.SetSell(HttpGetInfo.GetId(User_Date.current_item),Sell_Price.Text + "00","RUB"));
             MessageBox.Show(sell.success + sell.item_id);
             ListUpdate(0);
             ListUpdate(1);
+            Sell.IsEnabled = false;
         }
 
         private void InventoryLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Sell.IsEnabled = true;
+            Sell_Price.IsEnabled = true;
+            Sell_Price.Text = "";
             if(e.AddedItems.Count >= 1)
-                current_item = e.AddedItems[0].ToString();
+                User_Date.current_item = e.AddedItems[0].ToString();
             
         }
 
@@ -108,22 +110,35 @@ namespace MarketBot
         {
             Remove.IsEnabled = true;
             Update.IsEnabled = true;
+
             if (e.AddedItems.Count >= 1)
-                current_sell_item = e.AddedItems[0].ToString();
+            {
+                User_Date.current_sell_item = e.AddedItems[0].ToString();
+            }
+                    
+
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            var update = JsonConvert.DeserializeObject<User_Date.Update>(HttpGetInfo.SetPrice(HttpGetInfo.GetId(current_sell_item),0,"RUB"));
+            var update = JsonConvert.DeserializeObject<User_Date.Update>(HttpGetInfo.SetPrice(HttpGetInfo.GetId(User_Date.current_sell_item),"0","RUB"));
             MessageBox.Show(update.success + update.error);
             ListUpdate(1);
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            var update = JsonConvert.DeserializeObject<User_Date.Update>(HttpGetInfo.SetPrice(HttpGetInfo.GetId(current_sell_item), 555_555_555, "RUB"));
+            var update = JsonConvert.DeserializeObject<User_Date.Update>(HttpGetInfo.SetPrice(HttpGetInfo.GetId(User_Date.current_sell_item), "9898989898", "RUB"));
             MessageBox.Show(update.success + update.error);
             ListUpdate(1);
+        }
+
+     
+        private void Sell_Price_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+            Sell.IsEnabled = true;
         }
     }
 }

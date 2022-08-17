@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.IO;
 using System.Net;
 using System.Net.Http;
@@ -179,7 +178,7 @@ namespace MarketBot
             string[] strings = current_item.Split(":");
             return strings[strings.Length - 1];
         }
-        public static string SetSell(string id, int price, string currency)
+        public static string SetSell(string id, string price, string currency)
         {
             string responseData = string.Empty;
             string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389&id={id}&price={price}&cur={currency}";
@@ -212,7 +211,7 @@ namespace MarketBot
             }
             return responseData;
         }
-        public static string SetPrice(string item_id, int price, string currency)
+        public static string SetPrice(string item_id, string price, string currency)
         {
             string responseData = string.Empty;
             string actionUrl = $"https://market.csgo.com/api/v2/set-price?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389&item_id={item_id}&price={price}&cur={currency}";
