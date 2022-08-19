@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace MarketBot
 {
-    static class User_Date
+    class User_Date
     {
-        public static string current_item = string.Empty;
-        public static string current_sell_item = string.Empty;
-
+       
         public struct Balans
         {
             public double money { get; set; }

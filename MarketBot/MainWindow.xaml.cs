@@ -1,42 +1,52 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Linq;
+﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media.Imaging;
 
 namespace MarketBot
 {
     public partial class MainWindow : Window
     {
-        private Timer aTimer;
-        
+        private readonly Timer aTimer;
+        public static string current_item = string.Empty;
+        public static string current_sell_item = string.Empty;
+        Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MarketBot.MarketApp.ico");
 
         public MainWindow()
         {
             InitializeComponent();
+            LoadUserInfo();
+            LoadNotifyIcon();
 
-            var balans = JsonConvert.DeserializeObject<User_Date.Balans>(HttpGetInfo.GetMoney());
-            Money.Content = balans.money.ToString();
-            var user = JsonConvert.DeserializeObject<User_Date.User>(HttpGetInfo.GetAvatar());
-
-            var bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri($"{user.response.players.First().avatarfull}"); ;
-            bitmapImage.EndInit();
-            Photo.Source = bitmapImage;
-
-            Nickname.Content = user.response.players.First().personaname;
-
-            UpdateStatus();
             aTimer = new Timer(60000);           
             aTimer.Elapsed += OnTimedEvent;
             aTimer.Enabled = true;
         }
-
+        private void LoadNotifyIcon()
+        {
+            System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
+            ni.Icon = new System.Drawing.Icon(stream);
+            ni.Visible = true;
+            ni.DoubleClick += Ni_DoubleClick;
+        }
+        private void LoadUserInfo()
+        {
+            UpdateStatus();
+            Task.Run(() =>
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    Money.Content = HttpGetInfo.GetMoney();
+                    Photo.Source = HttpGetInfo.GetAvatar();
+                    Nickname.Content = HttpGetInfo.GetNickname();
+                }));
+            });
+           
+        }
         private void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
             UpdateStatus();
@@ -48,9 +58,9 @@ namespace MarketBot
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    var status = JsonConvert.DeserializeObject<User_Date.Ping>(HttpGetInfo.GetPing());
-                    if (status.ping == "pong")
-                        TradeStatus.Content = "Connected";
+                    bool status = HttpGetInfo.GetPing();
+                    if (status == true)
+                        TradeStatus.Content = "Connected :)";
                 }));
             });
         }
@@ -70,19 +80,23 @@ namespace MarketBot
             if(mode == 0)
             {
                 InventoryLB.Items.Clear();
-                var items = JsonConvert.DeserializeObject<User_Date.Inventory>(HttpGetInfo.GetSteamInventory());
+                var items = HttpGetInfo.GetSteamInventory();
                 for (int i = 0; i <= items.items.Count - 1; i++)
                 {
-                    InventoryLB.Items.Add(items.items[i].market_hash_name + " id:" + items.items[i].id);
+                    InventoryLB.Items.Add(items.items[i].market_hash_name 
+                        + " id:" + items.items[i].id);
                 }
             }
             else
             {
                 ItemsLB.Items.Clear();
-                var items = JsonConvert.DeserializeObject<User_Date.Items>(HttpGetInfo.GetItems());
+                var items = HttpGetInfo.GetItems();
                 for (int i = 0; i <= items.items.Count - 1; i++)
                 {
-                    ItemsLB.Items.Add(items.items[i].market_hash_name + " " + items.items[i].price + " " + items.items[i].currency + " id:" + items.items[i].item_id);
+                    ItemsLB.Items.Add(items.items[i].market_hash_name + " " 
+                        + items.items[i].price + " " 
+                        + items.items[i].currency 
+                        + " id:" + items.items[i].item_id);
                 }
             }
             
@@ -90,7 +104,7 @@ namespace MarketBot
 
         private void Sell_Click(object sender, RoutedEventArgs e)
         {
-            var sell = JsonConvert.DeserializeObject<User_Date.Sell>(HttpGetInfo.SetSell(HttpGetInfo.GetId(User_Date.current_item),Sell_Price.Text + "00","RUB"));
+            var sell = HttpGetInfo.SetSell(current_item,Sell_Price.Text,"RUB");
             MessageBox.Show(sell.success + sell.item_id);
             ListUpdate(0);
             ListUpdate(1);
@@ -102,7 +116,7 @@ namespace MarketBot
             Sell_Price.IsEnabled = true;
             Sell_Price.Text = "";
             if(e.AddedItems.Count >= 1)
-                User_Date.current_item = e.AddedItems[0].ToString();
+                current_item = e.AddedItems[0].ToString();
             
         }
 
@@ -114,23 +128,21 @@ namespace MarketBot
             Update_Price.Text = "";
 
             if (e.AddedItems.Count >= 1)
-            {
-                User_Date.current_sell_item = e.AddedItems[0].ToString();
-            }
+                current_sell_item = e.AddedItems[0].ToString();
                     
 
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            var update = JsonConvert.DeserializeObject<User_Date.Update>(HttpGetInfo.SetPrice(HttpGetInfo.GetId(User_Date.current_sell_item),"0","RUB"));
+            var update = HttpGetInfo.SetPrice(current_sell_item,"0","RUB");
             MessageBox.Show(update.success + update.error);
             ListUpdate(1);
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            var update = JsonConvert.DeserializeObject<User_Date.Update>(HttpGetInfo.SetPrice(HttpGetInfo.GetId(User_Date.current_sell_item), Update_Price.Text + "00", "RUB"));
+            var update = HttpGetInfo.SetPrice(current_sell_item, Update_Price.Text , "RUB");
             MessageBox.Show(update.success + update.error);
             ListUpdate(1);
             Update.IsEnabled = false;
@@ -149,6 +161,17 @@ namespace MarketBot
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
             Update.IsEnabled = true;
+        }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            if (WindowState == WindowState.Minimized)
+                this.Hide();
+        }
+        private void Ni_DoubleClick(object? sender, EventArgs e)
+        {
+            this.Show();
+            this.WindowState = WindowState.Normal;
         }
     }
 }
