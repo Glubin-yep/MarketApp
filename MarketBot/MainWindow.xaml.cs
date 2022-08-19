@@ -21,7 +21,7 @@ namespace MarketBot
             InitializeComponent();
             LoadUserInfo();
             LoadNotifyIcon();
-
+            
             aTimer = new Timer(60000);           
             aTimer.Elapsed += OnTimedEvent;
             aTimer.Enabled = true;
@@ -84,7 +84,7 @@ namespace MarketBot
                 for (int i = 0; i <= items.items.Count - 1; i++)
                 {
                     InventoryLB.Items.Add(items.items[i].market_hash_name 
-                        + " id:" + items.items[i].id);
+                        + " / "  + items.items[i].id);
                 }
             }
             else
@@ -93,10 +93,10 @@ namespace MarketBot
                 var items = HttpGetInfo.GetItems();
                 for (int i = 0; i <= items.items.Count - 1; i++)
                 {
-                    ItemsLB.Items.Add(items.items[i].market_hash_name + " " 
+                    ItemsLB.Items.Add(items.items[i].market_hash_name + " / " 
                         + items.items[i].price + " " 
                         + items.items[i].currency 
-                        + " id:" + items.items[i].item_id);
+                        + " / " + items.items[i].item_id);
                 }
             }
             
@@ -116,8 +116,13 @@ namespace MarketBot
             Sell_Price.IsEnabled = true;
             Sell_Price.Text = "";
             if(e.AddedItems.Count >= 1)
+            {
                 current_item = e.AddedItems[0].ToString();
-            
+                var price = HttpGetInfo.GetMarketPrice(current_item);
+                Item_Name.Content = price.data[0].market_hash_name;
+                Min_Price.Content = "Min Price : " + price.data[0].price.Insert(price.data[0].price.Length - 2, ",");
+                Item_Image.Source = HttpGetInfo.GetImage(current_item);
+            }
         }
 
         private void ItemsLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -128,9 +133,13 @@ namespace MarketBot
             Update_Price.Text = "";
 
             if (e.AddedItems.Count >= 1)
+            {
                 current_sell_item = e.AddedItems[0].ToString();
-                    
-
+                var price = HttpGetInfo.GetMarketPrice(current_sell_item);
+                Item_Name.Content = price.data[0].market_hash_name;
+                Min_Price.Content = "Min Price : " + price.data[0].price.Insert(price.data[0].price.Length - 2, ",");
+                Item_Image.Source = HttpGetInfo.GetImage(current_sell_item);
+            }
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
