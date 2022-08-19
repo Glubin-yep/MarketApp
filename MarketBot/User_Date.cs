@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static MarketBot.User_Date;
 
 namespace MarketBot
 {
     class User_Date
     {
-       
+
         public struct Balans
         {
             public double money { get; set; }
@@ -99,6 +100,20 @@ namespace MarketBot
             public bool success { get; set; }
             public string error { get; set; }
         }
+        public struct Data
+        {
+            public string market_hash_name { get; set; }
+            public string price { get; set; }
+            public string class_ { get; set; }
+            public int instance { get; set; }
+            public int count { get; set; }
+        }
 
+        public struct MarketPrice
+        {
+            public bool success { get; set; }
+            public string currency { get; set; }
+            public IList<Data> data { get; set; }
+        }
     }
 }
