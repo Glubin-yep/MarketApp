@@ -35,6 +35,7 @@
         <ListBox x:Name="ItemsLB" Grid.Column="3"  Grid.ColumnSpan="2" Grid.Row="2" SelectionChanged ="ItemsLB_SelectionChanged" d:ItemsSource="{d:SampleData ItemCount=5}" />
         <Button x:Name="Remove" Grid.Column="2" Content="Remove" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Click="Remove_Click" IsEnabled="False" Margin="0,79,0,0" />
         <Button x:Name="Update" Grid.Column="2" Content="Update" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Click="Update_Click" IsEnabled="False" Margin="0,104,0,0" Width="47" />
+        <TextBox x:Name="Update_Price" Grid.Column="2" Grid.Row="2" Height="41" Text="Enter Price" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Width="124" FontSize="20" IsEnabled="False" PreviewTextInput ="Update_Price_PreviewTextInput" Margin="0,131,0,0"  />
 
         <Button x:Name="Inventory_Button" Grid.Column="2" Content="Load Your Inventory" HorizontalAlignment="Center" Margin="0,46,0,0" Grid.Row="3" VerticalAlignment="Top" Click="Inventory_Button_Click" Width="124"/>
         <ListBox x:Name="InventoryLB" Grid.Column="3"  Grid.ColumnSpan="2" Grid.Row="3"  d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="InventoryLB_SelectionChanged" Margin="0" Grid.RowSpan="1" />

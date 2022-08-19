@@ -110,6 +110,8 @@ namespace MarketBot
         {
             Remove.IsEnabled = true;
             Update.IsEnabled = true;
+            Update_Price.IsEnabled = true;
+            Update_Price.Text = "";
 
             if (e.AddedItems.Count >= 1)
             {
@@ -128,9 +130,10 @@ namespace MarketBot
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            var update = JsonConvert.DeserializeObject<User_Date.Update>(HttpGetInfo.SetPrice(HttpGetInfo.GetId(User_Date.current_sell_item), "9898989898", "RUB"));
+            var update = JsonConvert.DeserializeObject<User_Date.Update>(HttpGetInfo.SetPrice(HttpGetInfo.GetId(User_Date.current_sell_item), Update_Price.Text + "00", "RUB"));
             MessageBox.Show(update.success + update.error);
             ListUpdate(1);
+            Update.IsEnabled = false;
         }
 
      
@@ -139,6 +142,13 @@ namespace MarketBot
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
             Sell.IsEnabled = true;
+        }
+
+        private void Update_Price_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex("[^0-9]+");
+            e.Handled = regex.IsMatch(e.Text);
+            Update.IsEnabled = true;
         }
     }
 }
