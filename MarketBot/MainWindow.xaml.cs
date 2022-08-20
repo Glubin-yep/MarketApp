@@ -107,7 +107,7 @@ namespace MarketBot
         private void Sell_Click(object sender, RoutedEventArgs e)
         {
             var sell = HttpGetInfo.SetSell(current_item, Sell_Price.Text, "RUB");
-            MessageBox.Show(sell.success + sell.item_id);
+            //MessageBox.Show(sell.success + sell.item_id);
             ListUpdate(0);
             ListUpdate(1);
             Sell.IsEnabled = false;
@@ -147,14 +147,14 @@ namespace MarketBot
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
             var update = HttpGetInfo.SetPrice(current_sell_item, "0", "RUB");
-            MessageBox.Show(update.success + update.error);
+            //MessageBox.Show(update.success + update.error);
             ListUpdate(1);
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
             var update = HttpGetInfo.SetPrice(current_sell_item, Update_Price.Text, "RUB");
-            MessageBox.Show(update.success + update.error);
+            //MessageBox.Show(update.success + update.error);
             ListUpdate(1);
             Update.IsEnabled = false;
         }

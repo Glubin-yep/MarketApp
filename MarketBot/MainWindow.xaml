@@ -11,7 +11,7 @@
         Title="MarketBot" Width="1000" Height="800" ResizeMode="CanMinimize" 
         WindowStyle="ThreeDBorderWindow"
         StateChanged="Window_StateChanged"
-        Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
+        Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
 
     <adonisControls:AdonisWindow.TitleBarContent>
         <StackPanel Orientation="Horizontal"
@@ -42,20 +42,20 @@
             <ColumnDefinition Width="1*" />
             <ColumnDefinition Width="15"/>
         </Grid.ColumnDefinitions>
-        
-        <Border BorderThickness="0.7"  BorderBrush="AliceBlue" VerticalAlignment="Bottom" Grid.Column="0" Grid.ColumnSpan="8" Grid.Row="0" Grid.RowSpan="2">
-            <StackPanel Orientation="Horizontal" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="188" >
+
+        <Border BorderThickness="0.7"  BorderBrush="AliceBlue" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="1">
+            <StackPanel Orientation="Horizontal" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="167" >
                 <Image x:Name="Photo" Height="150" Width="150" Margin="10"/>
                 <StackPanel Orientation="Vertical">
                     <Label x:Name="Money" Content="Money" FontSize="20" Margin="15"/>
                     <Label x:Name="Nickname"  Content="Nickname"  FontSize="20" Margin="15"/>
                     <Label x:Name="TradeStatus"  Content="Disconnect"  FontSize="20" Margin="15"/>
                 </StackPanel>
-                
+
             </StackPanel>
         </Border>
-        <Border BorderThickness="0.7"  BorderBrush="AliceBlue" VerticalAlignment="Bottom" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="1">
-            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="222">
+        <Border BorderThickness="0.7"  BorderBrush="AliceBlue"  Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="2" Grid.RowSpan="1">
+            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="208">
                 <Button x:Name="Iteams_Button" Style = "{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"  Content="Load Your Iteams"  Click="Iteams_Button_Click" Margin="10"/>
                 <Button x:Name="Remove"  Content="Remove"  VerticalAlignment="Top" Click="Remove_Click" IsEnabled="False" Margin="10"/>
                 <Button x:Name="Update"   Content="Update" VerticalAlignment="Top" Click="Update_Click" IsEnabled="False" Margin="10"/>
@@ -63,21 +63,29 @@
 
             </StackPanel>
         </Border>
-        
-        <ListBox x:Name="ItemsLB" Grid.Column="2"  Grid.ColumnSpan="3" Grid.Row="2" SelectionChanged ="ItemsLB_SelectionChanged" d:ItemsSource="{d:SampleData ItemCount=5}" />
 
-        <Border BorderThickness="0.7"  BorderBrush="AliceBlue" VerticalAlignment="Bottom" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3" Grid.RowSpan="1">
-            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="222">
+        <Border BorderThickness="0.7" BorderBrush="AliceBlue"  Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2"  >
+            <StackPanel  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="210">
+                <ListBox x:Name="ItemsLB"  SelectionChanged ="ItemsLB_SelectionChanged" Margin="10" Height="206" />
+            </StackPanel>
+        </Border>
+
+        <Border BorderThickness="0.7"  BorderBrush="AliceBlue" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="3" >
+            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="235" >
                 <Button x:Name="Inventory_Button" Style = "{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"  Content="Load Your Inventory"    Click="Inventory_Button_Click" Margin="10"/>
                 <Button x:Name="Sell"  Content="Sell"   VerticalAlignment="Top" Click="Sell_Click" IsEnabled="False" Margin="10" />
                 <TextBox x:Name="Sell_Price"  Text="Enter Price"  IsEnabled="False" PreviewTextInput ="Sell_Price_PreviewTextInput" FontSize="16" Margin="10"/>
             </StackPanel>
         </Border>
-        
-        <ListBox x:Name="InventoryLB" Grid.Column="2"  Grid.ColumnSpan="3" Grid.Row="3"  d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="InventoryLB_SelectionChanged" Margin="0" Grid.RowSpan="1" />
 
-        <Border BorderThickness="0.7" BorderBrush="AliceBlue" VerticalAlignment="Top" Grid.Column="5" Grid.ColumnSpan="3" Grid.Row="2" Grid.RowSpan="2">
-            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="420"  >
+        <Border BorderThickness="0.7" BorderBrush="AliceBlue" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="3">
+            <StackPanel  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="214" Width="484" >
+                <ListBox x:Name="InventoryLB"   SelectionChanged="InventoryLB_SelectionChanged" Margin="10" Height="200"/>
+            </StackPanel>
+        </Border>
+
+        <Border BorderThickness="0.7" BorderBrush="AliceBlue" VerticalAlignment="Top" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2">
+            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="427"   >
 
                 <Label HorizontalAlignment="Left" Margin="25" FontSize="16">
                     <TextBlock x:Name="Item_Name" TextWrapping="WrapWithOverflow" Text="Item_Name"/>
