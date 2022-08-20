@@ -4,14 +4,43 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using static MarketBot.User_Date;
 using System.Windows.Media.Imaging;
-using System.Windows.Markup;
+using static MarketBot.User_Date;
 
 namespace MarketBot
 {
     class HttpGetInfo
     {
+        private static string market_API_key = string.Empty;
+        private static string stemaId32 = string.Empty;
+        private static string steam_API_key = string.Empty;
+        public static void ReadConfig()
+        {
+            using (StreamReader reader = new StreamReader("Config.txt"))
+            {
+                string line;
+                int i = 1;
+                while ((line = reader.ReadLine()) != null)
+                {
+
+
+                    if (i == 1)
+                    {
+                        market_API_key = line.Split(": ")[1];
+                        i++;
+                    }
+                    else if (i == 2)
+                    {
+                        stemaId32 = line.Split(": ")[1];
+                        i++;
+                    }
+                    else if (i == 3)
+                    {
+                        steam_API_key = line.Split(": ")[1];
+                    }
+                }
+            }
+        }
         private static string GetAPI(string url)
         {
             string responseData = string.Empty;
@@ -22,29 +51,29 @@ namespace MarketBot
             using (HttpClient client = new HttpClient())
             {
                 using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                    {
+                {
                     using (StreamReader reader = new StreamReader(response.GetResponseStream()))
                     {
                         responseData = reader.ReadToEnd();
                         reader.Close();
                     }
-                }                
+                }
             }
             return responseData;
         }
         public static string GetMoney()
         {
             var user_Date = new User_Date.Balans();
-            const string actionUrl = "https://market.csgo.com/api/v2/get-money?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389";
+            string actionUrl = $"https://market.csgo.com/api/v2/get-money?key={market_API_key}";
 
-            
+
             user_Date = JsonConvert.DeserializeObject<User_Date.Balans>(GetAPI(actionUrl));
             return user_Date.money.ToString();
         }
         public static BitmapImage GetAvatar()
         {
             var user_Date = new User_Date.User();
-            const string actionUrl = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=00F44B78D419316F764EAD327522119D&steamids=76561198829066528";
+            string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={steam_API_key}&steamids={stemaId32}";
 
             user_Date = JsonConvert.DeserializeObject<User_Date.User>(GetAPI(actionUrl));
 
@@ -52,13 +81,13 @@ namespace MarketBot
             bitmapImage.BeginInit();
             bitmapImage.UriSource = new Uri($"{user_Date.response.players.First().avatarfull}"); ;
             bitmapImage.EndInit();
-            
+
 
             return bitmapImage;
         }
         public static BitmapImage GetImage(string item_name)
         {
-            string Image_Url = $"https://cdn.csgo.com//item/{Get_Id_Name(item_name,"name")}/150.png";
+            string Image_Url = $"https://cdn.csgo.com//item/{Get_Id_Name(item_name, "name")}/150.png";
 
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
@@ -70,7 +99,7 @@ namespace MarketBot
         public static string GetNickname()
         {
             var user_Date = new User_Date.User();
-            const string actionUrl = "https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=00F44B78D419316F764EAD327522119D&steamids=76561198829066528";
+            string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={steam_API_key}&steamids={stemaId32}";
 
             user_Date = JsonConvert.DeserializeObject<User_Date.User>(GetAPI(actionUrl));
 
@@ -79,7 +108,7 @@ namespace MarketBot
         public static bool GetPing()
         {
             var user_Date = new User_Date.Ping();
-            const string actionUrl = "https://market.csgo.com/api/v2/ping?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389";
+            string actionUrl = $"https://market.csgo.com/api/v2/ping?key={market_API_key}";
 
             user_Date = JsonConvert.DeserializeObject<User_Date.Ping>(GetAPI(actionUrl));
             return user_Date.online;
@@ -87,7 +116,7 @@ namespace MarketBot
         public static Items GetItems()
         {
             var user_Date = new User_Date.Items();
-            const string actionUrl = "https://market.csgo.com/api/v2/items?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389";
+            string actionUrl = $"https://market.csgo.com/api/v2/items?key={market_API_key}";
 
             user_Date = JsonConvert.DeserializeObject<User_Date.Items>(GetAPI(actionUrl));
             return user_Date;
@@ -95,33 +124,33 @@ namespace MarketBot
         public static Inventory GetSteamInventory()
         {
             var user_Date = new User_Date.Inventory();
-            const string actionUrl = "https://market.csgo.com/api/v2/my-inventory/?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389";
+            string actionUrl = $"https://market.csgo.com/api/v2/my-inventory/?key={market_API_key}";
 
             user_Date = JsonConvert.DeserializeObject<User_Date.Inventory>(GetAPI(actionUrl));
             return user_Date;
         }
-        public static string Get_Id_Name(string current_item,string mode)
+        public static string Get_Id_Name(string current_item, string mode)
         {
             string[] strings = current_item.Split(" /");
             if (mode == "name")
                 return strings[0];
-           
+
             return strings[strings.Length - 1];
         }
         public static MarketPrice GetMarketPrice(string item_name)
         {
             var user_Date = new User_Date.MarketPrice();
             item_name = Get_Id_Name(item_name, "name");
-            string actionUrl = $"https://market.csgo.com/api/v2/search-item-by-hash-name?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389&hash_name={item_name}";
+            string actionUrl = $"https://market.csgo.com/api/v2/search-item-by-hash-name?key={market_API_key}&hash_name={item_name}";
 
             user_Date = JsonConvert.DeserializeObject<User_Date.MarketPrice>(GetAPI(actionUrl));
             return user_Date;
         }
-        public static Sell SetSell(string id,string price, string currency)
+        public static Sell SetSell(string id, string price, string currency)
         {
             var user_Date = new User_Date.Sell();
-            id = Get_Id_Name(id,"id");
-            string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389&id={id}&price={price}00&cur={currency}";
+            id = Get_Id_Name(id, "id");
+            string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key={market_API_key}&id={id}&price={price}00&cur={currency}";
 
             user_Date = JsonConvert.DeserializeObject<User_Date.Sell>(GetAPI(actionUrl));
             return user_Date;
@@ -129,12 +158,12 @@ namespace MarketBot
         public static Update SetPrice(string item_id, string price, string currency)
         {
             var user_Date = new User_Date.Update();
-            item_id = Get_Id_Name(item_id,"id");
-            string actionUrl = $"https://market.csgo.com/api/v2/set-price?key=5Gpq3KhWO0u4t3L60mYY9VLzsjuv389&item_id={item_id}&price={price}00&cur={currency}";
+            item_id = Get_Id_Name(item_id, "id");
+            string actionUrl = $"https://market.csgo.com/api/v2/set-price?key={market_API_key}&item_id={item_id}&price={price}00&cur={currency}";
 
             user_Date = JsonConvert.DeserializeObject<User_Date.Update>(GetAPI(actionUrl));
             return user_Date;
         }
-        
+
     }
 }

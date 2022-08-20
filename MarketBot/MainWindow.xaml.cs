@@ -14,22 +14,22 @@ namespace MarketBot
         private readonly Timer aTimer;
         public static string current_item = string.Empty;
         public static string current_sell_item = string.Empty;
-        Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MarketBot.MarketApp.ico");
 
         public MainWindow()
         {
             InitializeComponent();
             LoadUserInfo();
             LoadNotifyIcon();
-            
-            aTimer = new Timer(60000);           
+            HttpGetInfo.ReadConfig();
+
+            aTimer = new Timer(60000);
             aTimer.Elapsed += OnTimedEvent;
             aTimer.Enabled = true;
         }
         private void LoadNotifyIcon()
         {
             System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
-            ni.Icon = new System.Drawing.Icon(stream);
+            ni.Icon = new System.Drawing.Icon("MarketApp.ico");
             ni.Visible = true;
             ni.DoubleClick += Ni_DoubleClick;
         }
@@ -45,7 +45,7 @@ namespace MarketBot
                     Nickname.Content = HttpGetInfo.GetNickname();
                 }));
             });
-           
+
         }
         private void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
@@ -77,14 +77,14 @@ namespace MarketBot
 
         public void ListUpdate(int mode) // 0 == inventory // 1 == Items
         {
-            if(mode == 0)
+            if (mode == 0)
             {
                 InventoryLB.Items.Clear();
                 var items = HttpGetInfo.GetSteamInventory();
                 for (int i = 0; i <= items.items.Count - 1; i++)
                 {
-                    InventoryLB.Items.Add(items.items[i].market_hash_name 
-                        + " / "  + items.items[i].id);
+                    InventoryLB.Items.Add(items.items[i].market_hash_name
+                        + " / " + items.items[i].id);
                 }
             }
             else
@@ -93,18 +93,18 @@ namespace MarketBot
                 var items = HttpGetInfo.GetItems();
                 for (int i = 0; i <= items.items.Count - 1; i++)
                 {
-                    ItemsLB.Items.Add(items.items[i].market_hash_name + " / " 
-                        + items.items[i].price + " " 
-                        + items.items[i].currency 
+                    ItemsLB.Items.Add(items.items[i].market_hash_name + " / "
+                        + items.items[i].price + " "
+                        + items.items[i].currency
                         + " / " + items.items[i].item_id);
                 }
             }
-            
+
         }
 
         private void Sell_Click(object sender, RoutedEventArgs e)
         {
-            var sell = HttpGetInfo.SetSell(current_item,Sell_Price.Text,"RUB");
+            var sell = HttpGetInfo.SetSell(current_item, Sell_Price.Text, "RUB");
             MessageBox.Show(sell.success + sell.item_id);
             ListUpdate(0);
             ListUpdate(1);
@@ -115,7 +115,7 @@ namespace MarketBot
         {
             Sell_Price.IsEnabled = true;
             Sell_Price.Text = "";
-            if(e.AddedItems.Count >= 1)
+            if (e.AddedItems.Count >= 1)
             {
                 current_item = e.AddedItems[0].ToString();
                 var price = HttpGetInfo.GetMarketPrice(current_item);
@@ -144,20 +144,20 @@ namespace MarketBot
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            var update = HttpGetInfo.SetPrice(current_sell_item,"0","RUB");
+            var update = HttpGetInfo.SetPrice(current_sell_item, "0", "RUB");
             MessageBox.Show(update.success + update.error);
             ListUpdate(1);
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            var update = HttpGetInfo.SetPrice(current_sell_item, Update_Price.Text , "RUB");
+            var update = HttpGetInfo.SetPrice(current_sell_item, Update_Price.Text, "RUB");
             MessageBox.Show(update.success + update.error);
             ListUpdate(1);
             Update.IsEnabled = false;
         }
 
-     
+
         private void Sell_Price_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -182,5 +182,6 @@ namespace MarketBot
             this.Show();
             this.WindowState = WindowState.Normal;
         }
+
     }
 }

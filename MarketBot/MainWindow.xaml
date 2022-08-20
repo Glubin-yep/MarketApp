@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketBot"
         mc:Ignorable="d"
-        Title="MarketBot" Width="1000" Height="800" ResizeMode="CanMinimize" WindowStyle="ThreeDBorderWindow" StateChanged="Window_StateChanged" >
+        Title="MarketBot" Width="1000" Height="800" ResizeMode="CanMinimize" WindowStyle="ThreeDBorderWindow" StateChanged="Window_StateChanged" Closing="Window_Closing">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="15"/>
