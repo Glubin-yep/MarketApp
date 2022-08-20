@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MarketBot"
         mc:Ignorable="d"
-        Title="MarketBot" Width="1000" Height="800" ResizeMode="CanMinimize" WindowStyle="ThreeDBorderWindow" StateChanged="Window_StateChanged">
+        Title="MarketBot" Width="1000" Height="800" ResizeMode="CanMinimize" 
+        WindowStyle="ThreeDBorderWindow"
+        StateChanged="Window_StateChanged"
+        Background="#1c1b1b">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="15"/>
@@ -28,23 +32,23 @@
 
         <Label x:Name="Money" Grid.Row="1" Grid.Column="5" Content="Money" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="20"  Margin="10,10,0,0" HorizontalContentAlignment="Center" RenderTransformOrigin="0.492,0.573"/>
         <Label x:Name="Nickname" Grid.Row="1" Grid.Column="5" Content="Nickname" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20"   Margin="10,0,0,0" HorizontalContentAlignment="Center" />
-        <Image x:Name="Photo" Grid.Row="1" Grid.Column="6" Margin="17,7,17,44"/>
+        <Image x:Name="Photo" Grid.Row="1" Grid.Column="6" Margin="17,7,17,44" />
 
         <Label x:Name="TradeStatus" Grid.Row="1" Grid.Column="1" Content="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="20"  Margin="0,53,0,0" HorizontalContentAlignment="Center"/>
 
-        <Button x:Name="Iteams_Button" Grid.Column="1" Content="Load Your Iteams" HorizontalAlignment="Center" Margin="0,37,0,0" Grid.Row="2" VerticalAlignment="Top" Click="Iteams_Button_Click"/>
+        <Button x:Name="Iteams_Button" Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Load Your Iteams"  Margin="5,37,5,5" Grid.Row="2" VerticalAlignment="Top" Click="Iteams_Button_Click"/>
         <ListBox x:Name="ItemsLB" Grid.Column="2"  Grid.ColumnSpan="3" Grid.Row="2" SelectionChanged ="ItemsLB_SelectionChanged" d:ItemsSource="{d:SampleData ItemCount=5}" />
-        <Button x:Name="Remove" Grid.Column="1" Content="Remove" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Click="Remove_Click" IsEnabled="False" Margin="0,79,0,0" />
-        <Button x:Name="Update" Grid.Column="1" Content="Update" HorizontalAlignment="Center" Grid.Row="2" VerticalAlignment="Top" Click="Update_Click" IsEnabled="False" Margin="0,104,0,0" Width="47" />
-        <TextBox x:Name="Update_Price" Grid.Column="1" Grid.Row="2" Height="41" Text="Enter Price" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Width="124" FontSize="20" IsEnabled="False" PreviewTextInput ="Update_Price_PreviewTextInput" Margin="0,131,0,0"  />
+        <Button x:Name="Remove" Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Remove"  Grid.Row="2" VerticalAlignment="Top" Click="Remove_Click" IsEnabled="False" Margin="5,79,5,0" />
+        <Button x:Name="Update" Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Update"  Grid.Row="2" VerticalAlignment="Top" Click="Update_Click" IsEnabled="False" Margin="5,123,5,0"/>
+        <TextBox x:Name="Update_Price" Grid.Column="1" Grid.Row="2" Height="41" Text="Enter Price" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Width="124" FontSize="20" IsEnabled="False" PreviewTextInput ="Update_Price_PreviewTextInput" Margin="22,157,0,0"  />
 
-        <Button x:Name="Inventory_Button" Grid.Column="1" Content="Load Your Inventory" HorizontalAlignment="Center" Margin="0,46,0,0" Grid.Row="3" VerticalAlignment="Top" Click="Inventory_Button_Click" Width="124"/>
+        <Button x:Name="Inventory_Button" Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Load Your Inventory"  Margin="5,37,5,0" Grid.Row="3" VerticalAlignment="Top" Click="Inventory_Button_Click" />
         <ListBox x:Name="InventoryLB" Grid.Column="2"  Grid.ColumnSpan="3" Grid.Row="3"  d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="InventoryLB_SelectionChanged" Margin="0" Grid.RowSpan="1" />
-        <Button x:Name="Sell" Grid.Column="1" Content="Sell" HorizontalAlignment="Center" Grid.Row="3" VerticalAlignment="Top" Click="Sell_Click" IsEnabled="False" Margin="0,85,0,0" />
+        <Button x:Name="Sell" Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Sell"  Grid.Row="3" VerticalAlignment="Top" Click="Sell_Click" IsEnabled="False" Margin="5,79,5,0" />
         <TextBox x:Name="Sell_Price" Grid.Column="1" Grid.Row="3" Height="41" Text="Enter Price" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Width="124" FontSize="20" IsEnabled="False" PreviewTextInput ="Sell_Price_PreviewTextInput" Margin="0,131,0,0"  />
 
-        <Label x:Name="Item_Name" Grid.Column="5" Grid.ColumnSpan="2" Content="Item Name" HorizontalAlignment="Center" Margin="0,58,0,0" Grid.Row="2" VerticalAlignment="Top" Width="303"/>
-        <Label x:Name="Min_Price" Grid.Column="5" Grid.ColumnSpan="2" Content="Min Price" HorizontalAlignment="Center" Margin="0,89,0,0" Grid.Row="2" VerticalAlignment="Top" Width="303"/>
+        <Label x:Name="Item_Name" Grid.Column="5" Grid.ColumnSpan="2" Content="Item Name" HorizontalAlignment="Center" Margin="0,58,0,0" Grid.Row="2"  FontSize="20" VerticalAlignment="Top" Width="303"/>
+        <Label x:Name="Min_Price" Grid.Column="5" Grid.ColumnSpan="2" Content="Min Price" HorizontalAlignment="Center" Margin="0,89,0,0" Grid.Row="2"  FontSize="20" VerticalAlignment="Top" Width="303"/>
         <Image x:Name="Item_Image" Grid.Column="5"  Height="150" Margin="75,134,75,134" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" />
 
     </Grid>
