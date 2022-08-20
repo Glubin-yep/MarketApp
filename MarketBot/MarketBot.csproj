@@ -10,7 +10,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="MarketApp.ico" />
+    <None Remove="Config.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Config.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="MarketApp.ico">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
