@@ -1,13 +1,15 @@
-﻿using System;
+﻿using AdonisUI.Controls;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using MessageBox = AdonisUI.Controls.MessageBox;
 
 namespace MarketBot
 {
-    public partial class MainWindow : Window
+    public partial class MainWindow : AdonisWindow
     {
         private readonly Timer aTimer;
         public static string current_item = string.Empty;
@@ -119,7 +121,7 @@ namespace MarketBot
             {
                 current_item = e.AddedItems[0].ToString();
                 var price = HttpGetInfo.GetMarketPrice(current_item);
-                Item_Name.Content = price.data[0].market_hash_name;
+                Item_Name.Text = price.data[0].market_hash_name;
                 Min_Price.Content = "Min Price : " + price.data[0].price.Insert(price.data[0].price.Length - 2, ",");
                 Item_Image.Source = HttpGetInfo.GetImage(current_item);
             }
@@ -136,7 +138,7 @@ namespace MarketBot
             {
                 current_sell_item = e.AddedItems[0].ToString();
                 var price = HttpGetInfo.GetMarketPrice(current_sell_item);
-                Item_Name.Content = price.data[0].market_hash_name;
+                Item_Name.Text = price.data[0].market_hash_name;
                 Min_Price.Content = "Min Price : " + price.data[0].price.Insert(price.data[0].price.Length - 2, ",");
                 Item_Image.Source = HttpGetInfo.GetImage(current_sell_item);
             }

@@ -1,14 +1,26 @@
-﻿<Window x:Class="MarketBot.MainWindow"
+﻿<adonisControls:AdonisWindow
+        x:Class="MarketBot.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+        xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
         xmlns:local="clr-namespace:MarketBot"
         mc:Ignorable="d"
         Title="MarketBot" Width="1000" Height="800" ResizeMode="CanMinimize" 
         WindowStyle="ThreeDBorderWindow"
-        StateChanged="Window_StateChanged"
-        Background="#1c1b1b">
+        StateChanged="Window_StateChanged">
+
+    <adonisControls:AdonisWindow.TitleBarContent>
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <Button Content="?"
+                    Style="{DynamicResource {x:Static adonisUi:Styles.WindowButton}}"
+                    FontFamily="Segoe UI"
+                    FontSize="14"/>
+        </StackPanel>
+    </adonisControls:AdonisWindow.TitleBarContent>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -36,20 +48,27 @@
 
         <Label x:Name="TradeStatus" Grid.Row="1" Grid.Column="1" Content="Disconnect" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="20"  Margin="0,53,0,0" HorizontalContentAlignment="Center"/>
 
-        <Button x:Name="Iteams_Button" Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Load Your Iteams"  Margin="5,37,5,5" Grid.Row="2" VerticalAlignment="Top" Click="Iteams_Button_Click"/>
+        <Button x:Name="Iteams_Button"  Grid.Column="1" Content="Load Your Iteams"  Margin="5,37,5,5" Grid.Row="2" VerticalAlignment="Top" Click="Iteams_Button_Click"/>
         <ListBox x:Name="ItemsLB" Grid.Column="2"  Grid.ColumnSpan="3" Grid.Row="2" SelectionChanged ="ItemsLB_SelectionChanged" d:ItemsSource="{d:SampleData ItemCount=5}" />
-        <Button x:Name="Remove" Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Remove"  Grid.Row="2" VerticalAlignment="Top" Click="Remove_Click" IsEnabled="False" Margin="5,79,5,0" />
-        <Button x:Name="Update" Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Update"  Grid.Row="2" VerticalAlignment="Top" Click="Update_Click" IsEnabled="False" Margin="5,123,5,0"/>
+        <Button x:Name="Remove" Grid.Column="1" Content="Remove"  Grid.Row="2" VerticalAlignment="Top" Click="Remove_Click" IsEnabled="False" Margin="5,79,5,0" />
+        <Button x:Name="Update"  Grid.Column="1" Content="Update"  Grid.Row="2" VerticalAlignment="Top" Click="Update_Click" IsEnabled="False" Margin="5,123,5,0"/>
         <TextBox x:Name="Update_Price" Grid.Column="1" Grid.Row="2" Height="41" Text="Enter Price" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Left" Width="124" FontSize="20" IsEnabled="False" PreviewTextInput ="Update_Price_PreviewTextInput" Margin="22,157,0,0"  />
 
-        <Button x:Name="Inventory_Button" Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Load Your Inventory"  Margin="5,37,5,0" Grid.Row="3" VerticalAlignment="Top" Click="Inventory_Button_Click" />
+        <Button x:Name="Inventory_Button"  Grid.Column="1" Content="Load Your Inventory"  Margin="5,37,5,0" Grid.Row="3" VerticalAlignment="Top" Click="Inventory_Button_Click" />
         <ListBox x:Name="InventoryLB" Grid.Column="2"  Grid.ColumnSpan="3" Grid.Row="3"  d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="InventoryLB_SelectionChanged" Margin="0" Grid.RowSpan="1" />
-        <Button x:Name="Sell" Style="{StaticResource ButtonStyle}" Grid.Column="1" Content="Sell"  Grid.Row="3" VerticalAlignment="Top" Click="Sell_Click" IsEnabled="False" Margin="5,79,5,0" />
+        <Button x:Name="Sell"  Grid.Column="1" Content="Sell"  Grid.Row="3" VerticalAlignment="Top" Click="Sell_Click" IsEnabled="False" Margin="5,79,5,0" />
         <TextBox x:Name="Sell_Price" Grid.Column="1" Grid.Row="3" Height="41" Text="Enter Price" VerticalAlignment="Top" TextAlignment="Center" HorizontalAlignment="Center" Width="124" FontSize="20" IsEnabled="False" PreviewTextInput ="Sell_Price_PreviewTextInput" Margin="0,131,0,0"  />
 
-        <Label x:Name="Item_Name" Grid.Column="5" Grid.ColumnSpan="2" Content="Item Name" HorizontalAlignment="Center" Margin="0,58,0,0" Grid.Row="2"  FontSize="20" VerticalAlignment="Top" Width="303"/>
-        <Label x:Name="Min_Price" Grid.Column="5" Grid.ColumnSpan="2" Content="Min Price" HorizontalAlignment="Center" Margin="0,89,0,0" Grid.Row="2"  FontSize="20" VerticalAlignment="Top" Width="303"/>
-        <Image x:Name="Item_Image" Grid.Column="5"  Height="150" Margin="75,134,75,134" Grid.Row="2" Grid.ColumnSpan="2" Grid.RowSpan="2" />
+        <Border BorderThickness="1" CornerRadius="5" BorderBrush="AliceBlue" VerticalAlignment="Top" Margin="1" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2">
+                <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}" Height="419"  >
 
+                    <Label HorizontalAlignment="Left" Margin="25" FontSize="16">
+                        <TextBlock x:Name="Item_Name" TextWrapping="WrapWithOverflow" Text="Item_Name"/>
+                    </Label>
+                    <Label x:Name="Min_Price"  Content="Min Price" HorizontalAlignment="Left" Margin="25" FontSize="16" VerticalAlignment="Top" />
+                    <Image x:Name="Item_Image"  Height="150" Margin="25"  Grid.ColumnSpan="2" Grid.RowSpan="2" />
+                </StackPanel>
+            </Border>
+        
     </Grid>
-</Window>
+</adonisControls:AdonisWindow>
