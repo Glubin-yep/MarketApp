@@ -146,6 +146,14 @@ namespace MarketBot
             user_Date = JsonConvert.DeserializeObject<User_Date.MarketPrice>(GetAPI(actionUrl));
             return user_Date;
         }
+        public static MarketHistory GetMarketHistory()
+        {
+            var user_history = new User_Date.MarketHistory();
+            string actionUrl = $"https://market.csgo.com/api/v2/operation-history?key={market_API_key}&date={DateTimeOffset.Now.Add(TimeSpan.FromDays(-90)).ToUnixTimeSeconds()}&date_end={DateTimeOffset.Now.ToUnixTimeSeconds()}";
+
+            user_history = JsonConvert.DeserializeObject<User_Date.MarketHistory>(GetAPI(actionUrl));
+            return user_history;
+        }
         public static Sell SetSell(string id, string price, string currency)
         {
             var user_Date = new User_Date.Sell();
