@@ -20,20 +20,20 @@ namespace MarketBot
             InitializeComponent();
             HttpGetInfo.ReadConfig();
             LoadUserInfo();
-            LoadNotifyIcon();
             LoadUserHistory();
 
-            aTimer = new Timer(60000);
+            aTimer = new Timer(45000);
             aTimer.Elapsed += OnTimedEvent;
             aTimer.Enabled = true;
         }
-        private void LoadNotifyIcon()
+        private void LoadNotifyIcon(string text)
         {
             System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
             ni.Icon = new System.Drawing.Icon("MarketApp.ico");
             ni.Visible = true;
-            ni.DoubleClick += Ni_DoubleClick;
-            ni.MouseClick += Ni_MouseClick;
+            ni.BalloonTipTitle = "Market App";
+            ni.BalloonTipText = text;
+            ni.ShowBalloonTip(100);
         }
 
         private void LoadUserInfo()
@@ -66,6 +66,21 @@ namespace MarketBot
         private void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
             UpdateStatus();
+            if (HttpGetInfo.TradeRequesTake() == true)
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    LoadNotifyIcon("Accept trade on website");
+                }));
+            }
+
+            if (HttpGetInfo.TradeRequestGive() == true)
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    LoadNotifyIcon("Accept trade on website");
+                }));
+            };
         }
 
         private void UpdateStatus()
@@ -188,20 +203,20 @@ namespace MarketBot
             Update.IsEnabled = true;
         }
 
-        private void Window_StateChanged(object sender, EventArgs e)
-        {
-            if (WindowState == WindowState.Minimized)
-                this.Hide();
-        }
-        private void Ni_DoubleClick(object? sender, EventArgs e)
-        {
-            this.Show();
-            this.WindowState = WindowState.Normal;
-        }
-        private void Ni_MouseClick(object? sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            if (e.Button.ToString() == "Right")
-                this.Close();
-        }
+        //private void Window_StateChanged(object sender, EventArgs e)
+        //{
+        //    if (WindowState == WindowState.Minimized)
+        //        this.Hide();
+        //}
+        //private void Ni_DoubleClick(object? sender, EventArgs e)
+        //{
+        //    this.Show();
+        //    this.WindowState = WindowState.Normal;
+        //}
+        //private void Ni_MouseClick(object? sender, System.Windows.Forms.MouseEventArgs e)
+        //{
+        //    if (e.Button.ToString() == "Right")
+        //        this.Close();
+        //}
     }
 }

@@ -173,5 +173,21 @@ namespace MarketBot
             return user_Date;
         }
 
+        public static bool TradeRequesTake()
+        {
+            string actionUrl = $"https://market.csgo.com/api/v2/trade-request-take?key={market_API_key}";
+            var tradeRequestTake = new User_Date.TradeRequestGive();
+
+            tradeRequestTake = JsonConvert.DeserializeObject<User_Date.TradeRequestGive>(GetAPI(actionUrl));
+            return tradeRequestTake.success;
+        }
+        public static bool TradeRequestGive()
+        {
+            string actionUrl = $"https://market.csgo.com/api/v2/trade-request-give-p2p?key={market_API_key}";
+            var tradeRequestGive = new User_Date.TradeRequestGive();
+
+            tradeRequestGive = JsonConvert.DeserializeObject<User_Date.TradeRequestGive>(GetAPI(actionUrl));
+            return tradeRequestGive.success;
+        }
     }
 }
