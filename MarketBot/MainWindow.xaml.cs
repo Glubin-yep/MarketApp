@@ -23,7 +23,7 @@ namespace MarketBot
             LoadNotifyIcon();
             LoadUserHistory();
 
-            aTimer = new Timer(60000);
+            aTimer = new Timer(45000);
             aTimer.Elapsed += OnTimedEvent;
             aTimer.Enabled = true;
         }
@@ -66,6 +66,21 @@ namespace MarketBot
         private void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
             UpdateStatus();
+            if (HttpGetInfo.TradeRequesTake() == true)
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    AdonisUI.Controls.MessageBox.Show("Accept trade on website", "INFO", AdonisUI.Controls.MessageBoxButton.OK, AdonisUI.Controls.MessageBoxImage.Information);
+                }));
+            }
+
+            if (HttpGetInfo.TradeRequestGive() == true)
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    AdonisUI.Controls.MessageBox.Show("Accept trade on website", "INFO", AdonisUI.Controls.MessageBoxButton.OK, AdonisUI.Controls.MessageBoxImage.Information);
+                }));
+            };
         }
 
         private void UpdateStatus()
