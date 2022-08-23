@@ -134,10 +134,12 @@ namespace MarketBot
             public string stage {
                 get
                 {
-                    if (stage_ == "2")
+                    if (stage_ == "1")
+                        return "Buy";
+                    else if (stage_ == "2")
                         return "Sell";
                     else
-                        return "Buy";
+                        return "Canceled";
                 }
                 set { stage_ = value; }
             }
