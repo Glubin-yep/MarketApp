@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static MarketBot.User_Date;
 
 namespace MarketBot
 {
@@ -115,5 +111,78 @@ namespace MarketBot
             public string currency { get; set; }
             public IList<Data> data { get; set; }
         }
+        public struct Datum
+        {
+            private string time_;
+            public string time
+            {
+                get
+                {
+                    return time = DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(time_)).DateTime.ToString(); ;
+                }
+                set { time_ = value; }
+            }
+
+            public string event_ { get; set; }
+            public string item_id { get; set; }
+            public string market_hash_name { get; set; }
+            public string class_ { get; set; }
+            public string instance { get; set; }
+            public string paid { get; set; }
+            public string currency { get; set; }
+            private string stage_;
+            public string stage {
+                get
+                {
+                    if (stage_ == "2")
+                        return "Sell";
+                    else
+                        return "Buy";
+                }
+                set { stage_ = value; }
+            }
+            public object for_ { get; set; }
+            public string custom_id { get; set; }
+            public int app { get; set; }
+
+            private string price_;
+            public string price{
+                get
+                {
+                    if (price_ == null)
+                    {
+                        if (paid.Length <= 2)
+                            return "0," + paid;
+                        else
+                            return paid.Insert(paid.Length - 2, ",");
+                    }
+
+                    else if (price_.Length <= 2)
+                        return "0," + price_;
+
+                    else
+                        return price_.Insert(price_.Length - 2,",");
+                }
+                set { price_ = value; }
+            }
+            public string received { get; set; }
+            public string id { get; set; }
+            public string amount { get; set; }
+            public string status { get; set; }
+            public string imageUrl
+            {
+                get
+                {
+                    return $"https://cdn.csgo.com//item/{market_hash_name}/300.png";
+                }
+            }
+        }
+
+        public struct MarketHistory
+        {
+            public bool success { get; set; }
+            public IList<Datum> data { get; set; }
+        }
+
     }
 }

@@ -1,11 +1,11 @@
 ﻿using AdonisUI.Controls;
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using MessageBox = AdonisUI.Controls.MessageBox;
 
 namespace MarketBot
 {
@@ -18,9 +18,10 @@ namespace MarketBot
         public MainWindow()
         {
             InitializeComponent();
+            HttpGetInfo.ReadConfig();
             LoadUserInfo();
             LoadNotifyIcon();
-            HttpGetInfo.ReadConfig();
+            LoadUserHistory();
 
             aTimer = new Timer(60000);
             aTimer.Elapsed += OnTimedEvent;
@@ -48,6 +49,19 @@ namespace MarketBot
                 }));
             });
 
+        }
+        private void LoadUserHistory()
+        {
+            Task.Run(() =>
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    var history = HttpGetInfo.GetMarketHistory();
+                    history.data.OrderBy(o => o.time);
+                    History_LB.ItemsSource = history.data;
+                    
+                }));
+            });
         }
         private void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {

@@ -12,7 +12,33 @@
         WindowStyle="ThreeDBorderWindow"
         StateChanged="Window_StateChanged"
         Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
+    <Window.Resources>
+        <DataTemplate x:Key="TileTemplate">
+            <StackPanel Orientation="Vertical" Margin="5">
+                <Image Source="{Binding imageUrl}" Width="100" Height="60"/>
+                <TextBlock Text="{Binding market_hash_name}"/>
+                <TextBlock Text="{Binding price}"/>               
+                <TextBlock Text="{Binding stage}"/>
+                <TextBlock Text="{Binding time}"/>
+            </StackPanel>
+        </DataTemplate>
 
+        <ItemsPanelTemplate x:Key="TilePanel">
+            <WrapPanel/>
+        </ItemsPanelTemplate>
+
+        <Style TargetType="local:LayoutListbox">
+            <Style.Triggers>
+                <Trigger Property="layout" Value="Tile">
+                    <Setter Property="ItemsPanel" Value="{StaticResource TilePanel}"/>
+                    <Setter Property="ItemTemplate" Value="{StaticResource TileTemplate}"/>
+                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>                    
+                    <Setter Property="FontSize" Value="12"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+    </Window.Resources>
     <adonisControls:AdonisWindow.TitleBarContent>
         <StackPanel Orientation="Horizontal"
                     HorizontalAlignment="Right">
@@ -92,6 +118,18 @@
                 </Label>
                 <Label x:Name="Min_Price"  Content="Min Price" HorizontalAlignment="Left" Margin="25" FontSize="16" VerticalAlignment="Top" />
                 <Image x:Name="Item_Image"  Height="150" Margin="25"  Grid.ColumnSpan="2" Grid.RowSpan="2" />
+            </StackPanel>
+        </Border>
+
+        <Border BorderThickness="0.7" BorderBrush="AliceBlue" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="4" Grid.RowSpan="1">
+            <StackPanel Orientation="Horizontal" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="166" >
+                <local:LayoutListbox  x:Name="History_LB" Width="969"  >
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </local:LayoutListbox>
             </StackPanel>
         </Border>
 
