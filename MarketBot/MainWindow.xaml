@@ -8,15 +8,14 @@
         xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
         xmlns:local="clr-namespace:MarketBot"
         mc:Ignorable="d"
-        Title="MarketBot" Width="1000" Height="800" ResizeMode="CanMinimize" 
-        WindowStyle="ThreeDBorderWindow"
+        Title="Market App" Width="1000" Height="800" ResizeMode="CanMinimize" 
         Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
     <Window.Resources>
         <DataTemplate x:Key="TileTemplate">
             <StackPanel Orientation="Vertical" Margin="5">
                 <Image Source="{Binding imageUrl}" Width="100" Height="60"/>
                 <TextBlock Text="{Binding market_hash_name}"/>
-                <TextBlock Text="{Binding price}"/>               
+                <TextBlock Text="{Binding price}" />
                 <TextBlock Text="{Binding stage}"/>
                 <TextBlock Text="{Binding time}"/>
             </StackPanel>
@@ -72,7 +71,7 @@
             <StackPanel Orientation="Horizontal" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="167" >
                 <Image x:Name="Photo" Height="150" Width="150" Margin="10"/>
                 <StackPanel Orientation="Vertical">
-                    <Label x:Name="Money" Content="Money" FontSize="20" Margin="15"/>
+                    <Label x:Name="Money"  FontSize="20" Margin="15"/>
                     <Label x:Name="Nickname"  Content="Nickname"  FontSize="20" Margin="15"/>
                     <Label x:Name="TradeStatus"  Content="Disconnect"  FontSize="20" Margin="15"/>
                 </StackPanel>
@@ -105,17 +104,17 @@
 
         <Border BorderThickness="0.7" BorderBrush="AliceBlue" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="3">
             <StackPanel  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="214" Width="484" >
-                <ListBox x:Name="InventoryLB"   SelectionChanged="InventoryLB_SelectionChanged" Margin="10" Height="200"/>
+                <ListBox x:Name="InventoryLB" SelectionChanged="InventoryLB_SelectionChanged" Margin="10" Height="200"/>
             </StackPanel>
         </Border>
 
         <Border BorderThickness="0.7" BorderBrush="AliceBlue" VerticalAlignment="Top" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2">
-            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="427"   >
+            <StackPanel x:Name="ItemInfo" Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="427"   >
 
                 <Label HorizontalAlignment="Left" Margin="25" FontSize="16">
-                    <TextBlock x:Name="Item_Name" TextWrapping="WrapWithOverflow" Text="Item_Name"/>
+                    <TextBlock x:Name="Item_Name" Text="{Binding market_hash_name}"  TextWrapping="WrapWithOverflow" />
                 </Label>
-                <Label x:Name="Min_Price"  Content="Min Price" HorizontalAlignment="Left" Margin="25" FontSize="16" VerticalAlignment="Top" />
+                <Label x:Name="Min_Price" Content ="{Binding price}"  HorizontalAlignment="Left" Margin="25" FontSize="16" VerticalAlignment="Top" />
                 <Image x:Name="Item_Image"  Height="150" Margin="25"  Grid.ColumnSpan="2" Grid.RowSpan="2" />
             </StackPanel>
         </Border>

@@ -99,7 +99,18 @@ namespace MarketBot
         public struct Data
         {
             public string market_hash_name { get; set; }
-            public string price { get; set; }
+            private string price_;
+            public string price
+            {
+                get
+                {
+                    if (price_.Length <= 2)
+                        return "0," + price_ + " RUB"; // its so bad :(
+                    else
+                        return price_.Insert(price_.Length - 2, ",") + " RUB";
+                }
+                set { price_ = value; }
+            }
             public string class_ { get; set; }
             public int instance { get; set; }
             public int count { get; set; }
@@ -131,7 +142,8 @@ namespace MarketBot
             public string paid { get; set; }
             public string currency { get; set; }
             private string stage_;
-            public string stage {
+            public string stage
+            {
                 get
                 {
                     if (stage_ == "1")
@@ -148,22 +160,23 @@ namespace MarketBot
             public int app { get; set; }
 
             private string price_;
-            public string price{
+            public string price
+            {
                 get
                 {
                     if (price_ == null)
                     {
                         if (paid.Length <= 2)
-                            return "0," + paid;
+                            return "0," + paid + " " + currency;
                         else
-                            return paid.Insert(paid.Length - 2, ",");
+                            return paid.Insert(paid.Length - 2, ",") + " " + currency;
                     }
 
                     else if (price_.Length <= 2)
-                        return "0," + price_;
+                        return "0," + price_ + " " + currency;
 
                     else
-                        return price_.Insert(price_.Length - 2,",");
+                        return price_.Insert(price_.Length - 2, ",") + " " + currency;
                 }
                 set { price_ = value; }
             }

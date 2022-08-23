@@ -25,15 +25,18 @@ namespace MarketBot
             aTimer = new Timer(45000);
             aTimer.Elapsed += OnTimedEvent;
             aTimer.Enabled = true;
+
         }
-        private void LoadNotifyIcon(string text)
+
+
+        private void Notification(string text)
         {
             System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
             ni.Icon = new System.Drawing.Icon("MarketApp.ico");
             ni.Visible = true;
             ni.BalloonTipTitle = "Market App";
             ni.BalloonTipText = text;
-            ni.ShowBalloonTip(100);
+            ni.ShowBalloonTip(400);
         }
 
         private void LoadUserInfo()
@@ -59,7 +62,7 @@ namespace MarketBot
                     var history = HttpGetInfo.GetMarketHistory();
                     history.data.OrderBy(o => o.time);
                     History_LB.ItemsSource = history.data;
-                    
+
                 }));
             });
         }
@@ -70,7 +73,7 @@ namespace MarketBot
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    LoadNotifyIcon("Accept trade on website");
+                    Notification("Accept trade on website");
                 }));
             }
 
@@ -78,7 +81,7 @@ namespace MarketBot
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    LoadNotifyIcon("Accept trade on website");
+                    Notification("Accept trade on website");
                 }));
             };
         }
@@ -150,8 +153,7 @@ namespace MarketBot
             {
                 current_item = e.AddedItems[0].ToString();
                 var price = HttpGetInfo.GetMarketPrice(current_item);
-                Item_Name.Text = price.data[0].market_hash_name;
-                Min_Price.Content = "Min Price : " + price.data[0].price.Insert(price.data[0].price.Length - 2, ",");
+                ItemInfo.DataContext = price.data;
                 Item_Image.Source = HttpGetInfo.GetImage(current_item);
             }
         }
@@ -163,13 +165,13 @@ namespace MarketBot
             Update_Price.IsEnabled = true;
             Update_Price.Text = "";
 
-            if (e.AddedItems.Count >= 1)
+            if (e.AddedItems.Count >= 1 )
             {
                 current_sell_item = e.AddedItems[0].ToString();
                 var price = HttpGetInfo.GetMarketPrice(current_sell_item);
-                Item_Name.Text = price.data[0].market_hash_name;
-                Min_Price.Content = "Min Price : " + price.data[0].price.Insert(price.data[0].price.Length - 2, ",");
+                ItemInfo.DataContext = price.data;
                 Item_Image.Source = HttpGetInfo.GetImage(current_sell_item);
+                
             }
         }
 
@@ -188,7 +190,6 @@ namespace MarketBot
             Update.IsEnabled = false;
         }
 
-
         private void Sell_Price_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             Regex regex = new Regex("[^0-9]+");
@@ -203,20 +204,5 @@ namespace MarketBot
             Update.IsEnabled = true;
         }
 
-        //private void Window_StateChanged(object sender, EventArgs e)
-        //{
-        //    if (WindowState == WindowState.Minimized)
-        //        this.Hide();
-        //}
-        //private void Ni_DoubleClick(object? sender, EventArgs e)
-        //{
-        //    this.Show();
-        //    this.WindowState = WindowState.Normal;
-        //}
-        //private void Ni_MouseClick(object? sender, System.Windows.Forms.MouseEventArgs e)
-        //{
-        //    if (e.Button.ToString() == "Right")
-        //        this.Close();
-        //}
     }
 }

@@ -68,7 +68,7 @@ namespace MarketBot
 
 
             user_Date = JsonConvert.DeserializeObject<User_Date.Balans>(GetAPI(actionUrl));
-            return user_Date.money.ToString();
+            return user_Date.money.ToString() + " " +user_Date.currency;
         }
         public static BitmapImage GetAvatar()
         {
