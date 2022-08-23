@@ -185,6 +185,15 @@ namespace MarketBot
             public bool success { get; set; }
             public IList<Datum> data { get; set; }
         }
-
+        public struct TradeRequestGive
+        {
+            public bool success { get; set; }
+            public string nick { get; set; }
+            public string bot_id { get; set; }
+            public string profile { get; set; }
+            public string secret { get; set; }
+            public IList<object> items { get; set; }
+            public string trade { get; set; }
+        }
     }
 }
