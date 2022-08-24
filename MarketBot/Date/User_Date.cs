@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MarketBot
+namespace MarketBot.Date
 {
     class User_Date
     {

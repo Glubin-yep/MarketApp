@@ -3,9 +3,8 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Windows.Media.Imaging;
-using static MarketBot.User_Date;
+using static MarketBot.Date.User_Date;
 
 namespace MarketBot
 {
@@ -22,8 +21,6 @@ namespace MarketBot
                 int i = 1;
                 while ((line = reader.ReadLine()) != null)
                 {
-
-
                     if (i == 1)
                     {
                         market_API_key = line.Split(": ")[1];
@@ -44,44 +41,45 @@ namespace MarketBot
         private static string GetAPI(string url)
         {
             string responseData = string.Empty;
-            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
-            request.Method = "GET";
-            request.ContentType = "application/json";
-
-            using (HttpClient client = new HttpClient())
+            try
             {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.Method = "GET";
+                request.ContentType = "application/json";
+
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
                 {
-                    using (StreamReader reader = new StreamReader(response.GetResponseStream()))
+                    using (var  reader = new StreamReader(response.GetResponseStream()))
                     {
                         responseData = reader.ReadToEnd();
                         reader.Close();
                     }
                 }
             }
+            catch
+            {
+
+            }
+
             return responseData;
         }
         public static string GetMoney()
         {
-            var user_Date = new User_Date.Balans();
             string actionUrl = $"https://market.csgo.com/api/v2/get-money?key={market_API_key}";
 
-
-            user_Date = JsonConvert.DeserializeObject<User_Date.Balans>(GetAPI(actionUrl));
-            return user_Date.money.ToString() + " " +user_Date.currency;
+            Balans user_Date = JsonConvert.DeserializeObject<Balans>(GetAPI(actionUrl));
+            return user_Date.money.ToString() + " " + user_Date.currency;
         }
         public static BitmapImage GetAvatar()
         {
-            var user_Date = new User_Date.User();
             string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={steam_API_key}&steamids={stemaId32}";
 
-            user_Date = JsonConvert.DeserializeObject<User_Date.User>(GetAPI(actionUrl));
+            User user_Date = JsonConvert.DeserializeObject<User>(GetAPI(actionUrl));
 
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
             bitmapImage.UriSource = new Uri($"{user_Date.response.players.First().avatarfull}"); ;
             bitmapImage.EndInit();
-
 
             return bitmapImage;
         }
@@ -98,35 +96,31 @@ namespace MarketBot
         }
         public static string GetNickname()
         {
-            var user_Date = new User_Date.User();
             string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={steam_API_key}&steamids={stemaId32}";
 
-            user_Date = JsonConvert.DeserializeObject<User_Date.User>(GetAPI(actionUrl));
+            User user_Date = JsonConvert.DeserializeObject<User>(GetAPI(actionUrl));
 
             return user_Date.response.players.First().personaname;
         }
         public static bool GetPing()
         {
-            var user_Date = new User_Date.Ping();
             string actionUrl = $"https://market.csgo.com/api/v2/ping?key={market_API_key}";
 
-            user_Date = JsonConvert.DeserializeObject<User_Date.Ping>(GetAPI(actionUrl));
+            Ping user_Date = JsonConvert.DeserializeObject<Ping>(GetAPI(actionUrl));
             return user_Date.online;
         }
         public static Items GetItems()
         {
-            var user_Date = new User_Date.Items();
             string actionUrl = $"https://market.csgo.com/api/v2/items?key={market_API_key}";
 
-            user_Date = JsonConvert.DeserializeObject<User_Date.Items>(GetAPI(actionUrl));
+            Items user_Date = JsonConvert.DeserializeObject<Items>(GetAPI(actionUrl));
             return user_Date;
         }
         public static Inventory GetSteamInventory()
         {
-            var user_Date = new User_Date.Inventory();
             string actionUrl = $"https://market.csgo.com/api/v2/my-inventory/?key={market_API_key}";
 
-            user_Date = JsonConvert.DeserializeObject<User_Date.Inventory>(GetAPI(actionUrl));
+            Inventory user_Date = JsonConvert.DeserializeObject<Inventory>(GetAPI(actionUrl));
             return user_Date;
         }
         public static string Get_Id_Name(string current_item, string mode)
@@ -135,58 +129,52 @@ namespace MarketBot
             if (mode == "name")
                 return strings[0];
 
-            return strings[strings.Length - 1];
+            return strings[^1];
         }
         public static MarketPrice GetMarketPrice(string item_name)
         {
-            var user_Date = new User_Date.MarketPrice();
             item_name = Get_Id_Name(item_name, "name");
             string actionUrl = $"https://market.csgo.com/api/v2/search-item-by-hash-name?key={market_API_key}&hash_name={item_name}";
 
-            user_Date = JsonConvert.DeserializeObject<User_Date.MarketPrice>(GetAPI(actionUrl));
+            MarketPrice user_Date = JsonConvert.DeserializeObject<MarketPrice>(GetAPI(actionUrl));
             return user_Date;
         }
         public static MarketHistory GetMarketHistory()
         {
-            var user_history = new User_Date.MarketHistory();
             string actionUrl = $"https://market.csgo.com/api/v2/operation-history?key={market_API_key}&date={DateTimeOffset.Now.Add(TimeSpan.FromDays(-90)).ToUnixTimeSeconds()}&date_end={DateTimeOffset.Now.ToUnixTimeSeconds()}";
 
-            user_history = JsonConvert.DeserializeObject<User_Date.MarketHistory>(GetAPI(actionUrl));
+            MarketHistory user_history = JsonConvert.DeserializeObject<MarketHistory>(GetAPI(actionUrl));
             return user_history;
         }
         public static Sell SetSell(string id, string price, string currency)
         {
-            var user_Date = new User_Date.Sell();
             id = Get_Id_Name(id, "id");
             string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key={market_API_key}&id={id}&price={price}00&cur={currency}";
 
-            user_Date = JsonConvert.DeserializeObject<User_Date.Sell>(GetAPI(actionUrl));
+            Sell user_Date = JsonConvert.DeserializeObject<Sell>(GetAPI(actionUrl));
             return user_Date;
         }
         public static Update SetPrice(string item_id, string price, string currency)
         {
-            var user_Date = new User_Date.Update();
             item_id = Get_Id_Name(item_id, "id");
             string actionUrl = $"https://market.csgo.com/api/v2/set-price?key={market_API_key}&item_id={item_id}&price={price}00&cur={currency}";
 
-            user_Date = JsonConvert.DeserializeObject<User_Date.Update>(GetAPI(actionUrl));
+            Update user_Date = JsonConvert.DeserializeObject<Update>(GetAPI(actionUrl));
             return user_Date;
         }
 
         public static bool TradeRequesTake()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/trade-request-take?key={market_API_key}";
-            var tradeRequestTake = new User_Date.TradeRequestGive();
 
-            tradeRequestTake = JsonConvert.DeserializeObject<User_Date.TradeRequestGive>(GetAPI(actionUrl));
+            TradeRequestGive tradeRequestTake = JsonConvert.DeserializeObject<TradeRequestGive>(GetAPI(actionUrl));
             return tradeRequestTake.success;
         }
         public static bool TradeRequestGive()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/trade-request-give-p2p?key={market_API_key}";
-            var tradeRequestGive = new User_Date.TradeRequestGive();
 
-            tradeRequestGive = JsonConvert.DeserializeObject<User_Date.TradeRequestGive>(GetAPI(actionUrl));
+            TradeRequestGive tradeRequestGive = JsonConvert.DeserializeObject<TradeRequestGive>(GetAPI(actionUrl));
             return tradeRequestGive.success;
         }
     }
