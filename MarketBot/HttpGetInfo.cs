@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Windows.Media.Imaging;
+using Telegram.Bot;
 using static MarketBot.Date.User_Date;
 
 namespace MarketBot
@@ -13,9 +14,10 @@ namespace MarketBot
         private static string market_API_key = string.Empty;
         private static string stemaId32 = string.Empty;
         private static string steam_API_key = string.Empty;
+        private static string telegram_user_id = string.Empty;
         public static void ReadConfig()
         {
-            using (StreamReader reader = new StreamReader("Config.txt"))
+            using (var reader = new StreamReader("Config.txt"))
             {
                 string line;
                 int i = 1;
@@ -34,9 +36,19 @@ namespace MarketBot
                     else if (i == 3)
                     {
                         steam_API_key = line.Split(": ")[1];
+                        i++;
+                    }
+                    else if(i == 4)
+                    {
+                        telegram_user_id = line.Split(": ")[1];
                     }
                 }
             }
+        }
+        public static async void TelegramNotication(string text)
+        {
+            var bot = new TelegramBotClient("5701818571:AAFTs8zmjlHqr3ZQHYC4Z5HNtse_3-f9jVA");
+            var t = await bot.SendTextMessageAsync(telegram_user_id, text);
         }
         private static string GetAPI(string url)
         {

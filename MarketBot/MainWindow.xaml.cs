@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using Telegram.Bot;
 
 namespace MarketBot
 {
@@ -28,7 +29,7 @@ namespace MarketBot
 
         }
 
-
+       
         private static void Notification(string text)
         {
             var ni = new System.Windows.Forms.NotifyIcon
@@ -38,7 +39,9 @@ namespace MarketBot
                 BalloonTipTitle = "Market App",
                 BalloonTipText = text
             };
-            ni.ShowBalloonTip(400);
+            ni.ShowBalloonTip(800);
+            Task.Delay(8000).Wait();
+            ni.Dispose();
         }
 
         private void LoadUserInfo()
@@ -75,6 +78,7 @@ namespace MarketBot
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     Notification("Accept trade on website");
+                    HttpGetInfo.TelegramNotication("Accept trade on website");
                 }));
             }
 
@@ -83,6 +87,7 @@ namespace MarketBot
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     Notification("Accept trade on website");
+                    HttpGetInfo.TelegramNotication("Accept trade on website");
                 }));
             };
         }
