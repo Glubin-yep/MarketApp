@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Windows.Markup;
 using System.Windows.Media.Imaging;
 using Telegram.Bot;
 using static MarketBot.Date.User_Date;
@@ -15,6 +16,10 @@ namespace MarketBot
         private static string stemaId32 = string.Empty;
         private static string steam_API_key = string.Empty;
         private static string telegram_user_id = string.Empty;
+        private static string market_currency = string.Empty;
+
+        public static string Market_currency { get => market_currency; set => market_currency = value; }
+
         public static void ReadConfig()
         {
             using (var reader = new StreamReader("Config.txt"))
@@ -80,7 +85,8 @@ namespace MarketBot
             string actionUrl = $"https://market.csgo.com/api/v2/get-money?key={market_API_key}";
 
             Balans user_Date = JsonConvert.DeserializeObject<Balans>(GetAPI(actionUrl));
-            return user_Date.money.ToString() + " " + user_Date.currency;
+            market_currency = user_Date.currency;
+            return user_Date.money.ToString();
         }
         public static BitmapImage GetAvatar()
         {

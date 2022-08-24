@@ -39,7 +39,7 @@ namespace MarketBot
                 BalloonTipTitle = "Market App",
                 BalloonTipText = text
             };
-            ni.ShowBalloonTip(800);
+            ni.ShowBalloonTip(8000);
             Task.Delay(8000).Wait();
             ni.Dispose();
         }
@@ -51,7 +51,7 @@ namespace MarketBot
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Money.Content = HttpGetInfo.GetMoney();
+                    Money.Content = HttpGetInfo.GetMoney() + " " + HttpGetInfo.Market_currency;
                     Photo.Source = HttpGetInfo.GetAvatar();
                     Nickname.Content = HttpGetInfo.GetNickname();
                 }));
@@ -119,32 +119,48 @@ namespace MarketBot
         {
             if (mode == 0)
             {
-                InventoryLB.Items.Clear();
-                var items = HttpGetInfo.GetSteamInventory();
-                for (int i = 0; i <= items.items.Count - 1; i++)
+                Task.Run(() =>
                 {
-                    InventoryLB.Items.Add(items.items[i].market_hash_name
-                        + " / " + items.items[i].id);
-                }
+                    var items = HttpGetInfo.GetSteamInventory();
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        InventoryLB.Items.Clear();
+
+                        for (int i = 0; i <= items.items.Count - 1; i++)
+                        {
+                            InventoryLB.Items.Add(items.items[i].market_hash_name
+                                + " / " + items.items[i].id);
+                        }
+                    }));
+                });              
             }
             else
             {
-                ItemsLB.Items.Clear();
-                var items = HttpGetInfo.GetItems();
-                for (int i = 0; i <= items.items.Count - 1; i++)
+                Task.Run(() =>
                 {
-                    ItemsLB.Items.Add(items.items[i].market_hash_name + " / "
-                        + items.items[i].price + " "
-                        + items.items[i].currency
-                        + " / " + items.items[i].item_id);
-                }
+                    var items = HttpGetInfo.GetItems();
+
+                    this.Dispatcher.Invoke(new Action(() =>
+                    {
+                        ItemsLB.Items.Clear();
+
+                        for (int i = 0; i <= items.items.Count - 1; i++)
+                        {
+                            ItemsLB.Items.Add(items.items[i].market_hash_name + " / "
+                                + items.items[i].price + " "
+                                + items.items[i].currency
+                                + " / " + items.items[i].item_id);
+                        }
+                    }));
+                });
             }
 
         }
 
         private void Sell_Click(object sender, RoutedEventArgs e)
         {
-            HttpGetInfo.SetSell(current_item, Sell_Price.Text, "RUB");
+            HttpGetInfo.SetSell(current_item, Sell_Price.Text, HttpGetInfo.Market_currency);
             //MessageBox.Show(sell.success + sell.item_id);
             ListUpdate(0);
             ListUpdate(1);
@@ -183,14 +199,14 @@ namespace MarketBot
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            HttpGetInfo.SetPrice(current_sell_item, "0", "RUB");
+            HttpGetInfo.SetPrice(current_sell_item, "0", HttpGetInfo.Market_currency);
             //MessageBox.Show(update.success + update.error);
             ListUpdate(1);
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            HttpGetInfo.SetPrice(current_sell_item, Update_Price.Text, "RUB");
+            HttpGetInfo.SetPrice(current_sell_item, Update_Price.Text, HttpGetInfo.Market_currency);
             //MessageBox.Show(update.success + update.error);
             ListUpdate(1);
             Update.IsEnabled = false;
