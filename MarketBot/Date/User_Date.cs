@@ -5,6 +5,22 @@ namespace MarketBot.Date
 {
     class User_Date
     {
+        private static string? market_currency = string.Empty;
+        private static string? telegram_User_Id = string.Empty;
+        private static string? steam_API_Key = string.Empty;
+        private static string? stemaId32 = string.Empty;
+        private static string? market_API_Key = string.Empty;
+        private static string? current_item = string.Empty;
+        private static string? current_sell_item = string.Empty;
+
+        public static string? Current_sell_item { get => current_sell_item; set => current_sell_item = value; }
+        public static string? Current_item { get => current_item; set => current_item = value; }
+
+        public static string? Market_API_Key { get => market_API_Key; set => market_API_Key = value; }
+        public static string? StemaId32 { get => stemaId32; set => stemaId32 = value; }
+        public static string? Steam_API_Key { get => steam_API_Key; set => steam_API_Key = value; }
+        public static string? Telegram_User_Id { get => telegram_User_Id; set => telegram_User_Id = value; }
+        public static string? Market_currency { get => market_currency; set => market_currency = value; }
 
         public struct Balans
         {
@@ -105,9 +121,9 @@ namespace MarketBot.Date
                 get
                 {
                     if (price_.Length <= 2)
-                        return "0," + price_ + " " + HttpGetInfo.Market_currency; // its so bad :(
+                        return "0," + price_ + " " + Market_currency; // its so bad :(
                     else
-                        return price_.Insert(price_.Length - 2, ",") + " " + HttpGetInfo.Market_currency;
+                        return price_.Insert(price_.Length - 2, ",") + " " + Market_currency;
                 }
                 set { price_ = value; }
             }
@@ -169,14 +185,14 @@ namespace MarketBot.Date
                         if (paid.Length <= 2)
                             return "0," + paid + " " + currency;
                         else
-                            return paid.Insert(paid.Length - 2, ",") + " " + HttpGetInfo.Market_currency;
+                            return paid.Insert(paid.Length - 2, ",") + " " + Market_currency;
                     }
 
                     else if (price_.Length <= 2)
                         return "0," + price_ + " " + currency;
 
                     else
-                        return price_.Insert(price_.Length - 2, ",") + " " + HttpGetInfo.Market_currency;
+                        return price_.Insert(price_.Length - 2, ",") + " " + Market_currency;
                 }
                 set { price_ = value; }
             }

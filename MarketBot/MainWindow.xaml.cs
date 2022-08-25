@@ -1,49 +1,33 @@
 ﻿using AdonisUI.Controls;
+using MarketBot.API;
+using static MarketBot.Date.User_Date;
+using MarketBot.Notication;
+using MarketBot.Parsing;
 using System;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using Telegram.Bot;
 
 namespace MarketBot
 {
     public partial class MainWindow : AdonisWindow
     {
         private readonly Timer aTimer;
-        public static string? current_item;
-        public static string? current_sell_item;
 
         public MainWindow()
         {
             InitializeComponent();
-            HttpGetInfo.ReadConfig();
+            DateParsing.ReadConfig();
             LoadUserInfo();
             LoadUserHistory();
 
-            aTimer = new Timer(45000);
+            aTimer = new Timer(90000);
             aTimer.Elapsed += OnTimedEvent;
             aTimer.Enabled = true;
 
         }
-
-       
-        private static void Notification(string text)
-        {
-            var ni = new System.Windows.Forms.NotifyIcon
-            {
-                Icon = new System.Drawing.Icon("MarketApp.ico"),
-                Visible = true,
-                BalloonTipTitle = "Market App",
-                BalloonTipText = text
-            };
-            ni.ShowBalloonTip(8000);
-            Task.Delay(8000).Wait();
-            ni.Dispose();
-        }
-
         private void LoadUserInfo()
         {
             UpdateStatus();
@@ -51,9 +35,9 @@ namespace MarketBot
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Money.Content = HttpGetInfo.GetMoney() + " " + HttpGetInfo.Market_currency;
-                    Photo.Source = HttpGetInfo.GetAvatar();
-                    Nickname.Content = HttpGetInfo.GetNickname();
+                    Money.Content = MarketAPI.GetMoney() + " " + Market_currency;
+                    Photo.Source = SteamAPI.GetAvatar();
+                    Nickname.Content = SteamAPI.GetNickname();
                 }));
             });
 
@@ -64,8 +48,7 @@ namespace MarketBot
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    var history = HttpGetInfo.GetMarketHistory();
-                    history.data.OrderBy(o => o.time);
+                    var history = MarketAPI.GetMarketHistory();
                     History_LB.ItemsSource = history.data;
                 }));
             });
@@ -73,21 +56,21 @@ namespace MarketBot
         private void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
             UpdateStatus();
-            if (HttpGetInfo.TradeRequesTake() == true)
+            if (MarketAPI.TradeRequesTake() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Notification("Accept trade on website");
-                    HttpGetInfo.TelegramNotication("Accept trade on website");
+                    Notification.WindowNotification("Accept trade on website");
+                    Notification.TelegramNotication("Accept trade on website");
                 }));
             }
 
-            if (HttpGetInfo.TradeRequestGive() == true)
+            if (MarketAPI.TradeRequestGive() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Notification("Accept trade on website");
-                    HttpGetInfo.TelegramNotication("Accept trade on website");
+                    Notification.WindowNotification("Accept trade on website");
+                    Notification.TelegramNotication("Accept trade on website");
                 }));
             };
         }
@@ -98,21 +81,27 @@ namespace MarketBot
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    bool status = HttpGetInfo.GetPing();
+                    bool status = MarketAPI.GetPing();
                     if (status == true)
                         TradeStatus.Content = "Connected :)";
                 }));
             });
         }
 
-        private void Iteams_Button_Click(object sender, RoutedEventArgs e)
+        private async void Iteams_Button_Click(object sender, RoutedEventArgs e)
         {
+            Spinner1.Visibility = Visibility.Visible;
             ListUpdate(1);
+            await Task.Delay(2000);
+            Spinner1.Visibility = Visibility.Collapsed;
         }
 
-        private void Inventory_Button_Click(object sender, RoutedEventArgs e)
+        private async void Inventory_Button_Click(object sender, RoutedEventArgs e)
         {
+            Spinner2.Visibility = Visibility.Visible;
             ListUpdate(0);
+            await Task.Delay(2000);
+            Spinner2.Visibility = Visibility.Collapsed;
         }
 
         public void ListUpdate(int mode) // 0 == inventory // 1 == Items
@@ -121,7 +110,7 @@ namespace MarketBot
             {
                 Task.Run(() =>
                 {
-                    var items = HttpGetInfo.GetSteamInventory();
+                    var items = MarketAPI.GetSteamInventory();
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {
@@ -132,14 +121,17 @@ namespace MarketBot
                             InventoryLB.Items.Add(items.items[i].market_hash_name
                                 + " / " + items.items[i].id);
                         }
+                        InventoryLB.Items.SortDescriptions.Add(
+                                new System.ComponentModel.SortDescription("",
+                                System.ComponentModel.ListSortDirection.Ascending));
                     }));
-                });              
+                });
             }
             else
             {
                 Task.Run(() =>
                 {
-                    var items = HttpGetInfo.GetItems();
+                    var items = MarketAPI.GetItems();
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {
@@ -152,6 +144,9 @@ namespace MarketBot
                                 + items.items[i].currency
                                 + " / " + items.items[i].item_id);
                         }
+                        ItemsLB.Items.SortDescriptions.Add(
+                                new System.ComponentModel.SortDescription("",
+                                System.ComponentModel.ListSortDirection.Ascending));
                     }));
                 });
             }
@@ -160,7 +155,7 @@ namespace MarketBot
 
         private void Sell_Click(object sender, RoutedEventArgs e)
         {
-            HttpGetInfo.SetSell(current_item, Sell_Price.Text, HttpGetInfo.Market_currency);
+            MarketAPI.SetSell(Current_item, Sell_Price.Text, Market_currency);
             //MessageBox.Show(sell.success + sell.item_id);
             ListUpdate(0);
             ListUpdate(1);
@@ -173,10 +168,10 @@ namespace MarketBot
             Sell_Price.Text = "";
             if (e.AddedItems.Count >= 1)
             {
-                current_item = e.AddedItems[0].ToString();
-                var price = HttpGetInfo.GetMarketPrice(current_item);
+                Current_item = e.AddedItems[0].ToString();
+                var price = MarketAPI.GetMarketPrice(Current_item);
                 ItemInfo.DataContext = price.data;
-                Item_Image.Source = HttpGetInfo.GetImage(current_item);
+                Item_Image.Source = SteamAPI.GetImage(Current_item);
             }
         }
 
@@ -189,24 +184,24 @@ namespace MarketBot
 
             if (e.AddedItems.Count >= 1)
             {
-                current_sell_item = e.AddedItems[0].ToString();
-                var price = HttpGetInfo.GetMarketPrice(current_sell_item);
+                Current_sell_item = e.AddedItems[0].ToString();
+                var price = MarketAPI.GetMarketPrice(Current_sell_item);
                 ItemInfo.DataContext = price.data;
-                Item_Image.Source = HttpGetInfo.GetImage(current_sell_item);
+                Item_Image.Source = SteamAPI.GetImage(Current_sell_item);
 
             }
         }
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
-            HttpGetInfo.SetPrice(current_sell_item, "0", HttpGetInfo.Market_currency);
+            MarketAPI.SetPrice(Current_sell_item, "0", Market_currency);
             //MessageBox.Show(update.success + update.error);
             ListUpdate(1);
         }
 
         private void Update_Click(object sender, RoutedEventArgs e)
         {
-            HttpGetInfo.SetPrice(current_sell_item, Update_Price.Text, HttpGetInfo.Market_currency);
+            MarketAPI.SetPrice(Current_sell_item, Update_Price.Text, Market_currency);
             //MessageBox.Show(update.success + update.error);
             ListUpdate(1);
             Update.IsEnabled = false;
@@ -214,17 +209,14 @@ namespace MarketBot
 
         private void Sell_Price_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            var regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            CustomValidation.Validation_TextBox(sender, e);
             Sell.IsEnabled = true;
         }
 
         private void Update_Price_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            var regex = new Regex("[^0-9]+");
-            e.Handled = regex.IsMatch(e.Text);
+            CustomValidation.Validation_TextBox(sender, e);
             Update.IsEnabled = true;
         }
-
     }
 }

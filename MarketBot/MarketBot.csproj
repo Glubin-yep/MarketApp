@@ -7,6 +7,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationIcon>MarketApp.ico</ApplicationIcon>
     <UseWindowsForms>True</UseWindowsForms>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +19,7 @@
   <ItemGroup>
     <PackageReference Include="AdonisUI" Version="1.17.1" />
     <PackageReference Include="AdonisUI.ClassicTheme" Version="1.17.1" />
+    <PackageReference Include="FontAwesome.WPF" Version="4.7.0.9" />
     <PackageReference Include="Microsoft.AspNet.WebApi.Client" Version="5.2.9" />
     <PackageReference Include="Telegram.Bot" Version="18.0.0" />
   </ItemGroup>
