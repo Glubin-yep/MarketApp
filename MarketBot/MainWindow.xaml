@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
         xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:MarketBot"
         mc:Ignorable="d"
         Title="Market App" Width="1100" Height="800" ResizeMode="CanMinimize" 
@@ -30,12 +31,12 @@
                 <Trigger Property="layout" Value="Tile">
                     <Setter Property="ItemsPanel" Value="{StaticResource TilePanel}"/>
                     <Setter Property="ItemTemplate" Value="{StaticResource TileTemplate}"/>
-                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>                    
+                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
                     <Setter Property="FontSize" Value="12"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
     </Window.Resources>
     <adonisControls:AdonisWindow.TitleBarContent>
         <StackPanel Orientation="Horizontal"
@@ -90,6 +91,7 @@
 
         <Border BorderThickness="0.7" BorderBrush="AliceBlue"  Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2"  >
             <StackPanel  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
+                <fa:ImageAwesome x:Name="Spinner1" Icon="Spinner" Margin="15"  Spin="True" SpinDuration="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"  Width="168" Foreground="AliceBlue" />
                 <ListBox x:Name="ItemsLB" FontSize="14" FontFamily="Segoe UI"  SelectionChanged ="ItemsLB_SelectionChanged" Margin="10" Height="206" />
             </StackPanel>
         </Border>
@@ -104,6 +106,7 @@
 
         <Border BorderThickness="0.7" BorderBrush="AliceBlue" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="3">
             <StackPanel  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
+                <fa:ImageAwesome x:Name="Spinner2" Icon="Spinner" Margin="15"  Spin="True" SpinDuration="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"  Width="168" Foreground="AliceBlue" />
                 <ListBox x:Name="InventoryLB" FontSize="14" FontFamily="Segoe UI" SelectionChanged="InventoryLB_SelectionChanged" Margin="10" Height="200"/>
             </StackPanel>
         </Border>
@@ -123,6 +126,7 @@
                     </TextBlock>
 
                 </Label>
+
                 <Label x:Name="Count" Content ="{Binding count}" ContentStringFormat="Offers: {0} " HorizontalAlignment="Left" Margin="15,5,15,25" FontSize="14" FontFamily="Segoe UI" />
 
                 <Image x:Name="Item_Image"  Height="150" Margin="15,25,15,25"  Grid.ColumnSpan="2" Grid.RowSpan="2" />

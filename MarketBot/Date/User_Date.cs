@@ -5,6 +5,11 @@ namespace MarketBot.Date
 {
     class User_Date
     {
+        public static string? Market_API_Key { get; set; }
+        public static string? StemaId32 { get; set; }
+        public static string? Steam_API_Key { get; set; }
+        public static string? Telegram_User_Id { get; set; }
+        public static string? Market_currency { get; set; }
 
         public struct Balans
         {
@@ -105,9 +110,9 @@ namespace MarketBot.Date
                 get
                 {
                     if (price_.Length <= 2)
-                        return "0," + price_ + " " + HttpGetInfo.Market_currency; // its so bad :(
+                        return "0," + price_ + " " + Market_currency; // its so bad :(
                     else
-                        return price_.Insert(price_.Length - 2, ",") + " " + HttpGetInfo.Market_currency;
+                        return price_.Insert(price_.Length - 2, ",") + " " + Market_currency;
                 }
                 set { price_ = value; }
             }
@@ -169,14 +174,14 @@ namespace MarketBot.Date
                         if (paid.Length <= 2)
                             return "0," + paid + " " + currency;
                         else
-                            return paid.Insert(paid.Length - 2, ",") + " " + HttpGetInfo.Market_currency;
+                            return paid.Insert(paid.Length - 2, ",") + " " + Market_currency;
                     }
 
                     else if (price_.Length <= 2)
                         return "0," + price_ + " " + currency;
 
                     else
-                        return price_.Insert(price_.Length - 2, ",") + " " + HttpGetInfo.Market_currency;
+                        return price_.Insert(price_.Length - 2, ",") + " " + Market_currency;
                 }
                 set { price_ = value; }
             }
