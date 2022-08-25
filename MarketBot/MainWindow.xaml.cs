@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
+using AdonisUI;
 
 namespace MarketBot
 {
@@ -217,6 +218,24 @@ namespace MarketBot
         {
             CustomValidation.Validation_TextBox(sender, e);
             Update.IsEnabled = true;
+        }
+        private bool _isDark = true;
+        private void ChangeTheme(object sender, RoutedEventArgs e)
+        {
+            ResourceLocator.SetColorScheme(Application.Current.Resources, _isDark ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
+
+            if (_isDark)
+            {
+                Theme.Icon = FontAwesome.WPF.FontAwesomeIcon.MoonOutline;
+                Theme.Foreground = System.Windows.Media.Brushes.Black;
+            }
+            else
+            {
+                Theme.Icon = FontAwesome.WPF.FontAwesomeIcon.SunOutline;
+                Theme.Foreground = System.Windows.Media.Brushes.White;
+            }
+            
+            _isDark = !_isDark;
         }
     }
 }
