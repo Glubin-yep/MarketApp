@@ -17,23 +17,10 @@ namespace MarketBot.Pages
         public SellPage()
         {
             InitializeComponent();
-            LoadUserInfo();
+            
             LoadUserHistory();
         }
-        private void LoadUserInfo()
-        {
-            Task.Run(() =>
-            {
-                this.Dispatcher.Invoke(new Action(() =>
-                {
-                    Money.Content = MarketAPI.GetMoney() + " " + Market_currency;
-                    Photo.Source = SteamAPI.GetAvatar();
-                    Nickname.Content = SteamAPI.GetNickname();
-                    Status.Content = TradeStatus;
-                }));
-            });
-
-        }
+        
         private void LoadUserHistory()
         {
             Task.Run(() =>

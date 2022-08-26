@@ -4,6 +4,7 @@ using MarketBot.API;
 using MarketBot.Notication;
 using MarketBot.Parsing;
 using System;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
 using static MarketBot.Date.User_Date;
@@ -20,10 +21,10 @@ namespace MarketBot
             InitializeComponent();
             DateParsing.ReadConfig();
             UpdateStatus();
+            LoadUserInfo();
             aTimer = new Timer(90000);
             aTimer.Elapsed += OnTimedEvent;
             aTimer.Enabled = true;
-
         }
 
         private void ChangeTheme(object sender, RoutedEventArgs e)
@@ -88,6 +89,21 @@ namespace MarketBot
             bool status = MarketAPI.GetPing();
             if (status == true)
                 TradeStatus = true;
+        }
+        private void LoadUserInfo()
+        {
+            Task.Run(() =>
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    Money.Content = MarketAPI.GetMoney() + " " + Market_currency;
+                    Photo.Source = SteamAPI.GetAvatar();
+                    Nickname.Content = SteamAPI.GetNickname();
+
+                    if(TradeStatus == true)
+                        Status.Content = "Connected :)";
+                }));
+            });
 
         }
     }

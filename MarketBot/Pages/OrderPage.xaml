@@ -9,6 +9,6 @@
       Title="OrderPage">
 
     <Grid>
-        
+        <Label Content="Page in development" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32"/>
     </Grid>
 </Page>

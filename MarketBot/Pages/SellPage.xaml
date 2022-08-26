@@ -17,7 +17,7 @@
                 <TextBlock Text="{Binding market_hash_name}"/>
                 <TextBlock Text="{Binding price}" />
                 <TextBlock Text="{Binding stage}"/>
-                <TextBlock Text="{Binding time}"/>
+                <TextBlock Text="{Binding time}" />
             </StackPanel>
         </DataTemplate>
 
@@ -36,15 +36,12 @@
             </Style.Triggers>
         </Style>
     </Page.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0"/>
-            <RowDefinition Height="0.8*"/>
+            <RowDefinition />
             <RowDefinition/>
-            <RowDefinition/>
-            <RowDefinition Height="0.8*"/>
-            <RowDefinition Height="0"/>
+            <RowDefinition Height="0.7*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0"/>
@@ -57,19 +54,9 @@
             <ColumnDefinition Width="0"/>
         </Grid.ColumnDefinitions>
 
-        <Border BorderThickness="1"  BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="1" Grid.RowSpan="1">
-            <StackPanel Orientation="Horizontal" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="167" >
-                <Image x:Name="Photo" Height="150" Width="150" Margin="10"/>
-                <StackPanel Orientation="Vertical">
-                    <Label x:Name="Money"  FontSize="20" FontFamily="Segoe UI" Margin="15"/>
-                    <Label x:Name="Nickname"  Content="Nickname" FontFamily="Segoe UI"  FontSize="20" Margin="15"/>
-                    <Label x:Name="Status"  Content="Disconnect" FontFamily="Segoe UI"  FontSize="20" Margin="15"/>
-                </StackPanel>
 
-            </StackPanel>
-        </Border>
-        <Border BorderThickness="1"  BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="2" Grid.RowSpan="1">
-            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="220">
+        <Border BorderThickness="1"  BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="0" Grid.RowSpan="1">
+            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
                 <Button x:Name="Iteams_Button" Style = "{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"  Content="Load Your Iteams"  Click="Iteams_Button_Click" Margin="10"/>
                 <Button x:Name="Remove"  Content="Remove"  VerticalAlignment="Top" Click="Remove_Click" IsEnabled="False" Margin="10"/>
                 <Button x:Name="Update"   Content="Update" VerticalAlignment="Top" Click="Update_Click" IsEnabled="False" Margin="10"/>
@@ -78,49 +65,48 @@
             </StackPanel>
         </Border>
 
-        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="2"  >
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="0"  >
             <StackPanel  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
-                <fa:ImageAwesome x:Name="Spinner1" Icon="Spinner" Margin="15"  Spin="True" SpinDuration="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"  Width="168" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
-                <ListBox x:Name="ItemsLB" FontSize="14" FontFamily="Segoe UI"  SelectionChanged ="ItemsLB_SelectionChanged" Margin="10" Height="206" />
+                <fa:ImageAwesome x:Name="Spinner1" Icon="Spinner" Margin="15"  Spin="True" SpinDuration="2" MinHeight="270"  Visibility="Collapsed"  Width="168" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
+                <ListBox x:Name="ItemsLB" FontSize="14" FontFamily="Segoe UI"  SelectionChanged ="ItemsLB_SelectionChanged" Margin="10" Height="270" />
             </StackPanel>
         </Border>
 
-        <Border BorderThickness="1"  BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" VerticalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="3" >
-            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" Height="235" >
+        <Border BorderThickness="1"  BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Column="1" Grid.ColumnSpan="1" Grid.Row="1" >
+            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"  >
                 <Button x:Name="Inventory_Button" Style = "{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"  Content="Load Your Inventory"    Click="Inventory_Button_Click" Margin="10"/>
                 <Button x:Name="Sell"  Content="Sell"   VerticalAlignment="Top" Click="Sell_Click" IsEnabled="False" Margin="10" />
                 <TextBox x:Name="Sell_Price"  Text="Enter Price"  FontFamily="Segoe UI"  IsEnabled="False" PreviewTextInput ="Sell_Price_PreviewTextInput" FontSize="16" Margin="10"/>
             </StackPanel>
         </Border>
 
-        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" VerticalAlignment="Top" Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="3">
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="1">
             <StackPanel  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
-                <fa:ImageAwesome x:Name="Spinner2" Icon="Spinner" Margin="15"  Spin="True" SpinDuration="2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed"  Width="168" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
-                <ListBox x:Name="InventoryLB" FontSize="14" FontFamily="Segoe UI" SelectionChanged="InventoryLB_SelectionChanged" Margin="10" Height="200"/>
+                <fa:ImageAwesome x:Name="Spinner2" Icon="Spinner" Margin="15"  Spin="True" SpinDuration="2" MinHeight="270" Visibility="Collapsed"  Width="168" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
+                <ListBox x:Name="InventoryLB" FontSize="14" FontFamily="Segoe UI" SelectionChanged="InventoryLB_SelectionChanged" Margin="10" Height="270"/>
             </StackPanel>
         </Border>
 
-        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" VerticalAlignment="Top" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="2" Grid.RowSpan="2">
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan= "2" >
             <StackPanel x:Name="ItemInfo" Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" MinHeight="435"   >
 
-                <Label HorizontalAlignment="Left" Margin="15,15,25,25" FontSize="16">
-                    <TextBlock x:Name="Item_Name" FontSize="14" FontFamily="Segoe UI" Text="{Binding market_hash_name}"  TextWrapping="WrapWithOverflow" />
+                <Label HorizontalAlignment="Left" Margin="15,25,15,25" FontSize="16">
+                    <TextBlock x:Name="Item_Name" FontSize="16" FontFamily="Segoe UI" Text="{Binding market_hash_name}"  TextWrapping="WrapWithOverflow" />
                 </Label>
-
-                <Label x:Name="Min_Price"  HorizontalAlignment="Left" Margin="15,5,15,25" FontSize="14">
-                    <TextBlock  TextWrapping="WrapWithOverflow" FontSize="14" FontFamily="Segoe UI" >
+                <Label x:Name="Min_Price"  HorizontalAlignment="Left" Margin="15,25,15,25" FontSize="16">
+                    <TextBlock  TextWrapping="WrapWithOverflow" FontSize="16" FontFamily="Segoe UI" >
                         <Run Text="Minimum price of those already set:"/>
                         <Run Text="{Binding price}"/>
                     </TextBlock>
                 </Label>
-                <Label x:Name="Count" Content ="{Binding count}" ContentStringFormat="Offers: {0} " HorizontalAlignment="Left" Margin="15,5,15,25" FontSize="14" FontFamily="Segoe UI" />
-                <Image x:Name="Item_Image"  Height="150" Margin="15,25,15,25"  Grid.ColumnSpan="2" Grid.RowSpan="2" />
+                <Label x:Name="Count" Content ="{Binding count}" ContentStringFormat="Offers: {0} " HorizontalAlignment="Left" Margin="15,25,15,25" FontSize="16" FontFamily="Segoe UI" />
+                <Image x:Name="Item_Image"  Height="180" Margin="15,75,15,25" VerticalAlignment="Bottom" />
             </StackPanel>
         </Border>
 
-        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="4" Grid.RowSpan="1">
-            <StackPanel Margin="0"  Orientation="Horizontal" Background="#0f0f"  Height="165" >
-                <local:LayoutListbox  x:Name="History_LB" BorderThickness="0" Width="1200" FontSize="12" FontFamily="Segoe UI" >
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="3" >
+            <StackPanel  Orientation="Horizontal" Background="#0f0f"  MinHeight="200" >
+                <local:LayoutListbox  x:Name="History_LB" BorderThickness="0" Width="1200" FontSize="14" FontFamily="Segoe UI" >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
