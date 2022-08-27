@@ -1,9 +1,7 @@
 ﻿using MarketBot.API;
-using MarketBot.Notication;
 using MarketBot.Parsing;
 using System;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using static MarketBot.Date.User_Date;
@@ -17,10 +15,10 @@ namespace MarketBot.Pages
         public SellPage()
         {
             InitializeComponent();
-            
+
             LoadUserHistory();
         }
-        
+
         private void LoadUserHistory()
         {
             Task.Run(() =>

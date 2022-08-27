@@ -1,18 +1,7 @@
-﻿using MarketBot.API;
+﻿using Microsoft.Web.WebView2.Core;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MarketBot.Pages
 {
@@ -24,6 +13,13 @@ namespace MarketBot.Pages
         public TablePage()
         {
             InitializeComponent();
+        }
+
+        private async void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            var webView2Environment = await CoreWebView2Environment.CreateAsync(null, "C:\\temp");
+            await Browser.EnsureCoreWebView2Async(webView2Environment);
+            Browser.Source = new Uri("https://skins-table.xyz/table_test_");
         }
     }
 }

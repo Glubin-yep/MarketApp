@@ -106,7 +106,7 @@
 
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" VerticalAlignment="Top" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="3" >
             <StackPanel  Orientation="Horizontal" Background="#0f0f"  MinHeight="200" >
-                <local:LayoutListbox  x:Name="History_LB" BorderThickness="0" Width="1200" FontSize="14" FontFamily="Segoe UI" >
+                <local:LayoutListbox  x:Name="History_LB" BorderThickness="0" Width="1400" FontSize="14" FontFamily="Segoe UI" >
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>

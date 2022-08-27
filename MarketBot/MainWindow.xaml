@@ -9,7 +9,7 @@
         xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:MarketBot"
         mc:Ignorable="d"
-        Title="Market App" Width="1350" Height="800" ResizeMode="CanMinimize" 
+        Title="Market App" Width="1450" Height="800" ResizeMode="CanMinimize" 
         Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
 
     <adonisControls:AdonisWindow.TitleBarContent>

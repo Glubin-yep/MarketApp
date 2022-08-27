@@ -1,6 +1,4 @@
-﻿using MarketBot.Date;
-using MarketBot.Date.QuickType;
-using MarketBot.Parsing;
+﻿using MarketBot.Parsing;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -42,14 +40,6 @@ namespace MarketBot.API
             User user_Date = JsonConvert.DeserializeObject<User>(MarketAPI.GetAPI(actionUrl));
 
             return user_Date.response.players.First().personaname;
-        }
-        public static dynamic GetAllItems()
-        {
-            string actionUrl = $"http://csgobackpack.net/api/GetItemsList/v2/";
-
-            var user_Date = JsonConvert.DeserializeObject<dynamic>(MarketAPI.GetAPI(actionUrl));
-
-            return user_Date.ItemsList;
         }
     }
 }
