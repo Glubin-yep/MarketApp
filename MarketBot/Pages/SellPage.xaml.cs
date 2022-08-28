@@ -47,7 +47,7 @@ namespace MarketBot.Pages
             Spinner2.Visibility = Visibility.Collapsed;
         }
 
-        public void ListUpdate(int mode) // 0 == inventory // 1 == Items
+        public  void ListUpdate(int mode) // 0 == inventory // 1 == Items
         {
             if (mode == 0)
             {

@@ -108,5 +108,12 @@ namespace MarketBot.API
             TradeRequestGive tradeRequestGive = JsonConvert.DeserializeObject<TradeRequestGive>(GetAPI(actionUrl));
             return tradeRequestGive.success;
         }
+        public static OrdersDate GetOrders()
+        {
+            string actionUrl = $"https://market.csgo.com/api/v2/get-orders?key={Market_API_Key}&page=0";
+
+            var ordersRequestGive = JsonConvert.DeserializeObject<OrdersDate>(GetAPI(actionUrl));
+            return ordersRequestGive;
+        }
     }
 }

@@ -3,12 +3,63 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:MarketBot.Pages"
+      xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+      xmlns:local="clr-namespace:MarketBot"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="800" d:DesignWidth="1200"
       Title="OrderPage">
+    <Page.Resources>
+        <DataTemplate x:Key="TileTemplate">
+            <StackPanel Orientation="Vertical" Margin="5" Width="150">
+                <Image Source="{Binding imageUrl}" Width="130" Height="130"/>
+                <TextBlock Text="{Binding hash_name}"/>
+                <TextBlock Text="{Binding price}" />
+                <TextBlock Text="{Binding count}"/>
+                <TextBlock Text="{Binding date}" />
+            </StackPanel>
+        </DataTemplate>
+        <ItemsPanelTemplate x:Key="TilePanel">
+            <WrapPanel Orientation ="Horizontal" IsItemsHost="True"  Width="1300" />
+        </ItemsPanelTemplate>
 
+        <Style TargetType="local:LayoutListbox">
+            <Style.Triggers>
+                <Trigger Property="layout" Value="Tile">
+                    <Setter Property="ItemsPanel" Value="{StaticResource TilePanel}"/>
+                    <Setter Property="ItemTemplate" Value="{StaticResource TileTemplate}"/>
+                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
+                    <Setter Property="FontSize" Value="12"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+    
     <Grid>
-        <Label Content="Page in development" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="32"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="0.5*"/>
+        </Grid.RowDefinitions>
+       
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Row="0" >
+            <StackPanel  Orientation="Vertical" Background="#0f0f" >
+                <TextBlock Text="Automatic item purchasing"
+                           TextWrapping="Wrap"
+                           FontSize="16"
+                           Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
+                           FontFamily="Segoe UI Black"
+                           Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
+                <TextBlock Text="This section shows items that will be purchased automatically. The main condition of the purchase is that the price of the item that interests you drops below the autopurchase price you set and you are online on the site. It's worth noting that if someone set a price above your autopurchase offer, their order will be fulfilled first." 
+                           TextWrapping="Wrap"
+                           FontSize="16"
+                           Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
+                           Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
+                <local:LayoutListbox  x:Name="Active_Orders" BorderThickness="0" Height="450"  FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+            </StackPanel>
+        </Border>
+        
+        
     </Grid>
 </Page>

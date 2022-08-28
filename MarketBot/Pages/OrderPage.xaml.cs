@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using MarketBot.API;
+using System.Windows.Controls;
 
 namespace MarketBot.Pages
 {
@@ -10,6 +11,8 @@ namespace MarketBot.Pages
         public OrderPage()
         {
             InitializeComponent();
+            var orders_ = MarketAPI.GetOrders();
+            Active_Orders.ItemsSource = orders_.orders;
         }
     }
 }
