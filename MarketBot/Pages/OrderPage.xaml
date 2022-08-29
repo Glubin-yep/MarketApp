@@ -10,16 +10,16 @@
       Title="OrderPage">
     <Page.Resources>
         <DataTemplate x:Key="TileTemplate">
-            <StackPanel Orientation="Vertical" Margin="5" Width="150">
-                <Image Source="{Binding imageUrl}" Width="130" Height="130"/>
-                <TextBlock Text="{Binding hash_name}"/>
+            <StackPanel Orientation="Vertical" Margin="5" Width="160" Height="185">
+                <Image Source="{Binding imageUrl}" Width="130" Height="100"/>
+                <TextBlock TextWrapping="Wrap" Text="{Binding hash_name}"/>
                 <TextBlock Text="{Binding price}" />
                 <TextBlock Text="{Binding count}"/>
-                <TextBlock Text="{Binding date}" />
+                <!--<TextBlock Text="{Binding date}" />-->
             </StackPanel>
         </DataTemplate>
         <ItemsPanelTemplate x:Key="TilePanel">
-            <WrapPanel Orientation ="Horizontal" IsItemsHost="True"  Width="1300" />
+            <WrapPanel Orientation ="Horizontal" IsItemsHost="True"  Width="1350" />
         </ItemsPanelTemplate>
 
         <Style TargetType="local:LayoutListbox">
@@ -36,30 +36,68 @@
     
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition   Width="0.2*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="0.4*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
-       
-        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Row="0" >
-            <StackPanel  Orientation="Vertical" Background="#0f0f" >
+
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Row="0" Grid.Column="0"  >
+            <StackPanel  Orientation="Vertical" Background="#0f0f" VerticalAlignment="Center">
+                <Button x:Name="Add_order"   Content="Add order"   Margin="10" Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" Height="35" Click="Add_order_Click"/>
+                <Button x:Name="Remove_order"   Content="Remove order"   Margin="10" Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" Height="35" Click="Remove_order_Click" />
+                <Button x:Name="Update_order"  Content="Update order" Margin="10"  Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"  Height="35" Click="Update_order_Click"/>
+            </StackPanel>
+        </Border>
+
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Row="0"  Grid.Column="1"   >
+            <StackPanel  Orientation="Vertical" Background="#0f0f">
                 <TextBlock Text="Automatic item purchasing"
+                           TextWrapping="Wrap"
+                           FontSize="18"
+                           Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
+                           FontFamily="Segoe UI Black"/>
+                <TextBlock Text="       This section shows items that will be purchased automatically. The main condition of the purchase is that the price of the item that interests you drops below the autopurchase price you set and you are online on the site. It's worth noting that if someone set a price above your autopurchase offer, their order will be fulfilled first." 
+                           TextWrapping="Wrap"
+                           Margin="0,25,0,0"
+                           FontSize="16"
+                           Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"/>
+            </StackPanel>
+        </Border>
+
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="2"  >
+            <StackPanel  Orientation="Vertical" Background="#0f0f">
+                
+                <local:LayoutListbox  x:Name="Active_Orders" BorderThickness="0"   FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="420"/>
+            </StackPanel>
+        </Border>
+        
+        
+        
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Row="2"  Grid.ColumnSpan="2">
+            <StackPanel  Orientation="Vertical" Background="#0f0f">
+                <TextBlock Text="Order operation history"
                            TextWrapping="Wrap"
                            FontSize="16"
                            Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
                            FontFamily="Segoe UI Black"
                            Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
-                <TextBlock Text="This section shows items that will be purchased automatically. The main condition of the purchase is that the price of the item that interests you drops below the autopurchase price you set and you are online on the site. It's worth noting that if someone set a price above your autopurchase offer, their order will be fulfilled first." 
-                           TextWrapping="Wrap"
-                           FontSize="16"
-                           Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
-                           Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
-                <local:LayoutListbox  x:Name="Active_Orders" BorderThickness="0" Height="450"  FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled"/>
+                <local:LayoutListbox  x:Name="History_Orders" BorderThickness="0" Height="200"  FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical" Margin="5" Width="160">
+                            <Image Source="{Binding imageUrl}" Width="130" Height="100"/>
+                            <TextBlock TextWrapping="Wrap" Text="{Binding hash_name}"/>
+                            <TextBlock Text="{Binding created}" />
+                            <TextBlock Text="{Binding executed}"/>
+                            <TextBlock Text="{Binding price}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </local:LayoutListbox>
             </StackPanel>
         </Border>
-        
         
     </Grid>
 </Page>

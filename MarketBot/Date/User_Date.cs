@@ -259,5 +259,20 @@ namespace MarketBot.Date
             public bool success { get; set; }
             public IList<Order> orders { get; set; }
         }
+        public struct Orderlog
+        {
+            public string hash_name { get; set; }
+            public int item_id { get; set; }
+            public string created { get; set; }
+            public string executed { get; set; }
+            public int price { get; set; }
+            public string currency { get; set; }
+        }
+
+        public struct OrdersLog
+        {
+            public bool success { get; set; }
+            public IList<Orderlog> orders { get; set; }
+        }
     }
 }
