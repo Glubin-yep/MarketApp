@@ -108,5 +108,26 @@ namespace MarketBot.API
             TradeRequestGive tradeRequestGive = JsonConvert.DeserializeObject<TradeRequestGive>(GetAPI(actionUrl));
             return tradeRequestGive.success;
         }
+        public static OrdersDate GetOrders()
+        {
+            string actionUrl = $"https://market.csgo.com/api/v2/get-orders?key={Market_API_Key}&page=0";
+
+            var ordersRequestGive = JsonConvert.DeserializeObject<OrdersDate>(GetAPI(actionUrl));
+            return ordersRequestGive;
+        }
+        public static OrdersDate SetOrder(string market_hash_name, string count, string price) // if price == 0 order deleted
+        {
+            string actionUrl = $"https://market.csgo.com/api/v2/set-order?key={Market_API_Key}&market_hash_name={market_hash_name}&count={count}&price={price}";
+
+            var ordersRequestGive = JsonConvert.DeserializeObject<OrdersDate>(GetAPI(actionUrl));
+            return ordersRequestGive;
+        }
+        public static OrdersLog GetOrdersLog()
+        {
+            string actionUrl = $"https://market.csgo.com/api/v2/get-orders-log?key={Market_API_Key}&page=0";
+
+            var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(GetAPI(actionUrl));
+            return ordersRequestGive;
+        }
     }
 }

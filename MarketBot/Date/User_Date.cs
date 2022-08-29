@@ -225,5 +225,54 @@ namespace MarketBot.Date
             public IList<object> items { get; set; }
             public string trade { get; set; }
         }
+        public struct Order
+        {
+            public string hash_name { get; set; }
+            public string count { get; set; }
+            public string date { get; set; }
+            private string price_;
+            public string price
+            {
+                get
+                {
+                    if (price_.Length <= 2)
+                        return "0," + price_ + " " + Market_currency; // its so bad :(
+                    else
+                        return price_.Insert(price_.Length - 2, ",") + " " + Market_currency;
+                }
+                set { price_ = value; }
+            }
+            public string currency { get; set; }
+            public object partner { get; set; }
+            public object token { get; set; }
+            public string imageUrl
+            {
+                get
+                {
+                    return $"https://cdn.csgo.com//item/{hash_name}/300.png";
+                }
+            }
+        }
+
+        public struct OrdersDate
+        {
+            public bool success { get; set; }
+            public IList<Order> orders { get; set; }
+        }
+        public struct Orderlog
+        {
+            public string hash_name { get; set; }
+            public int item_id { get; set; }
+            public string created { get; set; }
+            public string executed { get; set; }
+            public int price { get; set; }
+            public string currency { get; set; }
+        }
+
+        public struct OrdersLog
+        {
+            public bool success { get; set; }
+            public IList<Orderlog> orders { get; set; }
+        }
     }
 }

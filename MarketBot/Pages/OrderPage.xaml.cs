@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using MarketBot.API;
+using Pages;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MarketBot.Pages
 {
@@ -23,6 +12,28 @@ namespace MarketBot.Pages
         public OrderPage()
         {
             InitializeComponent();
+            var orders_ = MarketAPI.GetOrders();
+            Active_Orders.ItemsSource = orders_.orders;
+            var orderslog = MarketAPI.GetOrdersLog();
+
+            if(orderslog.orders.Count > 0)
+                History_Orders.ItemsSource = orderslog.orders;
+        }
+
+        private void Add_order_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var page = new WindowForm();
+            page.ShowDialog();
+        }
+
+        private void Remove_order_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
+        }
+
+        private void Update_order_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+
         }
     }
 }

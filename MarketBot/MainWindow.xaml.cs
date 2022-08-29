@@ -22,6 +22,7 @@ namespace MarketBot
             DateParsing.ReadConfig();
             UpdateStatus();
             LoadUserInfo();
+
             aTimer = new Timer(90000);
             aTimer.Elapsed += OnTimedEvent;
             aTimer.Enabled = true;
@@ -52,9 +53,7 @@ namespace MarketBot
 
         private void Sell_Click(object sender, RoutedEventArgs e)
         {
-
             MainFrame.Source = new Uri("Pages/SellPage.xaml", UriKind.RelativeOrAbsolute);
-
         }
 
         private void Table_Click(object sender, RoutedEventArgs e)
@@ -100,7 +99,7 @@ namespace MarketBot
                     Photo.Source = SteamAPI.GetAvatar();
                     Nickname.Content = SteamAPI.GetNickname();
 
-                    if(TradeStatus == true)
+                    if (TradeStatus == true)
                         Status.Content = "Connected :)";
                 }));
             });
