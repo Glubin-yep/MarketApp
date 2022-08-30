@@ -7,7 +7,7 @@
         xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
         xmlns:local="clr-namespace:Pages"
         mc:Ignorable="d"
-        Title="WindowForm" Height="450" Width="600" ResizeMode="NoResize" >
+        Title="WindowForm" Height="450" Width="600" ResizeMode="NoResize" Loaded="AdonisWindow_Loaded" >
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -20,27 +20,27 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="1" Grid.Row="0" Grid.RowSpan="4" Orientation="Vertical" VerticalAlignment="Center"  HorizontalAlignment="Center">
-            <Image Source="https://cdn.csgo.com//item/AWP | Elite Build (Battle-Scarred)/300.png" Height="275" Width="275"/>
+            <Image x:Name="Image" Height="275" Width="275"/>
         </StackPanel>
         
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" >
-            <TextBox Text="Market Name" Height="35" Margin="15" Width="220" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <ComboBox Name="Wear_list" Height="35" Width="220">
-                <TextBlock Text="Factory New (FN)"/>
-                <TextBlock Text="Minimal Wear (MW)"/>
-                <TextBlock Text="Field-Tested (FT)"/>
-                <TextBlock Text="Well-Worn (WW)"/>
-                <TextBlock Text="Battle-Scarred (BS)"/>
+            <TextBox x:Name="MarketName"  Text="Market Name" Height="35" Margin="15" Width="220" VerticalAlignment="Center" HorizontalAlignment="Center" TextChanged="TextBox_TextChanged"/>
+            <ComboBox Name="Wear_list" Height="35" Width="220" SelectionChanged="Wear_list_SelectionChanged" >
+                <TextBlock Text="Factory New"/>
+                <TextBlock Text="Minimal Wear"/>
+                <TextBlock Text="Field-Tested"/>
+                <TextBlock Text="Well-Worn"/>
+                <TextBlock Text="Battle-Scarred"/>
             </ComboBox>
         </StackPanel>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="1">
-            <TextBox Text="Count" Height="45" Margin="15" Width="220" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox x:Name="Count" Text="Count" Height="45" Margin="15" Width="220" VerticalAlignment="Center" HorizontalAlignment="Center" PreviewTextInput="TextBox_PreviewTextInput_Count"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="2">
-            <TextBox Text="Price" Height="45" Margin="15" Width="220" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <TextBox x:Name="Price"  Text="Price" Height="45" Margin="15" Width="220" VerticalAlignment="Center" HorizontalAlignment="Center" PreviewTextInput="TextBox_PreviewTextInput_Price"/>
         </StackPanel>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="3">
-            <Button Content="Add order" Height="45" Margin="15" Width="220" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button x:Name="Add" Content="Add order" Height="45" Margin="15" Width="220" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Add_Click"/>
         </StackPanel>
     </Grid>
 </adonisControls:AdonisWindow>
