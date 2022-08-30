@@ -64,6 +64,7 @@ namespace MarketBot
         private void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
             UpdateStatus();
+            LoadUserInfo();
             if (MarketAPI.TradeRequesTake() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
