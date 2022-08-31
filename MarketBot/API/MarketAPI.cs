@@ -129,5 +129,11 @@ namespace MarketBot.API
             var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(GetAPI(actionUrl));
             return ordersRequestGive;
         }
+        public static void UpdateInventory()
+        {
+            string actionUrl = $"https://market.csgo.com/api/v2/update-inventory/?key={Market_API_Key}";
+
+            GetAPI(actionUrl);
+        }
     }
 }

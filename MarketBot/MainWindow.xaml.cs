@@ -22,6 +22,7 @@ namespace MarketBot
             DateParsing.ReadConfig();
             UpdateStatus();
             LoadUserInfo();
+            MarketAPI.UpdateInventory();
 
             aTimer = new Timer(90000);
             aTimer.Elapsed += OnTimedEvent;
