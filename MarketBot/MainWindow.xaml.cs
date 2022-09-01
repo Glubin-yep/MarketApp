@@ -51,12 +51,12 @@ namespace MarketBot
         {
             MainFrame.Source = new Uri("Pages/OrderPage.xaml", UriKind.RelativeOrAbsolute);
         }
-
+        
         private void Sell_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Source = new Uri("Pages/SellPage.xaml", UriKind.RelativeOrAbsolute);
         }
-
+       
         private void Table_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Source = new Uri("Pages/TablePage.xaml", UriKind.RelativeOrAbsolute);

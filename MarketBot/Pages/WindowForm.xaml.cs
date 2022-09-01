@@ -1,56 +1,56 @@
 ﻿using AdonisUI.Controls;
 using MarketBot.API;
 using MarketBot.Parsing;
-using System.Windows.Media.Imaging;
 using System;
-using static MarketBot.Date.User_Date;
-using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 
 namespace Pages
 {
-    /// <summary>
-    /// Interaction logic for WindowForm.xaml
-    /// </summary>
     public partial class WindowForm : AdonisWindow
     {
-        private object current_order_;
+        private object _current_order;
         public WindowForm(object current_order)
         {
             InitializeComponent();
-            current_order_ = current_order;
+            _current_order = current_order;
         }
         private void AdonisWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
         {
-            if (current_order_ != null)
+            if (_current_order != null)
             {
                 MarketName.IsEnabled = false;
                 Wear_list.IsEnabled = false;
                 Add.Content = "Update";
 
                 var nameOfProperty = "hash_name";
-                var propertyInfo = current_order_.GetType().GetProperty(nameOfProperty);
-                string[] text = propertyInfo.GetValue(current_order_, null).ToString().Split(" (");
+                var propertyInfo = _current_order.GetType().GetProperty(nameOfProperty);
+                string[] text = propertyInfo.GetValue(_current_order, null).ToString().Split(" (");
                 MarketName.Text = text[0];
-                Wear_list.Text = text[1].Replace(")","");
+                Wear_list.Text = text[1].Replace(")", "");
 
                 nameOfProperty = "count";
-                propertyInfo = current_order_.GetType().GetProperty(nameOfProperty);
-                string count = propertyInfo.GetValue(current_order_, null).ToString();
+                propertyInfo = _current_order.GetType().GetProperty(nameOfProperty);
+                string count = propertyInfo.GetValue(_current_order, null).ToString();
                 Count.Text = count;
 
                 nameOfProperty = "price";
-                propertyInfo = current_order_.GetType().GetProperty(nameOfProperty);
-                string price = propertyInfo.GetValue(current_order_, null).ToString();
-                Price.Text = price.Replace(",",".").Replace(" RUB", "");
+                propertyInfo = _current_order.GetType().GetProperty(nameOfProperty);
+                string price = propertyInfo.GetValue(_current_order, null).ToString();
+                Price.Text = price.Replace(",", ".").Replace(" RUB", "");
             }
         }
 
         private void Add_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var status =  MarketAPI.SetOrder(MarketName.Text, "(" + Wear_list.Text + ")", Count.Text, Price.Text.Replace(".",""));
-            AdonisUI.Controls.MessageBox.Show(status.success.ToString(), "Info", MessageBoxButton.OK, MessageBoxImage.Information);
-            if(status.success == true)
+            var status = MarketAPI.SetOrder(MarketName.Text, "(" + Wear_list.Text + ")", Count.Text, Price.Text.Replace(".", ""));
+
+            if (status.success == true)
+            {
+                MessageBox.Show("Order successfully added :)", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();
+            }
+            else
+                MessageBox.Show("It is not possible to add this order :(", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)

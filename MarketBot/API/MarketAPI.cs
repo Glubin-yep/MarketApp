@@ -31,7 +31,6 @@ namespace MarketBot.API
             {
 
             }
-
             return responseData;
         }
         public static string GetMoney()

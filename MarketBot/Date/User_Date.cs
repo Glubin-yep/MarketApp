@@ -163,7 +163,7 @@ namespace MarketBot.Date
             {
                 get
                 {
-                    if (stage_ == "1")
+                    if (paid != null && stage_ != "5")
                         return "Buy";
                     else if (stage_ == "2")
                         return "Sell";
@@ -195,7 +195,12 @@ namespace MarketBot.Date
                     else
                         return price_.Insert(price_.Length - 2, ",") + " " + Market_currency;
                 }
-                set { price_ = value; }
+                set 
+                {
+                    int temp = Int32.Parse(value);
+                    temp = temp - (temp * 5 / 100);
+                    price_ = temp.ToString();
+                }
             }
             public string received { get; set; }
             public string id { get; set; }
