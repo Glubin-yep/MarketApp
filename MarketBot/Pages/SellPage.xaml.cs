@@ -23,9 +23,9 @@ namespace MarketBot.Pages
         {
             Task.Run(() =>
             {
-                this.Dispatcher.Invoke(new Action(() =>
+                this.Dispatcher.Invoke(new Action(async () =>
                 {
-                    var history = MarketAPI.GetMarketHistory();
+                    var history = await MarketAPI.GetMarketHistory();
                     History_LB.ItemsSource = history.data;
                 }));
             });
@@ -51,9 +51,9 @@ namespace MarketBot.Pages
         {
             if (mode == 0)
             {
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
-                    var items = MarketAPI.GetSteamInventory();
+                    var items = await MarketAPI.GetSteamInventory();
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {
@@ -72,9 +72,9 @@ namespace MarketBot.Pages
             }
             else
             {
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
-                    var items = MarketAPI.GetItems();
+                    var items = await MarketAPI.GetItems();
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {
@@ -105,7 +105,7 @@ namespace MarketBot.Pages
             Sell.IsEnabled = false;
         }
 
-        private void InventoryLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void InventoryLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Sell_Price.IsEnabled = true;
             Sell_Price.Text = "";
@@ -114,13 +114,13 @@ namespace MarketBot.Pages
             if (e.AddedItems.Count >= 1)
             {
                 Current_item = e.AddedItems[0].ToString();
-                var price = MarketAPI.GetMarketPrice(Current_item);
+                var price = await MarketAPI.GetMarketPrice(Current_item);
                 ItemInfo.DataContext = price.data;
                 Item_Image.Source = SteamAPI.GetImage(Current_item);
             }
         }
 
-        private void ItemsLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void ItemsLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Remove.IsEnabled = true;
             Update.IsEnabled = true;
@@ -131,7 +131,7 @@ namespace MarketBot.Pages
             if (e.AddedItems.Count >= 1)
             {
                 Current_sell_item = e.AddedItems[0].ToString();
-                var price = MarketAPI.GetMarketPrice(Current_sell_item);
+                var price = await MarketAPI.GetMarketPrice(Current_sell_item);
                 ItemInfo.DataContext = price.data;
                 Item_Image.Source = SteamAPI.GetImage(Current_sell_item);
 

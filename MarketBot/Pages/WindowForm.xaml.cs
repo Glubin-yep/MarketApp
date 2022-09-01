@@ -40,9 +40,9 @@ namespace Pages
             }
         }
 
-        private void Add_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void Add_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var status = MarketAPI.SetOrder(MarketName.Text, "(" + Wear_list.Text + ")", Count.Text, Price.Text.Replace(".", ""));
+            var status = await MarketAPI.SetOrder(MarketName.Text, "(" + Wear_list.Text + ")", Count.Text, Price.Text.Replace(".", ""));
 
             if (status.success == true)
             {

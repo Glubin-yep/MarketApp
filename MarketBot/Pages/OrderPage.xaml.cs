@@ -61,12 +61,12 @@ namespace MarketBot.Pages
         private void Update_Orders()
         {
             Task.Run(()=>
-            this.Dispatcher.Invoke(new Action(() =>
+            this.Dispatcher.Invoke(new Action(async () =>
             {
-                var orders_ = MarketAPI.GetOrders();
+                var orders_ = await MarketAPI.GetOrders();
                 Active_Orders.ItemsSource = orders_.orders;
 
-                var orderslog = MarketAPI.GetOrdersLog();
+                var orderslog = await MarketAPI.GetOrdersLog();
 
                 if (orderslog.orders.Count > 0)
                     History_Orders.ItemsSource = orderslog.orders;

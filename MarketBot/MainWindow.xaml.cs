@@ -62,11 +62,11 @@ namespace MarketBot
             MainFrame.Source = new Uri("Pages/TablePage.xaml", UriKind.RelativeOrAbsolute);
         }
 
-        private void OnTimedEvent(object? sender, ElapsedEventArgs e)
+        private async void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
             UpdateStatus();
             LoadUserInfo();
-            if (MarketAPI.TradeRequesTake() == true)
+            if (await MarketAPI.TradeRequesTake() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
@@ -75,7 +75,7 @@ namespace MarketBot
                 }));
             }
 
-            if (MarketAPI.TradeRequestGive() == true)
+            if (await MarketAPI.TradeRequestGive() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
@@ -85,9 +85,9 @@ namespace MarketBot
             };
         }
 
-        private static void UpdateStatus()
+        private static async void UpdateStatus()
         {
-            bool status = MarketAPI.GetPing();
+            bool status = await MarketAPI.GetPing();
             if (status == true)
                 TradeStatus = true;
         }
@@ -95,11 +95,11 @@ namespace MarketBot
         {
             Task.Run(() =>
             {
-                this.Dispatcher.Invoke(new Action(() =>
+                this.Dispatcher.Invoke(new Action(async () =>
                 {
-                    Money.Content = MarketAPI.GetMoney() + " " + Market_currency;
-                    Photo.Source = SteamAPI.GetAvatar();
-                    Nickname.Content = SteamAPI.GetNickname();
+                    Money.Content = await MarketAPI.GetMoney() + " " + Market_currency;
+                    Photo.Source = await SteamAPI.GetAvatar();
+                    Nickname.Content = await SteamAPI.GetNickname();
 
                     if (TradeStatus == true)
                         Status.Content = "Connected :)";
