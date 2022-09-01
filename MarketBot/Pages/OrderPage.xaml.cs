@@ -1,14 +1,12 @@
 ﻿using MarketBot.API;
 using Pages;
 using System;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Controls;
 
 namespace MarketBot.Pages
 {
-    /// <summary>
-    /// Interaction logic for OrderPage.xaml
-    /// </summary>
     public partial class OrderPage : Page
     {
         private string? _selected_order_name { get; set; }
@@ -19,6 +17,7 @@ namespace MarketBot.Pages
         {
             InitializeComponent();
             Update_Orders();
+
             aTimer = new Timer(45000);
             aTimer.Elapsed += ATimer_Elapsed;
             aTimer.Enabled = true;
@@ -61,6 +60,7 @@ namespace MarketBot.Pages
         }
         private void Update_Orders()
         {
+            Task.Run(()=>
             this.Dispatcher.Invoke(new Action(() =>
             {
                 var orders_ = MarketAPI.GetOrders();
@@ -70,8 +70,7 @@ namespace MarketBot.Pages
 
                 if (orderslog.orders.Count > 0)
                     History_Orders.ItemsSource = orderslog.orders;
-            }));
-            
+            })));
         }
     }
 }

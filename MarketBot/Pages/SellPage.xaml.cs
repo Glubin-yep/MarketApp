@@ -109,6 +109,8 @@ namespace MarketBot.Pages
         {
             Sell_Price.IsEnabled = true;
             Sell_Price.Text = "";
+            Min_Price.Visibility = Visibility.Visible;
+
             if (e.AddedItems.Count >= 1)
             {
                 Current_item = e.AddedItems[0].ToString();
@@ -124,6 +126,7 @@ namespace MarketBot.Pages
             Update.IsEnabled = true;
             Update_Price.IsEnabled = true;
             Update_Price.Text = "";
+            Min_Price.Visibility = Visibility.Visible;
 
             if (e.AddedItems.Count >= 1)
             {
