@@ -35,12 +35,12 @@ namespace MarketBot
 
             if (_isDark)
             {
-                Theme.Icon = FontAwesome.WPF.FontAwesomeIcon.MoonOutline;
+                Theme.SolidIcon = Meziantou.WpfFontAwesome.FontAwesomeSolidIcon.Moon;
                 Theme.Foreground = System.Windows.Media.Brushes.Black;
             }
             else
             {
-                Theme.Icon = FontAwesome.WPF.FontAwesomeIcon.SunOutline;
+                Theme.SolidIcon = Meziantou.WpfFontAwesome.FontAwesomeSolidIcon.Sun;
                 Theme.Foreground = System.Windows.Media.Brushes.White;
             }
 
@@ -51,43 +51,34 @@ namespace MarketBot
         {
             MainFrame.Source = new Uri("Pages/OrderPage.xaml", UriKind.RelativeOrAbsolute);
         }
-
+        
         private void Sell_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Source = new Uri("Pages/SellPage.xaml", UriKind.RelativeOrAbsolute);
         }
-
+       
         private void Table_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Source = new Uri("Pages/TablePage.xaml", UriKind.RelativeOrAbsolute);
         }
 
-        private void OnTimedEvent(object? sender, ElapsedEventArgs e)
+        private async void OnTimedEvent(object? sender, ElapsedEventArgs e)
         {
             UpdateStatus();
             LoadUserInfo();
-            if (MarketAPI.TradeRequesTake() == true)
+            if (await MarketAPI.TradeRequesTake() == true || await MarketAPI.TradeRequestGive() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     Notification.WindowNotification("Accept trade on website");
-                    Notification.TelegramNotication("Accept trade on website");
+                    Notification.TelegramNotification("Accept trade on website");
                 }));
             }
-
-            if (MarketAPI.TradeRequestGive() == true)
-            {
-                this.Dispatcher.Invoke(new Action(() =>
-                {
-                    Notification.WindowNotification("Accept trade on website");
-                    Notification.TelegramNotication("Accept trade on website");
-                }));
-            };
         }
 
-        private static void UpdateStatus()
+        private static async void UpdateStatus()
         {
-            bool status = MarketAPI.GetPing();
+            bool status = await MarketAPI.GetPing();
             if (status == true)
                 TradeStatus = true;
         }
@@ -95,11 +86,11 @@ namespace MarketBot
         {
             Task.Run(() =>
             {
-                this.Dispatcher.Invoke(new Action(() =>
+                this.Dispatcher.Invoke(new Action(async () =>
                 {
-                    Money.Content = MarketAPI.GetMoney() + " " + Market_currency;
-                    Photo.Source = SteamAPI.GetAvatar();
-                    Nickname.Content = SteamAPI.GetNickname();
+                    Money.Content = await MarketAPI.GetMoney() + " " + Market_currency;
+                    Photo.Source = await SteamAPI.GetAvatar();
+                    Nickname.Content = await SteamAPI.GetNickname();
 
                     if (TradeStatus == true)
                         Status.Content = "Connected :)";

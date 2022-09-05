@@ -1,24 +1,23 @@
 ﻿using MarketBot.API;
 using Pages;
 using System;
+using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Controls;
 
 namespace MarketBot.Pages
 {
-    /// <summary>
-    /// Interaction logic for OrderPage.xaml
-    /// </summary>
     public partial class OrderPage : Page
     {
-        public string? Selected_Order_Name { get; private set; }
-        public object? Selected_Order { get; private set; }
+        private string? _selected_order_name { get; set; }
+        private object? Selected_Order { get; set; }
         private readonly Timer aTimer;
 
         public OrderPage()
         {
             InitializeComponent();
             Update_Orders();
+
             aTimer = new Timer(45000);
             aTimer.Elapsed += ATimer_Elapsed;
             aTimer.Enabled = true;
@@ -35,9 +34,9 @@ namespace MarketBot.Pages
             page.ShowDialog();
         }
 
-        private void Remove_order_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void Remove_order_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            MarketAPI.SetOrder(Selected_Order_Name, "", "0", "0");
+            await MarketAPI.SetOrder(_selected_order_name, "", "0", "0");
         }
 
         private void Update_order_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -50,27 +49,28 @@ namespace MarketBot.Pages
         {
             Remove_order.IsEnabled = true;
             Update_order.IsEnabled = true;
-
-            if (e.AddedItems.Count >= 1)
+           
+            if (e.AddedItems.Count >= 1 )
             {
                 Selected_Order = e.AddedItems[0];
                 var nameOfProperty = "hash_name";
                 var propertyInfo = e.AddedItems[0].GetType().GetProperty(nameOfProperty);
-                Selected_Order_Name = propertyInfo.GetValue(e.AddedItems[0], null).ToString();
+                _selected_order_name = propertyInfo.GetValue(e.AddedItems[0], null).ToString();
             }
         }
         private void Update_Orders()
         {
-            this.Dispatcher.Invoke(new Action(() =>
+            Task.Run(()=>
+            this.Dispatcher.Invoke(new Action(async () =>
             {
-                var orders_ = MarketAPI.GetOrders();
+                var orders_ = await MarketAPI.GetOrders();
                 Active_Orders.ItemsSource = orders_.orders;
-                var orderslog = MarketAPI.GetOrdersLog();
+
+                var orderslog = await MarketAPI.GetOrdersLog();
 
                 if (orderslog.orders.Count > 0)
                     History_Orders.ItemsSource = orderslog.orders;
-            }));
-            
+            })));
         }
     }
 }
