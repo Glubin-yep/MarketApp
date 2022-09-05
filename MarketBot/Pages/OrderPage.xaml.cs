@@ -32,17 +32,20 @@ namespace MarketBot.Pages
         {
             var page = new WindowForm(null);
             page.ShowDialog();
+            Update_Orders();
         }
 
-        private void Remove_order_Click(object sender, System.Windows.RoutedEventArgs e)
+        private async void Remove_order_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            MarketAPI.SetOrder(_selected_order_name, "", "0", "0");
+            await MarketAPI.SetOrder(_selected_order_name, "", "0", "0");
+            Update_Orders();
         }
 
         private void Update_order_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var page = new WindowForm(Selected_Order);
             page.ShowDialog();
+            Update_Orders();
         }
 
         private void Active_Orders_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -50,7 +53,7 @@ namespace MarketBot.Pages
             Remove_order.IsEnabled = true;
             Update_order.IsEnabled = true;
            
-            if (e.AddedItems.Count >= 1)
+            if (e.AddedItems.Count >= 1 )
             {
                 Selected_Order = e.AddedItems[0];
                 var nameOfProperty = "hash_name";
