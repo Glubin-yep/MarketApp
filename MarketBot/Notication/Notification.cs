@@ -6,13 +6,10 @@ namespace MarketBot.Notication
 {
     public class Notification
     {
-        private const string _botKey = "5701818571:AAFTs8zmjlHqr3ZQHYC4Z5HNtse_3-f9jVA";
-        public static async void TelegramNotification(string text)
+        public static async void TelegramNotication(string text)
         {
-            var bot = new TelegramBotClient(_botKey);
-
-            if(User_Date.Telegram_User_Id != null)
-                await bot.SendTextMessageAsync(User_Date.Telegram_User_Id, text);
+            var bot = new TelegramBotClient("5701818571:AAFTs8zmjlHqr3ZQHYC4Z5HNtse_3-f9jVA");
+            await bot.SendTextMessageAsync(User_Date.Telegram_User_Id, text);
         }
 
         public static async void WindowNotification(string text)

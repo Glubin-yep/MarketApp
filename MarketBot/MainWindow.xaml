@@ -6,10 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
         xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
-        xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
+        xmlns:fa="http://schemas.fontawesome.io/icons/"
         xmlns:local="clr-namespace:MarketBot"
         mc:Ignorable="d"
-        Title="Market App" Width="1450" Height="800" ResizeMode="CanMinimize"  
+        Title="Market App" Width="1450" Height="800" ResizeMode="CanMinimize" 
         Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
 
     <adonisControls:AdonisWindow.TitleBarContent>
@@ -20,7 +20,7 @@
                     FontSize="14"
                     Click="ChangeTheme">
                 <StackPanel>
-                    <fa:FontAwesomeIcon x:Name="Theme"  SolidIcon="Sun" Height="20" Foreground ="White"/>
+                    <fa:ImageAwesome x:Name="Theme"  Icon="SunOutline" FlipOrientation="Horizontal" Height="20" Foreground ="White"/>
                 </StackPanel>
             </Button>
         </StackPanel>

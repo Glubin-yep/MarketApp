@@ -31,12 +31,6 @@ namespace MarketBot.API
             }
             return responseBody;
         }
-        public static async void UpdateInventory()
-        {
-            string actionUrl = $"https://market.csgo.com/api/v2/update-inventory/?key={Market_API_Key}";
-
-            await GetAPI(actionUrl);
-        }
         public static async Task<string> GetMoney()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/get-money?key={Market_API_Key}";
@@ -132,6 +126,11 @@ namespace MarketBot.API
             var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(await GetAPI(actionUrl));
             return ordersRequestGive;
         }
-        
+        public static async void UpdateInventory()
+        {
+            string actionUrl = $"https://market.csgo.com/api/v2/update-inventory/?key={Market_API_Key}";
+
+            await GetAPI(actionUrl);
+        }
     }
 }

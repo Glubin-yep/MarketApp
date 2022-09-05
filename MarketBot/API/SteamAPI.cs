@@ -25,7 +25,7 @@ namespace MarketBot.API
         }
         public static BitmapImage GetImage(string item_name)
         {
-            string Image_Url = $"https://cdn.csgo.com//item/{DateParsing.Get_Id_Name(item_name, "name")}/300.png";
+            string Image_Url = $"https://cdn.csgo.com//item/{DateParsing.Get_Id_Name(item_name, "name")}/150.png";
 
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();

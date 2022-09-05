@@ -35,12 +35,12 @@ namespace MarketBot
 
             if (_isDark)
             {
-                Theme.SolidIcon = Meziantou.WpfFontAwesome.FontAwesomeSolidIcon.Moon;
+                Theme.Icon = FontAwesome.WPF.FontAwesomeIcon.MoonOutline;
                 Theme.Foreground = System.Windows.Media.Brushes.Black;
             }
             else
             {
-                Theme.SolidIcon = Meziantou.WpfFontAwesome.FontAwesomeSolidIcon.Sun;
+                Theme.Icon = FontAwesome.WPF.FontAwesomeIcon.SunOutline;
                 Theme.Foreground = System.Windows.Media.Brushes.White;
             }
 
@@ -66,14 +66,23 @@ namespace MarketBot
         {
             UpdateStatus();
             LoadUserInfo();
-            if (await MarketAPI.TradeRequesTake() == true || await MarketAPI.TradeRequestGive() == true)
+            if (await MarketAPI.TradeRequesTake() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
                     Notification.WindowNotification("Accept trade on website");
-                    Notification.TelegramNotification("Accept trade on website");
+                    Notification.TelegramNotication("Accept trade on website");
                 }));
             }
+
+            if (await MarketAPI.TradeRequestGive() == true)
+            {
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    Notification.WindowNotification("Accept trade on website");
+                    Notification.TelegramNotication("Accept trade on website");
+                }));
+            };
         }
 
         private static async void UpdateStatus()
