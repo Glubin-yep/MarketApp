@@ -34,24 +34,22 @@ namespace MarketBot.Pages
         private async void Iteams_Button_Click(object sender, RoutedEventArgs e)
         {
             Spinner1.Visibility = Visibility.Visible;
-            ListUpdate(1);
-            await Task.Delay(2000);
+            await ListUpdate(1);
             Spinner1.Visibility = Visibility.Collapsed;
         }
 
         private async void Inventory_Button_Click(object sender, RoutedEventArgs e)
         {
             Spinner2.Visibility = Visibility.Visible;
-            ListUpdate(0);
-            await Task.Delay(2000);
+            await ListUpdate(0);
             Spinner2.Visibility = Visibility.Collapsed;
         }
 
-        public  void ListUpdate(int mode) // 0 == inventory // 1 == Items
+        public async  Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items
         {
             if (mode == 0)
             {
-                Task.Run(async () =>
+                var task = Task.Run(async () =>
                 {
                     var items = await MarketAPI.GetSteamInventory();
 
@@ -68,11 +66,13 @@ namespace MarketBot.Pages
                                 new System.ComponentModel.SortDescription("",
                                 System.ComponentModel.ListSortDirection.Ascending));
                     }));
+                    return true;
                 });
+                return await task;
             }
             else
             {
-                Task.Run(async () =>
+                var task = Task.Run(async () =>
                 {
                     var items = await MarketAPI.GetItems();
 
@@ -91,17 +91,20 @@ namespace MarketBot.Pages
                                 new System.ComponentModel.SortDescription("",
                                 System.ComponentModel.ListSortDirection.Ascending));
                     }));
+                    return true;
+
                 });
+                return await task;
             }
 
         }
 
-        private void Sell_Click(object sender, RoutedEventArgs e)
+        private async void Sell_Click(object sender, RoutedEventArgs e)
         {
-            MarketAPI.SetSell(Current_item, Sell_Price.Text, Market_currency);
+            await MarketAPI.SetSell(Current_item, Sell_Price.Text, Market_currency);
             //MessageBox.Show(sell.success + sell.item_id);
-            ListUpdate(0);
-            ListUpdate(1);
+            await ListUpdate(0);
+            await ListUpdate(1);
             Sell.IsEnabled = false;
         }
 
@@ -138,18 +141,18 @@ namespace MarketBot.Pages
             }
         }
 
-        private void Remove_Click(object sender, RoutedEventArgs e)
+        private async void Remove_Click(object sender, RoutedEventArgs e)
         {
-            MarketAPI.SetPrice(Current_sell_item, "0", Market_currency);
+            await MarketAPI.SetPrice(Current_sell_item, "0", Market_currency);
             //MessageBox.Show(update.success + update.error);
-            ListUpdate(1);
+            await ListUpdate(1);
         }
 
-        private void Update_Click(object sender, RoutedEventArgs e)
+        private async void Update_Click(object sender, RoutedEventArgs e)
         {
-            MarketAPI.SetPrice(Current_sell_item, Update_Price.Text, Market_currency);
+            await MarketAPI.SetPrice(Current_sell_item, Update_Price.Text, Market_currency);
             //MessageBox.Show(update.success + update.error);
-            ListUpdate(1);
+            await ListUpdate(1);
             Update.IsEnabled = false;
         }
 
