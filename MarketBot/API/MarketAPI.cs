@@ -1,4 +1,5 @@
-﻿using MarketBot.Parsing;
+﻿using AdonisUI.Controls;
+using MarketBot.Parsing;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -29,7 +30,7 @@ namespace MarketBot.API
             {
 
             }
-            return responseBody;
+            return responseBody != null ? responseBody : string.Empty ;
         }
         public static async void UpdateInventory()
         {

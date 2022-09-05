@@ -24,8 +24,8 @@ namespace MarketBot.Notication
                 BalloonTipTitle = "Market App",
                 BalloonTipText = text
             };
-            ni.ShowBalloonTip(8000);
-            await Task.Delay(8000);
+            ni.ShowBalloonTip(4000);
+            await Task.Delay(4000);
             ni.Dispose();
         }
     }
