@@ -23,7 +23,7 @@ The original software (https://marketapp.online) has some issues :
 
 ## Installation
 
-Download last release [#Release]()
+Download last release [#Release](https://github.com/Glubin-yep/MarketBot/releases)
 
 
 Unzip the zip to any folder
