@@ -22,6 +22,7 @@ namespace MarketBot.API
             bitmapImage.EndInit();
 
             return bitmapImage;
+
         }
         public static BitmapImage GetImage(string item_name)
         {
@@ -39,8 +40,8 @@ namespace MarketBot.API
             string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
 
             User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetAPI(actionUrl));
-
             return user_Date.response.players.First().personaname;
+
         }
     }
 }

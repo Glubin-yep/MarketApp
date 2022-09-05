@@ -1,4 +1,5 @@
-﻿using MarketBot.Date;
+﻿using AdonisUI.Controls;
+using MarketBot.Date;
 using System.IO;
 
 namespace MarketBot.Parsing
@@ -32,6 +33,11 @@ namespace MarketBot.Parsing
                     {
                         User_Date.Telegram_User_Id = line.Split(": ")[1];
                     }
+                }
+                if( User_Date.Market_API_Key == string.Empty || User_Date.StemaId32 == string.Empty || User_Date.Steam_API_Key == string.Empty)
+                {
+                    MessageBox.Show("Entry Steam API or StemaId32 or Market API", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    App.Current.Shutdown();
                 }
             }
         }
