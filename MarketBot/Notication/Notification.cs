@@ -1,18 +1,19 @@
-﻿using MarketBot.Date;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Telegram.Bot;
 
 namespace MarketBot.Notication
 {
     public class Notification
     {
+        public static string? Telegram_User_Id { get; set; }
+
         private const string _botKey = "5701818571:AAFTs8zmjlHqr3ZQHYC4Z5HNtse_3-f9jVA";
         public static async void TelegramNotification(string text)
         {
             var bot = new TelegramBotClient(_botKey);
 
-            if(User_Date.Telegram_User_Id != null)
-                await bot.SendTextMessageAsync(User_Date.Telegram_User_Id, text);
+            if (Telegram_User_Id != null)
+                await bot.SendTextMessageAsync(Telegram_User_Id, text);
         }
 
         public static async void WindowNotification(string text)

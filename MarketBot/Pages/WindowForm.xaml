@@ -25,7 +25,7 @@
         
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Grid.Row="0" >
             <TextBox x:Name="MarketName"  Text="Market Name" Height="35" Margin="15" Width="220" VerticalAlignment="Center" HorizontalAlignment="Center" TextChanged="TextBox_TextChanged"/>
-            <ComboBox Name="Wear_list" Height="35" Width="220" SelectionChanged="Wear_list_SelectionChanged" >
+            <ComboBox Name="Wear_list" Height="35" Width="220" SelectionChanged="Wear_list_SelectionChanged" SelectedIndex="0" >
                 <TextBlock Text="Factory New"/>
                 <TextBlock Text="Minimal Wear"/>
                 <TextBlock Text="Field-Tested"/>

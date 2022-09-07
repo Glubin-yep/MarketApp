@@ -84,9 +84,10 @@ namespace MarketBot
          
         private void MyNotifyIcon_MouseDoubleClick(object? sender, System.Windows.Forms.MouseEventArgs e)
         {
+            this.Show();
             this.WindowState = WindowState.Normal;
             MyNotifyIcon.Visible = false;
-            this.ShowInTaskbar = true;
+            this.ShowInTaskbar = true;            
         }
 
         private void AdonisWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -99,6 +100,7 @@ namespace MarketBot
                 this.ShowInTaskbar = false;
                 Notification.WindowNotification("Application minimized to tray.");
                 this.WindowState = WindowState.Minimized;
+                this.Hide();
             }
         }
        

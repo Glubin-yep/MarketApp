@@ -7,10 +7,6 @@ namespace MarketBot.Date
     {
         public static string? Current_sell_item { get; set; }
         public static string? Current_item { get; set; }
-        public static string? Market_API_Key { get; set; } 
-        public static string? StemaId32 { get; set; }
-        public static string? Steam_API_Key { get; set; }
-        public static string? Telegram_User_Id { get; set; }
         public static string? Market_currency { get; set; }
         public static bool TradeStatus { get; set; }
 

@@ -1,8 +1,6 @@
 ﻿using AdonisUI.Controls;
 using MarketBot.API;
 using MarketBot.Parsing;
-using System;
-using System.Windows.Media.Imaging;
 
 namespace Pages
 {
@@ -55,11 +53,19 @@ namespace Pages
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
-            GetImage();
+            try
+            {
+                Image.Source = SteamAPI.GetImage(MarketName.Text, Wear_list.Text);
+            }
+            catch { }
         }
         private void Wear_list_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
-            GetImage();
+            try
+            {
+                Image.Source = SteamAPI.GetImage(MarketName.Text, Wear_list.Text);
+            }
+            catch { }
         }
 
         private void TextBox_PreviewTextInput_Count(object sender, System.Windows.Input.TextCompositionEventArgs e)
@@ -70,24 +76,6 @@ namespace Pages
         {
             CustomValidation.Validation_TextBox(sender, e);
             Add.IsEnabled = true;
-        }
-        private void GetImage()
-        {
-            try
-            {
-                string Image_Url = $"https://cdn.csgo.com//item/{MarketName.Text} ({Wear_list.Text})/300.png";
-
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.UriSource = new Uri(Image_Url);
-                bitmapImage.EndInit();
-
-                Image.Source = bitmapImage;
-            }
-            catch
-            {
-
-            }
         }
     }
 }
