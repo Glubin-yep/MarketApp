@@ -1,5 +1,4 @@
-﻿using AdonisUI.Controls;
-using MarketBot.Parsing;
+﻿using MarketBot.Parsing;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -11,7 +10,7 @@ namespace MarketBot.API
     class MarketAPI
     {
         public static string? Market_API_Key { get; set; }
-        
+
         public static async Task<string> GetAPI(string url)
         {
             string responseBody = string.Empty;
@@ -32,7 +31,7 @@ namespace MarketBot.API
             {
 
             }
-            return responseBody != null ? responseBody : string.Empty ;
+            return responseBody != null ? responseBody : string.Empty;
         }
         public static async void UpdateInventory()
         {
@@ -143,6 +142,6 @@ namespace MarketBot.API
             var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(await GetAPI(actionUrl));
             return ordersRequestGive;
         }
-        
+
     }
 }

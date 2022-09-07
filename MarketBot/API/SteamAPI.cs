@@ -33,9 +33,9 @@ namespace MarketBot.API
             string Image_Url = string.Empty;
 
             if (wear == null)
-                 Image_Url = $"https://cdn.csgo.com//item/{id_name}/300.png";
+                Image_Url = $"https://cdn.csgo.com//item/{id_name}/300.png";
             else
-                 Image_Url = $"https://cdn.csgo.com//item/{id_name} ({wear})/300.png";
+                Image_Url = $"https://cdn.csgo.com//item/{id_name} ({wear})/300.png";
 
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();

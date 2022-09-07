@@ -13,7 +13,7 @@ namespace MarketBot
 {
     public partial class MainWindow : AdonisWindow
     {
-        private readonly Timer aTimer,bTimer;
+        private readonly Timer aTimer, bTimer;
         private bool _isDark = true;
         private System.Windows.Forms.NotifyIcon MyNotifyIcon;
 
@@ -30,7 +30,7 @@ namespace MarketBot
             aTimer.Enabled = true;
 
             bTimer = new Timer(40_000);
-            bTimer.Elapsed += (o,e) => CheckTrade();
+            bTimer.Elapsed += (o, e) => CheckTrade();
             bTimer.Enabled = true;
 
             MyNotifyIcon = new System.Windows.Forms.NotifyIcon();
@@ -41,7 +41,7 @@ namespace MarketBot
 
         private void MyNotifyIcon_MouseClick(object? sender, System.Windows.Forms.MouseEventArgs e)
         {
-            if(e.Button == System.Windows.Forms.MouseButtons.Right)
+            if (e.Button == System.Windows.Forms.MouseButtons.Right)
             {
                 MyNotifyIcon.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
                 MyNotifyIcon.ContextMenuStrip.Items.Add("Exit");
@@ -81,17 +81,17 @@ namespace MarketBot
         {
             MainFrame.Source = new Uri("Pages/TablePage.xaml", UriKind.RelativeOrAbsolute);
         }
-         
+
         private void MyNotifyIcon_MouseDoubleClick(object? sender, System.Windows.Forms.MouseEventArgs e)
         {
             this.Show();
             this.WindowState = WindowState.Normal;
             MyNotifyIcon.Visible = false;
-            this.ShowInTaskbar = true;            
+            this.ShowInTaskbar = true;
         }
 
         private void AdonisWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        { 
+        {
             if (WindowState != WindowState.Minimized)
             {
                 e.Cancel = true;
@@ -103,7 +103,7 @@ namespace MarketBot
                 this.Hide();
             }
         }
-       
+
         private async void CheckTrade()
         {
             if (await MarketAPI.TradeRequesTake() == true || await MarketAPI.TradeRequestGive() == true)
