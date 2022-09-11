@@ -42,7 +42,7 @@ namespace MarketBot.Parsing
                 }
             }
         }
-        public static string Get_Id_Name(string current_item, string mode)
+        public static string Get_Id_Name(string? current_item, string? mode)
         {
             string[] strings = current_item.Split(" /");
             if (mode == "name")

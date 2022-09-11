@@ -13,7 +13,7 @@ namespace MarketBot.API
 
         public static async Task<string> GetAPI(string url)
         {
-            string responseBody = string.Empty;
+            string responseBody = null;
             try
             {
                 using (var client = new HttpClient())
@@ -29,7 +29,7 @@ namespace MarketBot.API
             }
             catch
             {
-
+                
             }
             return responseBody != null ? responseBody : string.Empty;
         }
@@ -68,7 +68,7 @@ namespace MarketBot.API
             Inventory user_Date = JsonConvert.DeserializeObject<Inventory>(await GetAPI(actionUrl));
             return user_Date;
         }
-        public static async Task<MarketPrice> GetMarketPrice(string item_name)
+        public static async Task<MarketPrice> GetMarketPrice(string? item_name)
         {
             item_name = DateParsing.Get_Id_Name(item_name, "name");
             string actionUrl = $"https://market.csgo.com/api/v2/search-item-by-hash-name?key={Market_API_Key}&hash_name={item_name}";
@@ -83,7 +83,7 @@ namespace MarketBot.API
             MarketHistory user_history = JsonConvert.DeserializeObject<MarketHistory>(await GetAPI(actionUrl));
             return user_history;
         }
-        public static async Task<Sell> SetSell(string id, string price, string currency)
+        public static async Task<Sell> SetSell(string? id, string? price, string? currency)
         {
             id = DateParsing.Get_Id_Name(id, "id");
             string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key={Market_API_Key}&id={id}&price={price}00&cur={currency}";
@@ -91,7 +91,7 @@ namespace MarketBot.API
             Sell user_Date = JsonConvert.DeserializeObject<Sell>(await GetAPI(actionUrl));
             return user_Date;
         }
-        public static async Task<Update> SetPrice(string item_id, string price, string currency)
+        public static async Task<Update> SetPrice(string? item_id, string? price, string? currency)
         {
             item_id = DateParsing.Get_Id_Name(item_id, "id");
             string actionUrl = $"https://market.csgo.com/api/v2/set-price?key={Market_API_Key}&item_id={item_id}&price={price}00&cur={currency}";
@@ -128,7 +128,7 @@ namespace MarketBot.API
             var ordersRequestGive = JsonConvert.DeserializeObject<OrdersDate>(await GetAPI(actionUrl));
             return ordersRequestGive;
         }
-        public static async Task<OrdersDate> SetOrder(string market_hash_name, string wear, string count, string price) // if price == 0 order deleted
+        public static async Task<OrdersDate> SetOrder(string? market_hash_name, string? wear, string? count, string? price) // if price == 0 order deleted
         {
             string actionUrl = $"https://market.csgo.com/api/v2/set-order?key={Market_API_Key}&market_hash_name={market_hash_name} {wear}&count={count}&price={price}";
 

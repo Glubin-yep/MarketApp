@@ -8,7 +8,6 @@ namespace MarketBot.Date
         public static string? Current_sell_item { get; set; }
         public static string? Current_item { get; set; }
         public static string? Market_currency { get; set; }
-        public static bool TradeStatus { get; set; }
 
         public struct Balans
         {

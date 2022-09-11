@@ -27,7 +27,7 @@ namespace MarketBot.API
             return bitmapImage;
 
         }
-        public static BitmapImage GetImage(string item_name, string wear = null)
+        public static BitmapImage GetImage(string? item_name, string? wear = null)
         {
             string id_name = DateParsing.Get_Id_Name(item_name, "name");
             string Image_Url = string.Empty;

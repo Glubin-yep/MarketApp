@@ -7,7 +7,7 @@ namespace Pages
     public partial class WindowForm : AdonisWindow
     {
         private object _current_order;
-        public WindowForm(object current_order)
+        public WindowForm(object current_order = null)
         {
             InitializeComponent();
             _current_order = current_order;

@@ -8,6 +8,7 @@ namespace MarketBot.Notication
         public static string? Telegram_User_Id { get; set; }
 
         private const string _botKey = "5701818571:AAFTs8zmjlHqr3ZQHYC4Z5HNtse_3-f9jVA";
+
         public static async void TelegramNotification(string text)
         {
             var bot = new TelegramBotClient(_botKey);
