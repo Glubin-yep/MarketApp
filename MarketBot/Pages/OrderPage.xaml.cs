@@ -9,8 +9,9 @@ namespace MarketBot.Pages
 {
     public partial class OrderPage : Page
     {
-        private string? _selected_order_name { get; set; }
+        private string? Selected_order_name { get; set; }
         private object? Selected_Order { get; set; }
+
         private readonly Timer aTimer;
 
         public OrderPage()
@@ -30,13 +31,13 @@ namespace MarketBot.Pages
 
         private void Add_order_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var page = new WindowForm(null);
+            var page = new WindowForm();
             page.ShowDialog();
         }
 
         private async void Remove_order_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            await MarketAPI.SetOrder(_selected_order_name, "", "0", "0");
+            await MarketAPI.SetOrder(Selected_order_name, "", "0", "0");
         }
 
         private void Update_order_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -49,18 +50,18 @@ namespace MarketBot.Pages
         {
             Remove_order.IsEnabled = true;
             Update_order.IsEnabled = true;
-           
-            if (e.AddedItems.Count >= 1 )
+
+            if (e.AddedItems.Count >= 1)
             {
                 Selected_Order = e.AddedItems[0];
                 var nameOfProperty = "hash_name";
                 var propertyInfo = e.AddedItems[0].GetType().GetProperty(nameOfProperty);
-                _selected_order_name = propertyInfo.GetValue(e.AddedItems[0], null).ToString();
+                Selected_order_name = propertyInfo.GetValue(e.AddedItems[0], null).ToString();
             }
         }
         private void Update_Orders()
         {
-            Task.Run(()=>
+            Task.Run(() =>
             this.Dispatcher.Invoke(new Action(async () =>
             {
                 var orders_ = await MarketAPI.GetOrders();

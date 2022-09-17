@@ -1,5 +1,4 @@
-﻿using AdonisUI.Controls;
-using MarketBot.Parsing;
+﻿using MarketBot.Parsing;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -10,6 +9,8 @@ namespace MarketBot.API
 {
     class MarketAPI
     {
+        public static string? Market_API_Key { get; set; }
+
         public static async Task<string> GetAPI(string url)
         {
             string responseBody = string.Empty;
@@ -30,7 +31,7 @@ namespace MarketBot.API
             {
 
             }
-            return responseBody != null ? responseBody : string.Empty ;
+            return responseBody;
         }
         public static async void UpdateInventory()
         {
@@ -43,15 +44,18 @@ namespace MarketBot.API
             string actionUrl = $"https://market.csgo.com/api/v2/get-money?key={Market_API_Key}";
 
             Balans user_Date = JsonConvert.DeserializeObject<Balans>(await GetAPI(actionUrl));
-            Market_currency = user_Date.currency;
-            return user_Date.money.ToString();
+            Market_currency = user_Date.Currency;
+            return user_Date.Money.ToString();
         }
         public static async Task<bool> GetPing()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/ping?key={Market_API_Key}";
-
-            Ping user_Date = JsonConvert.DeserializeObject<Ping>(await GetAPI(actionUrl));
-            return user_Date.online;
+            try
+            {
+                Ping user_Date = JsonConvert.DeserializeObject<Ping>(await GetAPI(actionUrl));
+                return user_Date.online;
+            }
+            catch { return false; }
         }
         public static async Task<Items> GetItems()
         {
@@ -67,7 +71,7 @@ namespace MarketBot.API
             Inventory user_Date = JsonConvert.DeserializeObject<Inventory>(await GetAPI(actionUrl));
             return user_Date;
         }
-        public static async Task<MarketPrice> GetMarketPrice(string item_name)
+        public static async Task<MarketPrice> GetMarketPrice(string? item_name)
         {
             item_name = DateParsing.Get_Id_Name(item_name, "name");
             string actionUrl = $"https://market.csgo.com/api/v2/search-item-by-hash-name?key={Market_API_Key}&hash_name={item_name}";
@@ -82,7 +86,7 @@ namespace MarketBot.API
             MarketHistory user_history = JsonConvert.DeserializeObject<MarketHistory>(await GetAPI(actionUrl));
             return user_history;
         }
-        public static async Task<Sell> SetSell(string id, string price, string currency)
+        public static async Task<Sell> SetSell(string? id, string? price, string? currency)
         {
             id = DateParsing.Get_Id_Name(id, "id");
             string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key={Market_API_Key}&id={id}&price={price}00&cur={currency}";
@@ -90,7 +94,7 @@ namespace MarketBot.API
             Sell user_Date = JsonConvert.DeserializeObject<Sell>(await GetAPI(actionUrl));
             return user_Date;
         }
-        public static async Task<Update> SetPrice(string item_id, string price, string currency)
+        public static async Task<Update> SetPrice(string? item_id, string? price, string? currency)
         {
             item_id = DateParsing.Get_Id_Name(item_id, "id");
             string actionUrl = $"https://market.csgo.com/api/v2/set-price?key={Market_API_Key}&item_id={item_id}&price={price}00&cur={currency}";
@@ -100,17 +104,25 @@ namespace MarketBot.API
         }
         public static async Task<bool> TradeRequesTake()
         {
-            string actionUrl = $"https://market.csgo.com/api/v2/trade-request-take?key={Market_API_Key}";
+            try
+            {
+                string actionUrl = $"https://market.csgo.com/api/v2/trade-request-take?key={Market_API_Key}";
 
-            TradeRequestGive tradeRequestTake = JsonConvert.DeserializeObject<TradeRequestGive>(await GetAPI(actionUrl));
-            return tradeRequestTake.success;
+                TradeRequestGive tradeRequestTake = JsonConvert.DeserializeObject<TradeRequestGive>(await GetAPI(actionUrl));
+                return tradeRequestTake.success;
+            }
+            catch { return false; }
         }
         public static async Task<bool> TradeRequestGive()
         {
-            string actionUrl = $"https://market.csgo.com/api/v2/trade-request-give-p2p?key={Market_API_Key}";
+            try
+            {
+                string actionUrl = $"https://market.csgo.com/api/v2/trade-request-give-p2p?key={Market_API_Key}";
 
-            TradeRequestGive tradeRequestGive = JsonConvert.DeserializeObject<TradeRequestGive>(await GetAPI(actionUrl));
-            return tradeRequestGive.success;
+                TradeRequestGive tradeRequestGive = JsonConvert.DeserializeObject<TradeRequestGive>(await GetAPI(actionUrl));
+                return tradeRequestGive.success;
+            }
+            catch { return false; }
         }
         public static async Task<OrdersDate> GetOrders()
         {
@@ -119,7 +131,7 @@ namespace MarketBot.API
             var ordersRequestGive = JsonConvert.DeserializeObject<OrdersDate>(await GetAPI(actionUrl));
             return ordersRequestGive;
         }
-        public static async Task<OrdersDate> SetOrder(string market_hash_name, string wear, string count, string price) // if price == 0 order deleted
+        public static async Task<OrdersDate> SetOrder(string? market_hash_name, string? wear, string? count, string? price) // if price == 0 order deleted
         {
             string actionUrl = $"https://market.csgo.com/api/v2/set-order?key={Market_API_Key}&market_hash_name={market_hash_name} {wear}&count={count}&price={price}";
 
@@ -133,6 +145,6 @@ namespace MarketBot.API
             var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(await GetAPI(actionUrl));
             return ordersRequestGive;
         }
-        
+
     }
 }

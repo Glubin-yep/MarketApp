@@ -1,8 +1,8 @@
-﻿using MarketBot.API;
+﻿using AdonisUI.Controls;
+using MarketBot.API;
 using MarketBot.Parsing;
 using System;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using static MarketBot.Date.User_Date;
 
@@ -31,21 +31,21 @@ namespace MarketBot.Pages
             });
         }
 
-        private async void Iteams_Button_Click(object sender, RoutedEventArgs e)
+        private async void Iteams_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Spinner1.Visibility = Visibility.Visible;
+            Spinner1.Visibility = System.Windows.Visibility.Visible;
             await ListUpdate(1);
-            Spinner1.Visibility = Visibility.Collapsed;
+            Spinner1.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        private async void Inventory_Button_Click(object sender, RoutedEventArgs e)
+        private async void Inventory_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Spinner2.Visibility = Visibility.Visible;
+            Spinner2.Visibility = System.Windows.Visibility.Visible;
             await ListUpdate(0);
-            Spinner2.Visibility = Visibility.Collapsed;
+            Spinner2.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        public async  Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items
+        public async Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items
         {
             if (mode == 0)
             {
@@ -99,10 +99,15 @@ namespace MarketBot.Pages
 
         }
 
-        private async void Sell_Click(object sender, RoutedEventArgs e)
+        private async void Sell_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            await MarketAPI.SetSell(Current_item, Sell_Price.Text, Market_currency);
-            //MessageBox.Show(sell.success + sell.item_id);
+            var sell = await MarketAPI.SetSell(Current_item, Sell_Price.Text, Market_currency);
+
+            if (sell.success == true)
+                MessageBox.Show("Item is successfully add for sale", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                MessageBox.Show("Item not added for sale", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
             await ListUpdate(0);
             await ListUpdate(1);
             Sell.IsEnabled = false;
@@ -112,7 +117,7 @@ namespace MarketBot.Pages
         {
             Sell_Price.IsEnabled = true;
             Sell_Price.Text = "";
-            Min_Price.Visibility = Visibility.Visible;
+            Min_Price.Visibility = System.Windows.Visibility.Visible;
 
             if (e.AddedItems.Count >= 1)
             {
@@ -129,7 +134,7 @@ namespace MarketBot.Pages
             Update.IsEnabled = true;
             Update_Price.IsEnabled = true;
             Update_Price.Text = "";
-            Min_Price.Visibility = Visibility.Visible;
+            Min_Price.Visibility = System.Windows.Visibility.Visible;
 
             if (e.AddedItems.Count >= 1)
             {
@@ -141,17 +146,27 @@ namespace MarketBot.Pages
             }
         }
 
-        private async void Remove_Click(object sender, RoutedEventArgs e)
+        private async void Remove_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            await MarketAPI.SetPrice(Current_sell_item, "0", Market_currency);
-            //MessageBox.Show(update.success + update.error);
+            var update = await MarketAPI.SetPrice(Current_sell_item, "0", Market_currency);
+
+            if (update.success == true)
+                MessageBox.Show("Item successfully deleted", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                MessageBox.Show("Item not deleted", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
             await ListUpdate(1);
         }
 
-        private async void Update_Click(object sender, RoutedEventArgs e)
+        private async void Update_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            await MarketAPI.SetPrice(Current_sell_item, Update_Price.Text, Market_currency);
-            //MessageBox.Show(update.success + update.error);
+            var price = await MarketAPI.SetPrice(Current_sell_item, Update_Price.Text, Market_currency);
+
+            if (price.success == true)
+                MessageBox.Show("The item price has been successfully updated", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+            else
+                MessageBox.Show("The product price was not successfully updated", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+
             await ListUpdate(1);
             Update.IsEnabled = false;
         }
