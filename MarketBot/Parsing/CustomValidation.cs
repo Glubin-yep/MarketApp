@@ -10,10 +10,10 @@ namespace MarketBot.Parsing
             string[] strings = ((TextBox)sender).Text.Split(".");
             if (e.Text == ".")
             {
-                if (!((TextBox)sender).Text.Contains("."))
+                if (!((TextBox)sender).Text.Contains('.'))
                     approvedDecimalPoint = true;
             }
-            if (((TextBox)sender).Text.Contains("."))
+            if (((TextBox)sender).Text.Contains('.'))
             {
                 approvedDecimalPoint = true;
             }

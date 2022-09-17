@@ -13,7 +13,7 @@ namespace MarketBot.API
 
         public static async Task<string> GetAPI(string url)
         {
-            string responseBody = null;
+            string responseBody = string.Empty;
             try
             {
                 using (var client = new HttpClient())
@@ -29,9 +29,9 @@ namespace MarketBot.API
             }
             catch
             {
-                
+
             }
-            return responseBody != null ? responseBody : string.Empty;
+            return responseBody;
         }
         public static async void UpdateInventory()
         {
@@ -44,15 +44,18 @@ namespace MarketBot.API
             string actionUrl = $"https://market.csgo.com/api/v2/get-money?key={Market_API_Key}";
 
             Balans user_Date = JsonConvert.DeserializeObject<Balans>(await GetAPI(actionUrl));
-            Market_currency = user_Date.currency;
-            return user_Date.money.ToString();
+            Market_currency = user_Date.Currency;
+            return user_Date.Money.ToString();
         }
         public static async Task<bool> GetPing()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/ping?key={Market_API_Key}";
-
-            Ping user_Date = JsonConvert.DeserializeObject<Ping>(await GetAPI(actionUrl));
-            return user_Date.online;
+            try
+            {
+                Ping user_Date = JsonConvert.DeserializeObject<Ping>(await GetAPI(actionUrl));
+                return user_Date.online;
+            }
+            catch { return false; }
         }
         public static async Task<Items> GetItems()
         {

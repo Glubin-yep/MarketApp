@@ -15,7 +15,7 @@ namespace MarketBot
     {
         private readonly Timer aTimer, bTimer;
         private bool _isDark = true;
-        private System.Windows.Forms.NotifyIcon MyNotifyIcon;
+        private readonly System.Windows.Forms.NotifyIcon MyNotifyIcon;
 
         public MainWindow()
         {
