@@ -26,7 +26,7 @@ namespace MarketBot.Pages
                 this.Dispatcher.Invoke(new Action(async () =>
                 {
                     var history = await MarketAPI.GetMarketHistory();
-                    History_LB.ItemsSource = history.data;
+                    History_LB.ItemsSource = history.Data;
                 }));
             });
         }
@@ -45,7 +45,7 @@ namespace MarketBot.Pages
             Spinner2.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        public async Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items
+        public async Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items // its very bad // TODO rewrite
         {
             if (mode == 0)
             {
@@ -57,10 +57,10 @@ namespace MarketBot.Pages
                     {
                         InventoryLB.Items.Clear();
 
-                        for (int i = 0; i <= items.items.Count - 1; i++)
+                        for (int i = 0; i <= items.Items.Count - 1; i++)
                         {
-                            InventoryLB.Items.Add(items.items[i].market_hash_name
-                                + " / " + items.items[i].id);
+                            InventoryLB.Items.Add(items.Items[i].Market_hash_name
+                                + " / " + items.Items[i].Id);
                         }
                         InventoryLB.Items.SortDescriptions.Add(
                                 new System.ComponentModel.SortDescription("",
@@ -80,12 +80,12 @@ namespace MarketBot.Pages
                     {
                         ItemsLB.Items.Clear();
 
-                        for (int i = 0; i <= items.items.Count - 1; i++)
+                        for (int i = 0; i <= items.Items.Count - 1; i++)
                         {
-                            ItemsLB.Items.Add(items.items[i].market_hash_name + " / "
-                                + items.items[i].price + " "
-                                + items.items[i].currency
-                                + " / " + items.items[i].item_id);
+                            ItemsLB.Items.Add(items.Items[i].Market_hash_name + " / "
+                                + items.Items[i].Price + " "
+                                + items.Items[i].Currency
+                                + " / " + items.Items[i].Item_id);
                         }
                         ItemsLB.Items.SortDescriptions.Add(
                                 new System.ComponentModel.SortDescription("",
@@ -103,7 +103,7 @@ namespace MarketBot.Pages
         {
             var sell = await MarketAPI.SetSell(Current_item, Sell_Price.Text, Market_currency);
 
-            if (sell.success == true)
+            if (sell.Success == true)
                 MessageBox.Show("Item is successfully add for sale", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             else
                 MessageBox.Show("Item not added for sale", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -121,9 +121,9 @@ namespace MarketBot.Pages
 
             if (e.AddedItems.Count >= 1)
             {
-                Current_item = e.AddedItems[0].ToString();
+                Current_item = e.AddedItems[0]?.ToString();
                 var price = await MarketAPI.GetMarketPrice(Current_item);
-                ItemInfo.DataContext = price.data;
+                ItemInfo.DataContext = price.Data;
                 Item_Image.Source = SteamAPI.GetImage(Current_item);
             }
         }
@@ -138,9 +138,9 @@ namespace MarketBot.Pages
 
             if (e.AddedItems.Count >= 1)
             {
-                Current_sell_item = e.AddedItems[0].ToString();
+                Current_sell_item = e.AddedItems[0]?.ToString();
                 var price = await MarketAPI.GetMarketPrice(Current_sell_item);
-                ItemInfo.DataContext = price.data;
+                ItemInfo.DataContext = price.Data;
                 Item_Image.Source = SteamAPI.GetImage(Current_sell_item);
 
             }
@@ -150,7 +150,7 @@ namespace MarketBot.Pages
         {
             var update = await MarketAPI.SetPrice(Current_sell_item, "0", Market_currency);
 
-            if (update.success == true)
+            if (update.Success == true)
                 MessageBox.Show("Item successfully deleted", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             else
                 MessageBox.Show("Item not deleted", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -162,7 +162,7 @@ namespace MarketBot.Pages
         {
             var price = await MarketAPI.SetPrice(Current_sell_item, Update_Price.Text, Market_currency);
 
-            if (price.success == true)
+            if (price.Success == true)
                 MessageBox.Show("The item price has been successfully updated", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
             else
                 MessageBox.Show("The product price was not successfully updated", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
