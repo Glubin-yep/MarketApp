@@ -10,8 +10,8 @@ namespace MarketBot.API
 {
     class SteamAPI
     {
-        public static string? StemaId32 { get; set; }
-        public static string? Steam_API_Key { get; set; }
+        public static string StemaId32 { get; set; }
+        public static string Steam_API_Key { get; set; }
 
         public static async Task<BitmapImage> GetAvatar()
         {
@@ -21,16 +21,16 @@ namespace MarketBot.API
 
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri($"{user_Date.response.players.First().avatarfull}"); ;
+            bitmapImage.UriSource = new Uri($"{user_Date.Response.Players.First().Avatarfull}"); ;
             bitmapImage.EndInit();
 
             return bitmapImage;
 
         }
-        public static BitmapImage GetImage(string? item_name, string? wear = null)
+        public static BitmapImage GetImage(string item_name, string? wear = null)
         {
             string id_name = DateParsing.Get_Id_Name(item_name, "name");
-            string Image_Url = string.Empty;
+            string Image_Url;
 
             if (wear == null)
                 Image_Url = $"https://cdn.csgo.com//item/{id_name}/300.png";
@@ -49,7 +49,7 @@ namespace MarketBot.API
             string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
 
             User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetAPI(actionUrl));
-            return user_Date.response.players.First().personaname;
+            return user_Date.Response.Players.First().Personaname;
 
         }
     }

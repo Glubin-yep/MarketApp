@@ -33,8 +33,10 @@ namespace MarketBot
             bTimer.Elapsed += (o, e) => CheckTrade();
             bTimer.Enabled = true;
 
-            MyNotifyIcon = new System.Windows.Forms.NotifyIcon();
-            MyNotifyIcon.Icon = new System.Drawing.Icon("MarketApp.ico");
+            MyNotifyIcon = new System.Windows.Forms.NotifyIcon
+            {
+                Icon = new System.Drawing.Icon("MarketApp.ico")
+            };
             MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
             MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
         }

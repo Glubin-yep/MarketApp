@@ -6,8 +6,12 @@ namespace Pages
 {
     public partial class WindowForm : AdonisWindow
     {
-        private object _current_order;
-        public WindowForm(object current_order = null)
+        private readonly object? _current_order;
+        public WindowForm()
+        {
+            InitializeComponent();
+        }
+        public WindowForm(object current_order)
         {
             InitializeComponent();
             _current_order = current_order;
@@ -42,7 +46,7 @@ namespace Pages
         {
             var status = await MarketAPI.SetOrder(MarketName.Text, "(" + Wear_list.Text + ")", Count.Text, Price.Text.Replace(".", ""));
 
-            if (status.success == true)
+            if (status.Success == true)
             {
                 MessageBox.Show("Order successfully added :)", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.Close();

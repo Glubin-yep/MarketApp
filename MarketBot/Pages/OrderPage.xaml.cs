@@ -55,8 +55,8 @@ namespace MarketBot.Pages
             {
                 Selected_Order = e.AddedItems[0];
                 var nameOfProperty = "hash_name";
-                var propertyInfo = e.AddedItems[0].GetType().GetProperty(nameOfProperty);
-                Selected_order_name = propertyInfo.GetValue(e.AddedItems[0], null).ToString();
+                var propertyInfo = e.AddedItems[0]?.GetType().GetProperty(nameOfProperty);
+                Selected_order_name = propertyInfo?.GetValue(e.AddedItems[0], null)?.ToString();
             }
         }
         private void Update_Orders()
@@ -65,12 +65,12 @@ namespace MarketBot.Pages
             this.Dispatcher.Invoke(new Action(async () =>
             {
                 var orders_ = await MarketAPI.GetOrders();
-                Active_Orders.ItemsSource = orders_.orders;
+                Active_Orders.ItemsSource = orders_.Orders;
 
                 var orderslog = await MarketAPI.GetOrdersLog();
 
-                if (orderslog.orders.Count > 0)
-                    History_Orders.ItemsSource = orderslog.orders;
+                if (orderslog.Orders.Count > 0)
+                    History_Orders.ItemsSource = orderslog.Orders;
             })));
         }
     }
