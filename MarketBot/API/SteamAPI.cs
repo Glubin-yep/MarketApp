@@ -4,7 +4,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using static MarketBot.Date.User_Date;
+using static MarketApp.Date.UserDate;
+using static MarketBot.Date.MarketDate;
 
 namespace MarketBot.API
 {
@@ -13,11 +14,11 @@ namespace MarketBot.API
         public static string StemaId32 { get; set; }
         public static string Steam_API_Key { get; set; }
 
-        public static async Task<BitmapImage> GetAvatar()
+        public static async Task<BitmapImage> GetAvatarAsync()
         {
             string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
 
-            User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetAPI(actionUrl));
+            User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
 
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
@@ -44,11 +45,11 @@ namespace MarketBot.API
 
             return bitmapImage;
         }
-        public static async Task<string> GetNickname()
+        public static async Task<string> GetNicknameAsync()
         {
             string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
 
-            User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetAPI(actionUrl));
+            User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
             return user_Date.Response.Players.First().Personaname;
 
         }

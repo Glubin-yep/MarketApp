@@ -37,7 +37,7 @@ namespace MarketBot.Pages
 
         private async void Remove_order_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            await MarketAPI.SetOrder(Selected_order_name, "", "0", "0");
+            await MarketAPI.SetOrderAsync(Selected_order_name, "", "0", "0");
         }
 
         private void Update_order_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -64,10 +64,10 @@ namespace MarketBot.Pages
             Task.Run(() =>
             this.Dispatcher.Invoke(new Action(async () =>
             {
-                var orders_ = await MarketAPI.GetOrders();
+                var orders_ = await MarketAPI.GetOrdersAsync();
                 Active_Orders.ItemsSource = orders_.Orders;
 
-                var orderslog = await MarketAPI.GetOrdersLog();
+                var orderslog = await MarketAPI.GetOrdersLogAsync();
 
                 if (orderslog.Orders.Count > 0)
                     History_Orders.ItemsSource = orderslog.Orders;

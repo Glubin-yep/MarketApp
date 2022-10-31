@@ -3,42 +3,12 @@ using System.Collections.Generic;
 
 namespace MarketBot.Date
 {
-    class User_Date
+    class MarketDate
     {
         public static string Current_sell_item { get; set; } = string.Empty; 
         public static string Current_item { get; set; } = string.Empty;
         public static string Market_currency { get; set; } = string.Empty;
-
-        public struct Balans
-        {
-            public double Money { get; set; }
-            public string Currency { get; set; }
-            public bool Success { get; set; }
-        }
-
-        public struct Player
-        {
-            public string Personaname { get; set; }
-            public string Avatarfull { get; set; }
-        }
-
-        public struct Response
-        {
-            public IList<Player> Players { get; set; }
-        }
-
-        public struct User
-        {
-            public Response Response { get; set; }
-        }
-        public struct PingInfo
-        {
-            public bool Success { get; set; }
-            public string Ping { get; set; }
-            public bool Online { get; set; }
-            public bool P2P { get; set; }
-            public bool SteamApiKey { get; set; }
-        }
+        
         public struct Item
         {
             public string Item_id { get; set; }
@@ -209,55 +179,6 @@ namespace MarketBot.Date
             public string Secret { get; set; }
             public IList<object> Items { get; set; }
             public string Trade { get; set; }
-        }
-        public struct Order
-        {
-            public string Hash_name { get; set; }
-            public string Count { get; set; }
-            public string Date { get; set; }
-            private string price_;
-            public string Price
-            {
-                get
-                {
-                    if (price_.Length <= 2)
-                        return "0," + price_ + " " + Market_currency; // its so bad :(
-                    else
-                        return price_.Insert(price_.Length - 2, ",") + " " + Market_currency;
-                }
-                set { price_ = value; }
-            }
-            public string Currency { get; set; }
-            public object Partner { get; set; }
-            public object Token { get; set; }
-            public string ImageUrl
-            {
-                get
-                {
-                    return $"https://cdn.csgo.com//item/{Hash_name}/300.png";
-                }
-            }
-        }
-
-        public struct OrdersDate
-        {
-            public bool Success { get; set; }
-            public IList<Order> Orders { get; set; }
-        }
-        public struct Orderlog
-        {
-            public string Hash_name { get; set; }
-            public int Item_id { get; set; }
-            public string Created { get; set; }
-            public string Executed { get; set; }
-            public int Price { get; set; }
-            public string Currency { get; set; }
-        }
-
-        public struct OrdersLog
-        {
-            public bool Success { get; set; }
-            public IList<Orderlog> Orders { get; set; }
-        }
+        }        
     }
 }

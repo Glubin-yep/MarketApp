@@ -9,7 +9,7 @@ namespace MarketBot.Notication
 
         private const string _botKey = "5701818571:AAFTs8zmjlHqr3ZQHYC4Z5HNtse_3-f9jVA";
 
-        public static async void TelegramNotification(string text)
+        public static async void TelegramNotificationAsync(string text)
         {
             var bot = new TelegramBotClient(_botKey);
 
@@ -17,7 +17,7 @@ namespace MarketBot.Notication
                 await bot.SendTextMessageAsync(Telegram_User_Id, text);
         }
 
-        public static async void WindowNotification(string text)
+        public static async void WindowNotificationAsync(string text)
         {
             var ni = new System.Windows.Forms.NotifyIcon
             {

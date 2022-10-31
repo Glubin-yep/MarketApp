@@ -4,7 +4,7 @@ using MarketBot.Parsing;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using static MarketBot.Date.User_Date;
+using static MarketBot.Date.MarketDate;
 
 namespace MarketBot.Pages
 {
@@ -25,7 +25,7 @@ namespace MarketBot.Pages
             {
                 this.Dispatcher.Invoke(new Action(async () =>
                 {
-                    var history = await MarketAPI.GetMarketHistory();
+                    var history = await MarketAPI.GetMarketHistoryAsync();
                     History_LB.ItemsSource = history.Data;
                 }));
             });
@@ -51,7 +51,7 @@ namespace MarketBot.Pages
             {
                 var task = Task.Run(async () =>
                 {
-                    var items = await MarketAPI.GetSteamInventory();
+                    var items = await MarketAPI.GetSteamInventoryAsync();
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {
@@ -74,7 +74,7 @@ namespace MarketBot.Pages
             {
                 var task = Task.Run(async () =>
                 {
-                    var items = await MarketAPI.GetItems();
+                    var items = await MarketAPI.GetItemsAsync();
 
                     this.Dispatcher.Invoke(new Action(() =>
                     {
@@ -101,7 +101,7 @@ namespace MarketBot.Pages
 
         private async void Sell_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var sell = await MarketAPI.SetSell(Current_item, Sell_Price.Text, Market_currency);
+            var sell = await MarketAPI.SetSellAsync(Current_item, Sell_Price.Text, Market_currency);
 
             if (sell.Success == true)
                 MessageBox.Show("Item is successfully add for sale", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -122,7 +122,7 @@ namespace MarketBot.Pages
             if (e.AddedItems.Count >= 1)
             {
                 Current_item = e.AddedItems[0]?.ToString();
-                var price = await MarketAPI.GetMarketPrice(Current_item);
+                var price = await MarketAPI.GetMarketPriceAsync(Current_item);
                 ItemInfo.DataContext = price.Data;
                 Item_Image.Source = SteamAPI.GetImage(Current_item);
             }
@@ -139,7 +139,7 @@ namespace MarketBot.Pages
             if (e.AddedItems.Count >= 1)
             {
                 Current_sell_item = e.AddedItems[0]?.ToString();
-                var price = await MarketAPI.GetMarketPrice(Current_sell_item);
+                var price = await MarketAPI.GetMarketPriceAsync(Current_sell_item);
                 ItemInfo.DataContext = price.Data;
                 Item_Image.Source = SteamAPI.GetImage(Current_sell_item);
 
@@ -148,7 +148,7 @@ namespace MarketBot.Pages
 
         private async void Remove_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var update = await MarketAPI.SetPrice(Current_sell_item, "0", Market_currency);
+            var update = await MarketAPI.SetPriceAsync(Current_sell_item, "0", Market_currency);
 
             if (update.Success == true)
                 MessageBox.Show("Item successfully deleted", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -160,7 +160,7 @@ namespace MarketBot.Pages
 
         private async void Update_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var price = await MarketAPI.SetPrice(Current_sell_item, Update_Price.Text, Market_currency);
+            var price = await MarketAPI.SetPriceAsync(Current_sell_item, Update_Price.Text, Market_currency);
 
             if (price.Success == true)
                 MessageBox.Show("The item price has been successfully updated", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
