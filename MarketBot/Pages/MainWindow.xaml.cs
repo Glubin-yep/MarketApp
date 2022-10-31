@@ -107,6 +107,24 @@ namespace MarketBot
             }
         }
 
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LoadUserInfo()
+        {
+            Task.Run(() =>
+            {
+                this.Dispatcher.Invoke(new Action(async () =>
+                {
+                    Money.Content = await MarketAPI.GetMoneyAsync() + " " + Market_currency;
+                    Photo.Source = await SteamAPI.GetAvatarAsync();
+                    Nickname.Content = await SteamAPI.GetNicknameAsync();
+                }));
+            });
+        }
+
         private async void CheckTradeAsync()
         {
             if (await MarketAPI.GetTradeRequesTakeAsync() == true || await MarketAPI.GetTradeRequestGiveAsync() == true)
@@ -125,23 +143,11 @@ namespace MarketBot
             if (status == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
-                    {
-                        Status.Content = "Connected :)";
-                        Spinner1.Visibility = Visibility.Collapsed;
-                    }));
-            }
-        }
-        private void LoadUserInfo()
-        {
-            Task.Run(() =>
-            {
-                this.Dispatcher.Invoke(new Action(async () =>
                 {
-                    Money.Content = await MarketAPI.GetMoneyAsync() + " " + Market_currency;
-                    Photo.Source = await SteamAPI.GetAvatarAsync();
-                    Nickname.Content = await SteamAPI.GetNicknameAsync();
+                    Status.Content = "Connected :)";
+                    Spinner1.Visibility = Visibility.Collapsed;
                 }));
-            });
+            }
         }
     }
 }
