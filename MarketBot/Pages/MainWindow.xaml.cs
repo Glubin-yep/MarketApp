@@ -7,7 +7,7 @@ using System;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
-using static MarketBot.Date.User_Date;
+using static MarketBot.Date.MarketDate;
 
 namespace MarketBot
 {
@@ -21,22 +21,23 @@ namespace MarketBot
         {
             InitializeComponent();
             DateParsing.ReadConfig();
-            UpdateStatus();
+            UpdateStatusAsync();
             LoadUserInfo();
-            MarketAPI.UpdateInventory();
+            MarketAPI.UpdateInventoryAsync();
 
             aTimer = new Timer(180_000);
-            aTimer.Elapsed += (o, e) => UpdateStatus();
+            aTimer.Elapsed += (o, e) => UpdateStatusAsync();
             aTimer.Enabled = true;
 
             bTimer = new Timer(40_000);
-            bTimer.Elapsed += (o, e) => CheckTrade();
+            bTimer.Elapsed += (o, e) => CheckTradeAsync();
             bTimer.Enabled = true;
 
             MyNotifyIcon = new System.Windows.Forms.NotifyIcon
             {
                 Icon = new System.Drawing.Icon("MarketApp.ico")
             };
+
             MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
             MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
         }
@@ -71,17 +72,17 @@ namespace MarketBot
 
         private void Order_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Source = new Uri("Pages/OrderPage.xaml", UriKind.RelativeOrAbsolute);
+            MainFrame.Source = new Uri("OrderPage.xaml", UriKind.RelativeOrAbsolute);
         }
 
         private void Sell_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Source = new Uri("Pages/SellPage.xaml", UriKind.RelativeOrAbsolute);
+            MainFrame.Source = new Uri("SellPage.xaml", UriKind.RelativeOrAbsolute);
         }
 
         private void Table_Click(object sender, RoutedEventArgs e)
         {
-            MainFrame.Source = new Uri("Pages/TablePage.xaml", UriKind.RelativeOrAbsolute);
+            MainFrame.Source = new Uri("TablePage.xaml", UriKind.RelativeOrAbsolute);
         }
 
         private void MyNotifyIcon_MouseDoubleClick(object? sender, System.Windows.Forms.MouseEventArgs e)
@@ -100,31 +101,33 @@ namespace MarketBot
                 MyNotifyIcon.Visible = true;
                 MainFrame.Source = null;
                 this.ShowInTaskbar = false;
-                Notification.WindowNotification("Application minimized to tray.");
+                Notification.WindowNotificationAsync("Application minimized to tray.");
                 this.WindowState = WindowState.Minimized;
                 this.Hide();
             }
         }
 
-        private async void CheckTrade()
+        private async void CheckTradeAsync()
         {
-            if (await MarketAPI.TradeRequesTake() == true || await MarketAPI.TradeRequestGive() == true)
+            if (await MarketAPI.GetTradeRequesTakeAsync() == true || await MarketAPI.GetTradeRequestGiveAsync() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Notification.WindowNotification("Accept trade on website");
-                    Notification.TelegramNotification("Accept trade on website");
+                    Notification.WindowNotificationAsync("Accept trade on website");
+                    Notification.TelegramNotificationAsync("Accept trade on website");
                 }));
             }
         }
-        private async void UpdateStatus()
+        private async void UpdateStatusAsync()
         {
-            bool status = await MarketAPI.GetPing();
+            LoadUserInfo();
+            bool status = await MarketAPI.GetPingAsync();
             if (status == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
                     {
                         Status.Content = "Connected :)";
+                        Spinner1.Visibility = Visibility.Collapsed;
                     }));
             }
         }
@@ -134,9 +137,9 @@ namespace MarketBot
             {
                 this.Dispatcher.Invoke(new Action(async () =>
                 {
-                    Money.Content = await MarketAPI.GetMoney() + " " + Market_currency;
-                    Photo.Source = await SteamAPI.GetAvatar();
-                    Nickname.Content = await SteamAPI.GetNickname();
+                    Money.Content = await MarketAPI.GetMoneyAsync() + " " + Market_currency;
+                    Photo.Source = await SteamAPI.GetAvatarAsync();
+                    Nickname.Content = await SteamAPI.GetNicknameAsync();
                 }));
             });
         }
