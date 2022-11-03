@@ -72,29 +72,15 @@ namespace MarketBot.Pages
             }
             else
             {
-                var task = Task.Run(async () =>
+                await Task.Run(() =>
                 {
-                    var items = await MarketAPI.GetItemsAsync();
-
-                    this.Dispatcher.Invoke(new Action(() =>
+                    this.Dispatcher.Invoke(new Action(async () =>
                     {
-                        ItemsLB.Items.Clear();
-
-                        for (int i = 0; i <= items.Items.Count - 1; i++)
-                        {
-                            ItemsLB.Items.Add(items.Items[i].Market_hash_name + " / "
-                                + items.Items[i].Price + " "
-                                + items.Items[i].Currency
-                                + " / " + items.Items[i].Item_id);
-                        }
-                        ItemsLB.Items.SortDescriptions.Add(
-                                new System.ComponentModel.SortDescription("",
-                                System.ComponentModel.ListSortDirection.Ascending));
+                        var items = await MarketAPI.GetItemsAsync();
+                        ItemsLB.ItemsSource = items.Items;
                     }));
-                    return true;
-
                 });
-                return await task;
+                return true;
             }
 
         }

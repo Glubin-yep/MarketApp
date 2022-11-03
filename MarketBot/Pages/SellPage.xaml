@@ -10,7 +10,7 @@
       d:DesignHeight="800" d:DesignWidth="1200"
       Title="SellPage">
     <Page.Resources>
-        <DataTemplate x:Key="TileTemplate">
+        <DataTemplate x:Key="HistoryTemplate">
             <StackPanel Orientation="Vertical"  Width="170" >
                 <Image Source="{Binding ImageUrl}" Width="100" Height="75"/>
                 <TextBlock TextWrapping="Wrap" Text="{Binding Market_hash_name}"/>
@@ -20,20 +20,51 @@
             </StackPanel>
         </DataTemplate>
 
-        <ItemsPanelTemplate x:Key="TilePanel">
-            <WrapPanel/>
+        <DataTemplate x:Key="ItemsLBTemplate">
+            <StackPanel Orientation="Vertical" Width="140" >
+                <Image Source="{Binding ImageUrl}" Width="100" Height="75"/>
+                <TextBlock TextWrapping="Wrap" FontSize="12" FontFamily="Segoe UI" Text="{Binding Market_hash_name}"/>
+                <TextBlock  TextWrapping="WrapWithOverflow" FontSize="14" FontFamily="Segoe UI" >
+                        <Run Text="{Binding Price}"/>
+                        <Run Text="{Binding Currency}"/>
+                </TextBlock>
+                <TextBlock  TextWrapping="WrapWithOverflow" FontSize="14" FontFamily="Segoe UI" >
+                        <Run Text="Position on market"/>
+                        <Run Text="{Binding Position}"/>
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
+
+        <ItemsPanelTemplate x:Key="HistoryPanel">
+            <WrapPanel Orientation ="Vertical" IsItemsHost="True"  />
+        </ItemsPanelTemplate>
+
+        <ItemsPanelTemplate x:Key="ItemsLBPanel">
+            <WrapPanel Orientation ="Horizontal" IsItemsHost="True"  Width="640" />
         </ItemsPanelTemplate>
 
         <Style TargetType="local:LayoutListbox">
             <Style.Triggers>
                 <Trigger Property="layout" Value="Tile">
-                    <Setter Property="ItemsPanel" Value="{StaticResource TilePanel}"/>
-                    <Setter Property="ItemTemplate" Value="{StaticResource TileTemplate}"/>
+                    <Setter Property="ItemsPanel" Value="{StaticResource HistoryPanel}"/>
+                    <Setter Property="ItemTemplate" Value="{StaticResource HistoryTemplate}"/>
                     <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
                     <Setter Property="FontSize" Value="12"/>
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+        <Style TargetType="local:LayoutListbox" x:Key="ItemsLBStyle">
+            <Style.Triggers>
+                <Trigger Property="layout" Value="Tile">
+                    <Setter Property="ItemsPanel" Value="{StaticResource ItemsLBPanel}"/>
+                    <Setter Property="ItemTemplate" Value="{StaticResource ItemsLBTemplate}"/>
+                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
+                    <Setter Property="FontSize" Value="12"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
     </Page.Resources>
 
     <Grid>
@@ -66,9 +97,12 @@
 
 
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Column="2" Grid.ColumnSpan="3" Grid.Row="0"  >
-            <StackPanel  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
-                <fa:FontAwesomeIcon x:Name="Spinner1" SolidIcon="Spinner" Margin="15"  AnimationType="Spin"  FontSize="92"   Visibility="Collapsed"  MinHeight="250" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
-                <ListBox x:Name="ItemsLB" FontSize="14" FontFamily="Segoe UI"  SelectionChanged ="ItemsLB_SelectionChanged" Margin="10" Height="270" />
+            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
+                <fa:FontAwesomeIcon x:Name="Spinner1" SolidIcon="Spinner" Margin="15"  AnimationType="Spin"  FontSize="92"   Visibility="Collapsed"  Height="250" Width="250" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
+
+                <StackPanel  Orientation="Vertical" Background="#0f0f">                    
+                    <local:LayoutListbox  x:Name="ItemsLB" Style="{StaticResource ItemsLBStyle}" BorderThickness="0"   FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="280"/>
+                </StackPanel>
             </StackPanel>
         </Border>
 
