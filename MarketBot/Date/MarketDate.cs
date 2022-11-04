@@ -5,7 +5,7 @@ namespace MarketBot.Date
 {
     class MarketDate
     {
-        public static string Current_sell_item { get; set; } = string.Empty; 
+        public static string Current_sell_item_id { get; set; } = string.Empty; 
         public static string Current_item { get; set; } = string.Empty;
         public static string Market_currency { get; set; } = string.Empty;
         

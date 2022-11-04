@@ -72,13 +72,14 @@ namespace MarketBot.Pages
             }
             else
             {
-                await Task.Run(() =>
+                await Task.Run(async () =>
                 {
                     this.Dispatcher.Invoke(new Action(async () =>
                     {
                         var items = await MarketAPI.GetItemsAsync();
                         ItemsLB.ItemsSource = items.Items;
                     }));
+                    await Task.Delay(100);
                 });
                 return true;
             }
@@ -114,7 +115,7 @@ namespace MarketBot.Pages
             }
         }
 
-        private async void ItemsLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ItemsLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Remove.IsEnabled = true;
             Update.IsEnabled = true;
@@ -124,17 +125,15 @@ namespace MarketBot.Pages
 
             if (e.AddedItems.Count >= 1)
             {
-                Current_sell_item = e.AddedItems[0]?.ToString();
-                var price = await MarketAPI.GetMarketPriceAsync(Current_sell_item);
-                ItemInfo.DataContext = price.Data;
-                Item_Image.Source = SteamAPI.GetImage(Current_sell_item);
-
+                var nameOfProperty = "Item_id";
+                var propertyInfo = e.AddedItems[0]?.GetType().GetProperty(nameOfProperty);
+                Current_sell_item_id = propertyInfo?.GetValue(e.AddedItems[0], null)?.ToString();
             }
         }
 
         private async void Remove_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var update = await MarketAPI.SetPriceAsync(Current_sell_item, "0", Market_currency);
+            var update = await MarketAPI.SetPriceAsync(Current_sell_item_id, "0", Market_currency);
 
             if (update.Success == true)
                 MessageBox.Show("Item successfully deleted", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -146,7 +145,7 @@ namespace MarketBot.Pages
 
         private async void Update_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var price = await MarketAPI.SetPriceAsync(Current_sell_item, Update_Price.Text, Market_currency);
+            var price = await MarketAPI.SetPriceAsync(Current_sell_item_id, Update_Price.Text, Market_currency);
 
             if (price.Success == true)
                 MessageBox.Show("The item price has been successfully updated", "Info", MessageBoxButton.OK, MessageBoxImage.Information);

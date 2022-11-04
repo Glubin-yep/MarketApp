@@ -32,6 +32,9 @@
                         <Run Text="Position on market"/>
                         <Run Text="{Binding Position}"/>
                 </TextBlock>
+                <TextBlock  TextWrapping="WrapWithOverflow" FontSize="14" FontFamily="Segoe UI" >
+                     <Run Text="{Binding Item_id}"/>
+                </TextBlock>
             </StackPanel>
         </DataTemplate>
 
@@ -100,8 +103,8 @@
             <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
                 <fa:FontAwesomeIcon x:Name="Spinner1" SolidIcon="Spinner" Margin="15"  AnimationType="Spin"  FontSize="92"   Visibility="Collapsed"  Height="250" Width="250" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
 
-                <StackPanel  Orientation="Vertical" Background="#0f0f">                    
-                    <local:LayoutListbox  x:Name="ItemsLB" Style="{StaticResource ItemsLBStyle}" BorderThickness="0"   FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="280"/>
+                <StackPanel  Orientation="Vertical" Background="#0f0f">
+                    <local:LayoutListbox  x:Name="ItemsLB" Style="{StaticResource ItemsLBStyle}" BorderThickness="0"   FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="280" SelectionChanged ="ItemsLB_SelectionChanged"/>
                 </StackPanel>
             </StackPanel>
         </Border>
@@ -124,9 +127,10 @@
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Grid.Column="5" Grid.ColumnSpan="2" Grid.Row="0" Grid.RowSpan= "2" >
             <StackPanel x:Name="ItemInfo" Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" MinHeight="435"   >
 
-                <Label HorizontalAlignment="Left" Margin="15,25,15,25" FontSize="16">
-                    <TextBlock x:Name="Item_Name" FontSize="16" FontFamily="Segoe UI" Text="{Binding market_hash_name}"  TextWrapping="WrapWithOverflow" />
+                <Label  x:Name="Item_Name"  HorizontalAlignment="Left" Margin="15,25,15,25" FontSize="16">
+                    <TextBlock FontSize="16" FontFamily="Segoe UI" Text=""  TextWrapping="WrapWithOverflow" />
                 </Label>
+                
                 <Label x:Name="Min_Price"  HorizontalAlignment="Left" Margin="15,25,15,25" FontSize="16" Visibility="Hidden">
                     <TextBlock  TextWrapping="WrapWithOverflow" FontSize="16" FontFamily="Segoe UI" >
                         <Run Text="Minimum price of those already set:"/>

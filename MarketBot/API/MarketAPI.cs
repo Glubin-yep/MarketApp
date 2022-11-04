@@ -98,7 +98,6 @@ namespace MarketBot.API
         }
         public static async Task<Update> SetPriceAsync(string item_id, string price, string currency)
         {
-            item_id = DateParsing.Get_Id_Name(item_id, "id");
             string actionUrl = $"https://market.csgo.com/api/v2/set-price?key={Market_API_Key}&item_id={item_id}&price={price}00&cur={currency}";
 
             Update user_Date = JsonConvert.DeserializeObject<Update>(await GetResponseAsync(actionUrl));
