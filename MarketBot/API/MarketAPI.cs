@@ -88,10 +88,9 @@ namespace MarketBot.API
             MarketHistory user_history = JsonConvert.DeserializeObject<MarketHistory>(await GetResponseAsync(actionUrl));
             return user_history;
         }
-        public static async Task<Sell> SetSellAsync(string id, string price, string currency)
+        public static async Task<Sell> SetSellAsync(string item_id, string price, string currency)
         {
-            id = DateParsing.Get_Id_Name(id, "id");
-            string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key={Market_API_Key}&id={id}&price={price}00&cur={currency}";
+            string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key={Market_API_Key}&id={item_id}&price={price}00&cur={currency}";
 
             Sell user_Date = JsonConvert.DeserializeObject<Sell>(await GetResponseAsync(actionUrl));
             return user_Date;

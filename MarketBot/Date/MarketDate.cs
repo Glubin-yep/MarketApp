@@ -6,7 +6,6 @@ namespace MarketBot.Date
     class MarketDate
     {
         public static string Current_sell_item_id { get; set; } = string.Empty; 
-        public static string Current_item { get; set; } = string.Empty;
         public static string Market_currency { get; set; } = string.Empty;
         
         public struct Item
@@ -28,7 +27,7 @@ namespace MarketBot.Date
             {
                 get
                 {
-                    return $"https://cdn.csgo.com//item/{Market_hash_name}/300.png";
+                    return $"https://cdn.csgo.com//item/{Market_hash_name}/150.png";
                 }
             }
         }
@@ -46,6 +45,13 @@ namespace MarketBot.Date
             public string Market_hash_name { get; set; }
             public double Market_price { get; set; }
             public int Tradable { get; set; }
+            public string ImageUrl
+            {
+                get
+                {
+                    return $"https://cdn.csgo.com//item/{Market_hash_name}/150.png";
+                }
+            }
         }
 
         public struct Inventory
@@ -160,7 +166,7 @@ namespace MarketBot.Date
             {
                 get
                 {
-                    return $"https://cdn.csgo.com//item/{Market_hash_name}/300.png";
+                    return $"https://cdn.csgo.com//item/{Market_hash_name}/150.png";
                 }
             }
         }

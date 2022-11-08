@@ -49,26 +49,15 @@ namespace MarketBot.Pages
         {
             if (mode == 0)
             {
-                var task = Task.Run(async () =>
+                await Task.Run(async () =>
                 {
-                    var items = await MarketAPI.GetSteamInventoryAsync();
-
-                    this.Dispatcher.Invoke(new Action(() =>
+                    this.Dispatcher.Invoke(new Action( async () =>
                     {
-                        InventoryLB.Items.Clear();
-
-                        for (int i = 0; i <= items.Items.Count - 1; i++)
-                        {
-                            InventoryLB.Items.Add(items.Items[i].Market_hash_name
-                                + " / " + items.Items[i].Id);
-                        }
-                        InventoryLB.Items.SortDescriptions.Add(
-                                new System.ComponentModel.SortDescription("",
-                                System.ComponentModel.ListSortDirection.Ascending));
+                        var items = await MarketAPI.GetSteamInventoryAsync();
+                        InventoryLB.ItemsSource = items.Items;
                     }));
-                    return true;
+                    await Task.Delay(550);
                 });
-                return await task;
             }
             else
             {
@@ -79,16 +68,15 @@ namespace MarketBot.Pages
                         var items = await MarketAPI.GetItemsAsync();
                         ItemsLB.ItemsSource = items.Items;
                     }));
-                    await Task.Delay(100);
+                    await Task.Delay(550);
                 });
-                return true;
             }
-
+            return true;
         }
 
         private async void Sell_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var sell = await MarketAPI.SetSellAsync(Current_item, Sell_Price.Text, Market_currency);
+            var sell = await MarketAPI.SetSellAsync(Current_sell_item_id, Sell_Price.Text, Market_currency);
 
             if (sell.Success == true)
                 MessageBox.Show("Item is successfully add for sale", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
@@ -100,18 +88,16 @@ namespace MarketBot.Pages
             Sell.IsEnabled = false;
         }
 
-        private async void InventoryLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void InventoryLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Sell_Price.IsEnabled = true;
             Sell_Price.Text = "";
-            Min_Price.Visibility = System.Windows.Visibility.Visible;
 
             if (e.AddedItems.Count >= 1)
             {
-                Current_item = e.AddedItems[0]?.ToString();
-                var price = await MarketAPI.GetMarketPriceAsync(Current_item);
-                ItemInfo.DataContext = price.Data;
-                Item_Image.Source = SteamAPI.GetImage(Current_item);
+                var nameOfProperty = "Id";
+                var propertyInfo = e.AddedItems[0]?.GetType().GetProperty(nameOfProperty);
+                Current_sell_item_id = propertyInfo?.GetValue(e.AddedItems[0], null)?.ToString();
             }
         }
 
@@ -121,7 +107,6 @@ namespace MarketBot.Pages
             Update.IsEnabled = true;
             Update_Price.IsEnabled = true;
             Update_Price.Text = "";
-            Min_Price.Visibility = System.Windows.Visibility.Visible;
 
             if (e.AddedItems.Count >= 1)
             {
