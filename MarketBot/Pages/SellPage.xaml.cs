@@ -46,7 +46,7 @@ namespace MarketBot.Pages
             Spinner2.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        public async Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items // its very bad // TODO rewrite
+        public async Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items
         {
             if (mode == 0)
             {
@@ -55,10 +55,15 @@ namespace MarketBot.Pages
                     this.Dispatcher.Invoke(new Action( async () =>
                     {
                         var items = await MarketAPI.GetSteamInventoryAsync();
+
+                        if (items.Items.Count == 0)
+                            Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from http://steamcommunity.com/\r\nReason: Unstable operation of the Steam server. Please try again later.");
+
                         InventoryLB.ItemsSource = items.Items;
                     }));
                     await Task.Delay(550);
                 });
+                return true;
             }
             else
             {
@@ -67,6 +72,14 @@ namespace MarketBot.Pages
                     this.Dispatcher.Invoke(new Action(async () =>
                     {
                         var items = await MarketAPI.GetItemsAsync();
+
+                        if (items.Items.Count == 0)
+                            Notification.DisplayInfo("You are not selling any items");
+
+                        if (items.Success == false)
+                            Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from https://market.csgo.com/");
+
+
                         ItemsLB.ItemsSource = items.Items;
                     }));
                     await Task.Delay(550);
