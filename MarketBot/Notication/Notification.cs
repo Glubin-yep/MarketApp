@@ -1,9 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using AdonisUI.Controls;
+using System.Threading.Tasks;
 using Telegram.Bot;
 
 namespace MarketBot.Notication
 {
-    public class Notification
+    public static class Notification
     {
         public static string? Telegram_User_Id { get; set; }
 
@@ -29,6 +30,11 @@ namespace MarketBot.Notication
             ni.ShowBalloonTip(4000);
             await Task.Delay(4000);
             ni.Dispose();
+        }
+
+        public static void DisplayInfo(string message)
+        {
+            MessageBox.Show(message, "INFO", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }

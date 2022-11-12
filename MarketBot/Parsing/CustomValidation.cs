@@ -4,7 +4,7 @@ namespace MarketBot.Parsing
 {
     class CustomValidation
     {
-        public static void Validation_TextBox(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        public static void ValidationTextBox(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
             bool approvedDecimalPoint = false;
             string[] strings = ((TextBox)sender).Text.Split(".");

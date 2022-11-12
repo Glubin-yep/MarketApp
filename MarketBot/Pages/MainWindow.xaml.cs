@@ -107,11 +107,6 @@ namespace MarketBot
             }
         }
 
-        private void Minimize_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void LoadUserInfo()
         {
             Task.Run(() =>

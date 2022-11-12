@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using static MarketApp.Date.UserDate;
-using static MarketBot.Date.MarketDate;
 
 namespace MarketBot.API
 {

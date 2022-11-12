@@ -135,9 +135,12 @@
         </Border>
 
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Column="2" Grid.ColumnSpan="5" Grid.Row="1">
-            <StackPanel  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
+            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
                 <fa:FontAwesomeIcon x:Name="Spinner2" SolidIcon="Spinner" Margin="15"  AnimationType="Spin"  FontSize="92"   Visibility="Collapsed"  MinHeight="250" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
+
+                <StackPanel  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
                 <local:LayoutListbox  x:Name="InventoryLB" Style="{StaticResource InventoryLBStyle}" BorderThickness="0"   FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="280" SelectionChanged ="InventoryLB_SelectionChanged"/>
+                </StackPanel>
             </StackPanel>
         </Border>
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" VerticalAlignment="Stretch" Grid.Column="1" Grid.ColumnSpan="6" Grid.Row="3" >

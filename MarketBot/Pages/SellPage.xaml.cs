@@ -1,5 +1,6 @@
 ﻿using AdonisUI.Controls;
 using MarketBot.API;
+using MarketBot.Notication;
 using MarketBot.Parsing;
 using System;
 using System.Threading.Tasks;
@@ -79,9 +80,9 @@ namespace MarketBot.Pages
             var sell = await MarketAPI.SetSellAsync(Current_sell_item_id, Sell_Price.Text, Market_currency);
 
             if (sell.Success == true)
-                MessageBox.Show("Item is successfully add for sale", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("Item is successfully add for sale");
             else
-                MessageBox.Show("Item not added for sale", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("Item not added for sale");
 
             await ListUpdate(0);
             await ListUpdate(1);
@@ -121,9 +122,9 @@ namespace MarketBot.Pages
             var update = await MarketAPI.SetPriceAsync(Current_sell_item_id, "0", Market_currency);
 
             if (update.Success == true)
-                MessageBox.Show("Item successfully deleted", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("Item successfully deleted");
             else
-                MessageBox.Show("Item not deleted", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("Item not deleted");
 
             await ListUpdate(1);
         }
@@ -133,9 +134,9 @@ namespace MarketBot.Pages
             var price = await MarketAPI.SetPriceAsync(Current_sell_item_id, Update_Price.Text, Market_currency);
 
             if (price.Success == true)
-                MessageBox.Show("The item price has been successfully updated", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("The item price has been successfully updated");
             else
-                MessageBox.Show("The product price was not successfully updated", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("The product price was not successfully updated");
 
             await ListUpdate(1);
             Update.IsEnabled = false;
@@ -143,13 +144,13 @@ namespace MarketBot.Pages
 
         private void Sell_Price_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            CustomValidation.Validation_TextBox(sender, e);
+            CustomValidation.ValidationTextBox(sender, e);
             Sell.IsEnabled = true;
         }
 
         private void Update_Price_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            CustomValidation.Validation_TextBox(sender, e);
+            CustomValidation.ValidationTextBox(sender, e);
             Update.IsEnabled = true;
         }
     }
