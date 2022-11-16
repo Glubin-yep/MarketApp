@@ -44,10 +44,14 @@ namespace MarketBot.API
         public static async Task<string> GetMoneyAsync()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/get-money?key={Market_API_Key}";
+            try
+            {
 
-            Balans user_Date = JsonConvert.DeserializeObject<Balans>(await GetResponseAsync(actionUrl));
-            Market_currency = user_Date.Currency;
-            return user_Date.Money.ToString();
+                Balans user_Date = JsonConvert.DeserializeObject<Balans>(await GetResponseAsync(actionUrl));
+                Market_currency = user_Date.Currency;
+                return user_Date.Money.ToString();
+            }
+            catch { return ""; }
         }
         public static async Task<bool> GetPingAsync()
         {
