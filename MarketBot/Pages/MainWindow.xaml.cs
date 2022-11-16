@@ -1,5 +1,6 @@
 ﻿using AdonisUI;
 using AdonisUI.Controls;
+using MarketApp.Pages;
 using MarketBot.API;
 using MarketBot.Notication;
 using MarketBot.Parsing;
@@ -107,6 +108,12 @@ namespace MarketBot
             }
         }
 
+        private void Settings_Click(object sender, RoutedEventArgs e)
+        {
+            var settings = new SettingsWindow();
+            settings.ShowDialog();
+        }
+
         private void LoadUserInfo()
         {
             Task.Run(() =>
@@ -131,6 +138,7 @@ namespace MarketBot
                 }));
             }
         }
+
         private async void UpdateStatusAsync()
         {
             LoadUserInfo();
