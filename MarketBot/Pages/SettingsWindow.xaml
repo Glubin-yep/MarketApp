@@ -31,22 +31,22 @@
 
                 <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,15,0,15">
                     <TextBlock Text="Run when OS start" HorizontalAlignment="Left" Margin="15,0,0,0" FontSize="18" FontFamily="Segoe UI" FontWeight="Light" Width="170"/>
-                    <CheckBox IsChecked="False" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="50,0,0,0"/>
+                    <CheckBox Name="AutoLoad"  HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="50,0,0,0"/>
                 </WrapPanel>
 
                 <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,15,0,15">
                     <TextBlock Text="Run hidden to tray" HorizontalAlignment="Left" Margin="15,0,0,0" FontSize="18" FontFamily="Segoe UI" FontWeight="Light" Width="170"/>
-                    <CheckBox IsChecked="False" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="50,0,0,0" />
+                    <CheckBox x:Name="AutoTray"  HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="50,0,0,0" />
                 </WrapPanel>
 
                 <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,15,0,15">
                     <TextBlock Text="Telegram notification" HorizontalAlignment="Left" Margin="15,0,0,0" FontSize="18" FontFamily="Segoe UI" FontWeight="Light" Width="170"/>
-                    <CheckBox IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <CheckBox x:Name="TelegramNotification" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0"/>
                 </WrapPanel>
 
                 <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,15,0,15">
                     <TextBlock Text="System notification" HorizontalAlignment="Left" Margin="15,0,0,0" FontSize="18" FontFamily="Segoe UI" FontWeight="Light" Width="170"/>
-                    <CheckBox IsChecked="True" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0"/>
+                    <CheckBox x:Name="WindowsNotification"   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0"/>
                 </WrapPanel>
             </StackPanel>
         </Border>
