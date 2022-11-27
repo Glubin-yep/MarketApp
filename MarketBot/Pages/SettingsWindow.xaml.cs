@@ -1,6 +1,5 @@
 ﻿using AdonisUI.Controls;
 using MarketApp.Settings;
-using MarketBot.Notication;
 using Newtonsoft.Json;
 using System.IO;
 using System.Windows;
@@ -9,12 +8,10 @@ namespace MarketApp.Pages
 {
     public partial class SettingsWindow : AdonisWindow
     {
-        private SettingsInfo settingsInfo = new();
+        private SettingsInfo settingsInfo = SettingsInfo.ReadSettings();
         public SettingsWindow()
         {
             InitializeComponent();
-
-            settingsInfo = JsonConvert.DeserializeObject<SettingsInfo>(File.ReadAllText(@"Settings.json"));
 
             AutoLoad.IsChecked = settingsInfo.AutoLoad;
             AutoTray.IsChecked = settingsInfo.AutoTray;
@@ -24,21 +21,11 @@ namespace MarketApp.Pages
 
         private void Cancell_Click(object sender, RoutedEventArgs e)
         {
-            //try
-            //{
-            //    string BaseDir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-
-            //    Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
-
-            //    key.DeleteValue("MarketApp", false);
-            //}
-            //catch { }
             this.Close();
         }
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-
             settingsInfo.AutoLoad = AutoLoad.IsChecked;
             settingsInfo.AutoTray = AutoTray.IsChecked;
             settingsInfo.TelegramNotification = TelegramNotification.IsChecked;
