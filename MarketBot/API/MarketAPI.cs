@@ -79,7 +79,7 @@ namespace MarketBot.API
         }
         public static async Task<MarketPrice> GetMarketPriceAsync(string item_name)
         {
-            item_name = DateParsing.Get_Id_Name(item_name, "name");
+            item_name = ParseConfig.Get_Id_Name(item_name, "name");
             string actionUrl = $"https://market.csgo.com/api/v2/search-item-by-hash-name?key={Market_API_Key}&hash_name={item_name}";
 
             MarketPrice user_Date = JsonConvert.DeserializeObject<MarketPrice>(await GetResponseAsync(actionUrl));

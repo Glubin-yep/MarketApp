@@ -21,7 +21,7 @@ namespace MarketBot
         public MainWindow()
         {
             InitializeComponent();
-            DateParsing.ReadConfig();
+            ParseConfig.ReadConfig();
             UpdateStatusAsync();
             LoadUserInfo();
             MarketAPI.UpdateInventoryAsync();
@@ -41,6 +41,8 @@ namespace MarketBot
 
             MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
             MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
+
+            ParseConfig.ApplySettings(this, MyNotifyIcon);
         }
 
         private void MyNotifyIcon_MouseClick(object? sender, System.Windows.Forms.MouseEventArgs e)

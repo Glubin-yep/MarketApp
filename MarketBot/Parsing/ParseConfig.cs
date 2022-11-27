@@ -1,11 +1,14 @@
 ﻿using AdonisUI.Controls;
+using MarketApp.Settings;
 using MarketBot.API;
 using MarketBot.Notication;
 using System.IO;
+using System.Windows.Forms;
+using System.Windows;
 
 namespace MarketBot.Parsing
 {
-    class DateParsing
+    class ParseConfig
     {
         // TODO rewrite for json
         public static void ReadConfig()
@@ -37,10 +40,36 @@ namespace MarketBot.Parsing
             }
             if (MarketAPI.Market_API_Key == string.Empty || SteamAPI.StemaId32 == string.Empty || SteamAPI.Steam_API_Key == string.Empty)
             {
-                MessageBox.Show("Entry Steam API or StemaId32 or Market API", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Notification.DisplayInfo("Entry Steam API or StemaId32 or Market API");
                 App.Current.Shutdown();
             }
         }
+
+        public static void ApplySettings (MainWindow mainWindow, System.Windows.Forms.NotifyIcon notifyIcon)
+        {
+            SettingsInfo settingsInfo = SettingsInfo.ReadSettings();
+
+            if (settingsInfo.AutoLoad == true)
+            {
+                Utills.AddToAutoLoad();
+            }
+            else
+            {
+                Utills.RemoveFromAutoLoad();
+            }
+
+            if (settingsInfo.AutoTray == true)
+            {
+                notifyIcon.Visible = true;
+                mainWindow.MainFrame.Source = null;
+                mainWindow.ShowInTaskbar = false;
+                Notification.WindowNotificationAsync("Application minimized to tray.");
+                mainWindow.WindowState = WindowState.Minimized;
+                mainWindow.Hide();
+            }
+        }
+
+        //TODO remove this shit
         public static string Get_Id_Name(string current_item, string mode)
         {
             string[] strings = current_item.Split(" /");
