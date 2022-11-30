@@ -4,6 +4,7 @@ using MarketBot.Notication;
 using System;
 using System.IO;
 using System.Windows;
+using System.Windows.Forms;
 
 namespace MarketBot.Parsing
 {
@@ -44,7 +45,7 @@ namespace MarketBot.Parsing
             }
         }
 
-        public static void ApplySettings (MainWindow mainWindow, System.Windows.Forms.NotifyIcon notifyIcon)
+        public static void ApplySettings (MainWindow mainWindow, NotifyIcon notifyIcon)
         {
             SettingsInfo settingsInfo = SettingsInfo.ReadSettings();
 

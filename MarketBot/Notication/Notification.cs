@@ -1,6 +1,7 @@
 ﻿using AdonisUI.Controls;
 using System;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Telegram.Bot;
 
 namespace MarketBot.Notication
@@ -21,7 +22,7 @@ namespace MarketBot.Notication
 
         public static async void WindowNotificationAsync(string text)
         {
-            var ni = new System.Windows.Forms.NotifyIcon
+            var ni = new NotifyIcon
             {
                 Icon = new System.Drawing.Icon($"{AppDomain.CurrentDomain.BaseDirectory}MarketApp.ico"),
                 Visible = true,
@@ -32,10 +33,19 @@ namespace MarketBot.Notication
             await Task.Delay(4000);
             ni.Dispose();
         }
-
+       
         public static void DisplayInfo(string message)
         {
-            MessageBox.Show(message, "INFO", MessageBoxButton.OK, MessageBoxImage.Information);
+            AdonisUI.Controls.MessageBox.Show(message, "INFO", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        public static NotifyIcon CreateNoti()
+        {
+            var MyNotifyIcon = new NotifyIcon
+            {
+                Icon = new System.Drawing.Icon($"{AppDomain.CurrentDomain.BaseDirectory}MarketApp.ico")
+            };
+            return MyNotifyIcon;
         }
     }
 }

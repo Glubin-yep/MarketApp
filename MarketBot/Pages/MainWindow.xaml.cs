@@ -8,15 +8,16 @@ using System;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using System.Windows.Forms;
 using static MarketBot.Date.MarketDate;
 
 namespace MarketBot
 {
     public partial class MainWindow : AdonisWindow
     {
-        private readonly Timer aTimer, bTimer;
+        private readonly System.Timers.Timer aTimer, bTimer;
         private bool _isDark = true;
-        private readonly System.Windows.Forms.NotifyIcon MyNotifyIcon;
+        private static NotifyIcon _notifyIcon = Notification.CreateNoti();
 
         public MainWindow()
         {
@@ -26,39 +27,42 @@ namespace MarketBot
             LoadUserInfo();
             MarketAPI.UpdateInventoryAsync();
 
-            aTimer = new Timer(180_000);
+            aTimer = new (180_000);
             aTimer.Elapsed += (o, e) => UpdateStatusAsync();
             aTimer.Enabled = true;
 
-            bTimer = new Timer(40_000);
+            bTimer = new (40_000);
             bTimer.Elapsed += (o, e) => CheckTradeAsync();
             bTimer.Enabled = true;
 
-            MyNotifyIcon = new System.Windows.Forms.NotifyIcon
-            {
-                Icon = new System.Drawing.Icon($"{AppDomain.CurrentDomain.BaseDirectory}MarketApp.ico")
-            };
+            _notifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
+            _notifyIcon.MouseClick += MyNotifyIcon_MouseClick;
 
-            MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
-            MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
-
-            ParseConfig.ApplySettings(this, MyNotifyIcon);
+            ParseConfig.ApplySettings(this, _notifyIcon);
 
         }
 
-        private void MyNotifyIcon_MouseClick(object? sender, System.Windows.Forms.MouseEventArgs e)
+        private void MyNotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            this.Show();
+            this.WindowState = WindowState.Normal;
+            _notifyIcon.Visible = false;
+            this.ShowInTaskbar = true;
+        }
+
+        private void MyNotifyIcon_MouseClick(object? sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
             {
-                MyNotifyIcon.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
-                MyNotifyIcon.ContextMenuStrip.Items.Add("Exit");
-                MyNotifyIcon.ContextMenuStrip.Items[0].Click += (o, e) => { MyNotifyIcon.Dispose(); this.Close(); };
+                _notifyIcon.ContextMenuStrip = new ContextMenuStrip();
+                _notifyIcon.ContextMenuStrip.Items.Add("Exit");
+                _notifyIcon.ContextMenuStrip.Items[0].Click += (o, e) => { _notifyIcon.Dispose(); this.Close(); };
             }
         }
 
         private void ChangeTheme(object sender, RoutedEventArgs e)
         {
-            ResourceLocator.SetColorScheme(Application.Current.Resources, _isDark ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
+            ResourceLocator.SetColorScheme(System.Windows.Application.Current.Resources, _isDark ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
 
             if (_isDark)
             {
@@ -89,20 +93,13 @@ namespace MarketBot
             MainFrame.Source = new Uri("TablePage.xaml", UriKind.RelativeOrAbsolute);
         }
 
-        private void MyNotifyIcon_MouseDoubleClick(object? sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            this.Show();
-            this.WindowState = WindowState.Normal;
-            MyNotifyIcon.Visible = false;
-            this.ShowInTaskbar = true;
-        }
 
         private void AdonisWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (WindowState != WindowState.Minimized)
             {
                 e.Cancel = true;
-                MyNotifyIcon.Visible = true;
+                _notifyIcon.Visible = true;
                 MainFrame.Source = null;
                 this.ShowInTaskbar = false;
                 Notification.WindowNotificationAsync("Application minimized to tray.");
