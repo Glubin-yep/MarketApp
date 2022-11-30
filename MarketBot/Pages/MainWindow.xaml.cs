@@ -36,13 +36,14 @@ namespace MarketBot
 
             MyNotifyIcon = new System.Windows.Forms.NotifyIcon
             {
-                Icon = new System.Drawing.Icon("MarketApp.ico")
+                Icon = new System.Drawing.Icon($"{AppDomain.CurrentDomain.BaseDirectory}MarketApp.ico")
             };
 
             MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
             MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
 
             ParseConfig.ApplySettings(this, MyNotifyIcon);
+
         }
 
         private void MyNotifyIcon_MouseClick(object? sender, System.Windows.Forms.MouseEventArgs e)
@@ -131,6 +132,7 @@ namespace MarketBot
 
         private async void CheckTradeAsync()
         {
+            LoadUserInfo();
             if (await MarketAPI.GetTradeRequesTakeAsync() == true || await MarketAPI.GetTradeRequestGiveAsync() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
@@ -143,7 +145,6 @@ namespace MarketBot
 
         private async void UpdateStatusAsync()
         {
-            LoadUserInfo();
             bool status = await MarketAPI.GetPingAsync();
             if (status == true)
             {

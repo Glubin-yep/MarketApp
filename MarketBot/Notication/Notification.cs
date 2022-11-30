@@ -1,4 +1,5 @@
 ﻿using AdonisUI.Controls;
+using System;
 using System.Threading.Tasks;
 using Telegram.Bot;
 
@@ -22,7 +23,7 @@ namespace MarketBot.Notication
         {
             var ni = new System.Windows.Forms.NotifyIcon
             {
-                Icon = new System.Drawing.Icon("MarketApp.ico"),
+                Icon = new System.Drawing.Icon($"{AppDomain.CurrentDomain.BaseDirectory}MarketApp.ico"),
                 Visible = true,
                 BalloonTipTitle = "Market App",
                 BalloonTipText = text

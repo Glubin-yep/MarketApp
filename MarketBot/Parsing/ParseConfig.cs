@@ -1,9 +1,8 @@
-﻿using AdonisUI.Controls;
-using MarketApp.Settings;
+﻿using MarketApp.Settings;
 using MarketBot.API;
 using MarketBot.Notication;
+using System;
 using System.IO;
-using System.Windows.Forms;
 using System.Windows;
 
 namespace MarketBot.Parsing
@@ -13,7 +12,7 @@ namespace MarketBot.Parsing
         // TODO rewrite for json
         public static void ReadConfig()
         {
-            using var reader = new StreamReader("Config.txt");
+            using var reader = new StreamReader($"{AppDomain.CurrentDomain.BaseDirectory}\\Config.txt");
             string line;
             int i = 1;
             while ((line = reader.ReadLine()) != null)

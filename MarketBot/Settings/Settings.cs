@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.IO;
 
 namespace MarketApp.Settings
@@ -13,7 +14,7 @@ namespace MarketApp.Settings
 
         public static SettingsInfo ReadSettings()
         {
-            var settingsInfo = JsonConvert.DeserializeObject<SettingsInfo>(File.ReadAllText(@"Settings.json"));
+            var settingsInfo = JsonConvert.DeserializeObject<SettingsInfo>(File.ReadAllText($"{AppDomain.CurrentDomain.BaseDirectory}Settings.json"));
             return settingsInfo;
         }
     }
