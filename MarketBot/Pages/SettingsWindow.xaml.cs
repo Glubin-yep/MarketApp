@@ -8,7 +8,7 @@ namespace MarketApp.Pages
 {
     public partial class SettingsWindow : AdonisWindow
     {
-        private SettingsInfo settingsInfo = SettingsInfo.ReadSettings();
+        private readonly SettingsInfo settingsInfo = SettingsInfo.ReadSettings();
         public SettingsWindow()
         {
             InitializeComponent();
