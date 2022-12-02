@@ -6,7 +6,6 @@ using MarketBot.Notication;
 using MarketBot.Parsing;
 using System;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
 using System.Windows.Forms;
 using static MarketBot.Date.MarketDate;
@@ -17,47 +16,39 @@ namespace MarketBot
     {
         private readonly System.Timers.Timer aTimer, bTimer;
         private bool _isDark = true;
-        private static NotifyIcon _notifyIcon = Notification.CreateNoti();
 
         public MainWindow()
         {
             InitializeComponent();
+
             ParseConfig.ReadConfig();
             UpdateStatusAsync();
             LoadUserInfo();
             MarketAPI.UpdateInventoryAsync();
 
-            aTimer = new (180_000);
+            aTimer = new(180_000);
             aTimer.Elapsed += (o, e) => UpdateStatusAsync();
             aTimer.Enabled = true;
 
-            bTimer = new (40_000);
+            bTimer = new(40_000);
             bTimer.Elapsed += (o, e) => CheckTradeAsync();
             bTimer.Enabled = true;
 
-            _notifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
-            _notifyIcon.MouseClick += MyNotifyIcon_MouseClick;
+            Tray.MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
+            Tray.MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
 
-            ParseConfig.ApplySettings(this, _notifyIcon);
+            ParseConfig.ApplySettings(this);
 
         }
 
         private void MyNotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)
         {
-            this.Show();
-            this.WindowState = WindowState.Normal;
-            _notifyIcon.Visible = false;
-            this.ShowInTaskbar = true;
+            Tray.OpenFromTray(this);
         }
 
         private void MyNotifyIcon_MouseClick(object? sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Right)
-            {
-                _notifyIcon.ContextMenuStrip = new ContextMenuStrip();
-                _notifyIcon.ContextMenuStrip.Items.Add("Exit");
-                _notifyIcon.ContextMenuStrip.Items[0].Click += (o, e) => { _notifyIcon.Dispose(); this.Close(); };
-            }
+            Tray.OpenContextMenuInTray(this, e);
         }
 
         private void ChangeTheme(object sender, RoutedEventArgs e)
@@ -96,16 +87,8 @@ namespace MarketBot
 
         private void AdonisWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (WindowState != WindowState.Minimized)
-            {
-                e.Cancel = true;
-                _notifyIcon.Visible = true;
-                MainFrame.Source = null;
-                this.ShowInTaskbar = false;
-                Notification.WindowNotificationAsync("Application minimized to tray.");
-                this.WindowState = WindowState.Minimized;
-                this.Hide();
-            }
+            e.Cancel = true;
+            Tray.CloseToTray(this);
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)

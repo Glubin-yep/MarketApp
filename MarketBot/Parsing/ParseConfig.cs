@@ -45,7 +45,7 @@ namespace MarketBot.Parsing
             }
         }
 
-        public static void ApplySettings (MainWindow mainWindow, NotifyIcon notifyIcon)
+        public static void ApplySettings (MainWindow mainWindow)
         {
             SettingsInfo settingsInfo = SettingsInfo.ReadSettings();
 
@@ -60,12 +60,7 @@ namespace MarketBot.Parsing
 
             if (settingsInfo.AutoTray == true)
             {
-                notifyIcon.Visible = true;
-                mainWindow.MainFrame.Source = null;
-                mainWindow.ShowInTaskbar = false;
-                Notification.WindowNotificationAsync("Application minimized to tray.");
-                mainWindow.WindowState = WindowState.Minimized;
-                mainWindow.Hide();
+                Tray.CloseToTray(mainWindow);
             }
         }
 
