@@ -22,8 +22,18 @@
                 <StackPanel>
                     <fa:FontAwesomeIcon x:Name="Theme"  SolidIcon="Sun" Height="20" Foreground ="White"/>
                 </StackPanel>
-            </Button>            
+            </Button>
+            
+            <Button Style="{DynamicResource {x:Static adonisUi:Styles.WindowButton}}"
+                    FontFamily="Segoe UI"
+                    FontSize="14"
+                    Click="Settings_Click">
+                <StackPanel>
+                    <fa:FontAwesomeIcon x:Name="Settings"  SolidIcon="Cog" Height="20" Foreground ="White"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
+        
     </adonisControls:AdonisWindow.TitleBarContent>
     <Grid>
         <Grid.ColumnDefinitions >

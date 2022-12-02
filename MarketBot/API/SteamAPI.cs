@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using static MarketApp.Date.UserDate;
-using static MarketBot.Date.MarketDate;
 
 namespace MarketBot.API
 {
@@ -16,21 +15,26 @@ namespace MarketBot.API
 
         public static async Task<BitmapImage> GetAvatarAsync()
         {
-            string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
+            try
+            {
 
-            User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
+                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
 
-            var bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
-            bitmapImage.UriSource = new Uri($"{user_Date.Response.Players.First().Avatarfull}"); ;
-            bitmapImage.EndInit();
+                User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
 
-            return bitmapImage;
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.UriSource = new Uri($"{user_Date.Response.Players.First().Avatarfull}"); ;
+                bitmapImage.EndInit();
+
+                return bitmapImage;
+            }
+            catch { return null; }
 
         }
         public static BitmapImage GetImage(string item_name, string? wear = null)
         {
-            string id_name = DateParsing.Get_Id_Name(item_name, "name");
+            string id_name = ParseConfig.Get_Id_Name(item_name, "name");
             string Image_Url;
 
             if (wear == null)
@@ -47,11 +51,14 @@ namespace MarketBot.API
         }
         public static async Task<string> GetNicknameAsync()
         {
-            string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
+            try
+            {
+                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
 
-            User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
-            return user_Date.Response.Players.First().Personaname;
-
+                User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
+                return user_Date.Response.Players.First().Personaname;
+            }
+            catch { return string.Empty; }
         }
     }
 }

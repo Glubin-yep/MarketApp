@@ -1,5 +1,6 @@
 ﻿using AdonisUI.Controls;
 using MarketBot.API;
+using MarketBot.Notication;
 using MarketBot.Parsing;
 using System;
 using System.Threading.Tasks;
@@ -45,127 +46,110 @@ namespace MarketBot.Pages
             Spinner2.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        public async Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items // its very bad // TODO rewrite
+        public async Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items
         {
             if (mode == 0)
             {
-                var task = Task.Run(async () =>
+                await Task.Run(async () =>
                 {
-                    var items = await MarketAPI.GetSteamInventoryAsync();
-
-                    this.Dispatcher.Invoke(new Action(() =>
+                    this.Dispatcher.Invoke(new Action( async () =>
                     {
-                        InventoryLB.Items.Clear();
+                        var items = await MarketAPI.GetSteamInventoryAsync();
 
-                        for (int i = 0; i <= items.Items.Count - 1; i++)
-                        {
-                            InventoryLB.Items.Add(items.Items[i].Market_hash_name
-                                + " / " + items.Items[i].Id);
-                        }
-                        InventoryLB.Items.SortDescriptions.Add(
-                                new System.ComponentModel.SortDescription("",
-                                System.ComponentModel.ListSortDirection.Ascending));
+                        if (items.Items.Count == 0)
+                            Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from http://steamcommunity.com/\r\nReason: Unstable operation of the Steam server. Please try again later.");
+
+                        InventoryLB.ItemsSource = items.Items;
                     }));
-                    return true;
+                    await Task.Delay(550);
                 });
-                return await task;
+                return true;
             }
             else
             {
-                var task = Task.Run(async () =>
+                await Task.Run(async () =>
                 {
-                    var items = await MarketAPI.GetItemsAsync();
-
-                    this.Dispatcher.Invoke(new Action(() =>
+                    this.Dispatcher.Invoke(new Action(async () =>
                     {
-                        ItemsLB.Items.Clear();
+                        var items = await MarketAPI.GetItemsAsync();
 
-                        for (int i = 0; i <= items.Items.Count - 1; i++)
-                        {
-                            ItemsLB.Items.Add(items.Items[i].Market_hash_name + " / "
-                                + items.Items[i].Price + " "
-                                + items.Items[i].Currency
-                                + " / " + items.Items[i].Item_id);
-                        }
-                        ItemsLB.Items.SortDescriptions.Add(
-                                new System.ComponentModel.SortDescription("",
-                                System.ComponentModel.ListSortDirection.Ascending));
+                        if (items.Items.Count == 0)
+                            Notification.DisplayInfo("You are not selling any items");
+
+                        if (items.Success == false)
+                            Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from https://market.csgo.com/");
+
+
+                        ItemsLB.ItemsSource = items.Items;
                     }));
-                    return true;
-
+                    await Task.Delay(550);
                 });
-                return await task;
             }
-
+            return true;
         }
 
         private async void Sell_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var sell = await MarketAPI.SetSellAsync(Current_item, Sell_Price.Text, Market_currency);
+            var sell = await MarketAPI.SetSellAsync(Current_sell_item_id, Sell_Price.Text, Market_currency);
 
             if (sell.Success == true)
-                MessageBox.Show("Item is successfully add for sale", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("Item is successfully add for sale");
             else
-                MessageBox.Show("Item not added for sale", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("Item not added for sale");
 
             await ListUpdate(0);
             await ListUpdate(1);
             Sell.IsEnabled = false;
         }
 
-        private async void InventoryLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void InventoryLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Sell_Price.IsEnabled = true;
             Sell_Price.Text = "";
-            Min_Price.Visibility = System.Windows.Visibility.Visible;
 
             if (e.AddedItems.Count >= 1)
             {
-                Current_item = e.AddedItems[0]?.ToString();
-                var price = await MarketAPI.GetMarketPriceAsync(Current_item);
-                ItemInfo.DataContext = price.Data;
-                Item_Image.Source = SteamAPI.GetImage(Current_item);
+                var nameOfProperty = "Id";
+                var propertyInfo = e.AddedItems[0]?.GetType().GetProperty(nameOfProperty);
+                Current_sell_item_id = propertyInfo?.GetValue(e.AddedItems[0], null)?.ToString();
             }
         }
 
-        private async void ItemsLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void ItemsLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Remove.IsEnabled = true;
             Update.IsEnabled = true;
             Update_Price.IsEnabled = true;
             Update_Price.Text = "";
-            Min_Price.Visibility = System.Windows.Visibility.Visible;
 
             if (e.AddedItems.Count >= 1)
             {
-                Current_sell_item = e.AddedItems[0]?.ToString();
-                var price = await MarketAPI.GetMarketPriceAsync(Current_sell_item);
-                ItemInfo.DataContext = price.Data;
-                Item_Image.Source = SteamAPI.GetImage(Current_sell_item);
-
+                var nameOfProperty = "Item_id";
+                var propertyInfo = e.AddedItems[0]?.GetType().GetProperty(nameOfProperty);
+                Current_sell_item_id = propertyInfo?.GetValue(e.AddedItems[0], null)?.ToString();
             }
         }
 
         private async void Remove_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var update = await MarketAPI.SetPriceAsync(Current_sell_item, "0", Market_currency);
+            var update = await MarketAPI.SetPriceAsync(Current_sell_item_id, "0", Market_currency);
 
             if (update.Success == true)
-                MessageBox.Show("Item successfully deleted", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("Item successfully deleted");
             else
-                MessageBox.Show("Item not deleted", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("Item not deleted");
 
             await ListUpdate(1);
         }
 
         private async void Update_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var price = await MarketAPI.SetPriceAsync(Current_sell_item, Update_Price.Text, Market_currency);
+            var price = await MarketAPI.SetPriceAsync(Current_sell_item_id, Update_Price.Text, Market_currency);
 
             if (price.Success == true)
-                MessageBox.Show("The item price has been successfully updated", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("The item price has been successfully updated");
             else
-                MessageBox.Show("The product price was not successfully updated", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("The product price was not successfully updated");
 
             await ListUpdate(1);
             Update.IsEnabled = false;
@@ -173,13 +157,13 @@ namespace MarketBot.Pages
 
         private void Sell_Price_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            CustomValidation.Validation_TextBox(sender, e);
+            CustomValidation.ValidationTextBox(sender, e);
             Sell.IsEnabled = true;
         }
 
         private void Update_Price_PreviewTextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            CustomValidation.Validation_TextBox(sender, e);
+            CustomValidation.ValidationTextBox(sender, e);
             Update.IsEnabled = true;
         }
     }

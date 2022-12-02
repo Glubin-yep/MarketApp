@@ -1,60 +1,59 @@
 ﻿using AdonisUI;
 using AdonisUI.Controls;
+using MarketApp.Pages;
 using MarketBot.API;
 using MarketBot.Notication;
 using MarketBot.Parsing;
 using System;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
+using System.Windows.Forms;
 using static MarketBot.Date.MarketDate;
 
 namespace MarketBot
 {
     public partial class MainWindow : AdonisWindow
     {
-        private readonly Timer aTimer, bTimer;
+        private readonly System.Timers.Timer aTimer, bTimer;
         private bool _isDark = true;
-        private readonly System.Windows.Forms.NotifyIcon MyNotifyIcon;
 
         public MainWindow()
         {
             InitializeComponent();
-            DateParsing.ReadConfig();
+
+            ParseConfig.ReadConfig();
             UpdateStatusAsync();
             LoadUserInfo();
             MarketAPI.UpdateInventoryAsync();
 
-            aTimer = new Timer(180_000);
+            aTimer = new(180_000);
             aTimer.Elapsed += (o, e) => UpdateStatusAsync();
             aTimer.Enabled = true;
 
-            bTimer = new Timer(40_000);
+            bTimer = new(40_000);
             bTimer.Elapsed += (o, e) => CheckTradeAsync();
             bTimer.Enabled = true;
 
-            MyNotifyIcon = new System.Windows.Forms.NotifyIcon
-            {
-                Icon = new System.Drawing.Icon("MarketApp.ico")
-            };
+            Tray.MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
+            Tray.MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
 
-            MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
-            MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
+            ParseConfig.ApplySettings(this);
+
         }
 
-        private void MyNotifyIcon_MouseClick(object? sender, System.Windows.Forms.MouseEventArgs e)
+        private void MyNotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
-            {
-                MyNotifyIcon.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
-                MyNotifyIcon.ContextMenuStrip.Items.Add("Exit");
-                MyNotifyIcon.ContextMenuStrip.Items[0].Click += (o, e) => { MyNotifyIcon.Dispose(); this.Close(); };
-            }
+            Tray.OpenFromTray(this);
+        }
+
+        private void MyNotifyIcon_MouseClick(object? sender, MouseEventArgs e)
+        {
+            Tray.OpenContextMenuInTray(this, e);
         }
 
         private void ChangeTheme(object sender, RoutedEventArgs e)
         {
-            ResourceLocator.SetColorScheme(Application.Current.Resources, _isDark ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
+            ResourceLocator.SetColorScheme(System.Windows.Application.Current.Resources, _isDark ? ResourceLocator.LightColorScheme : ResourceLocator.DarkColorScheme);
 
             if (_isDark)
             {
@@ -85,31 +84,17 @@ namespace MarketBot
             MainFrame.Source = new Uri("TablePage.xaml", UriKind.RelativeOrAbsolute);
         }
 
-        private void MyNotifyIcon_MouseDoubleClick(object? sender, System.Windows.Forms.MouseEventArgs e)
-        {
-            this.Show();
-            this.WindowState = WindowState.Normal;
-            MyNotifyIcon.Visible = false;
-            this.ShowInTaskbar = true;
-        }
 
         private void AdonisWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (WindowState != WindowState.Minimized)
-            {
-                e.Cancel = true;
-                MyNotifyIcon.Visible = true;
-                MainFrame.Source = null;
-                this.ShowInTaskbar = false;
-                Notification.WindowNotificationAsync("Application minimized to tray.");
-                this.WindowState = WindowState.Minimized;
-                this.Hide();
-            }
+            e.Cancel = true;
+            Tray.CloseToTray(this);
         }
 
-        private void Minimize_Click(object sender, RoutedEventArgs e)
+        private void Settings_Click(object sender, RoutedEventArgs e)
         {
-
+            var settings = new SettingsWindow();
+            settings.ShowDialog();
         }
 
         private void LoadUserInfo()
@@ -127,6 +112,7 @@ namespace MarketBot
 
         private async void CheckTradeAsync()
         {
+            LoadUserInfo();
             if (await MarketAPI.GetTradeRequesTakeAsync() == true || await MarketAPI.GetTradeRequestGiveAsync() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
@@ -136,9 +122,9 @@ namespace MarketBot
                 }));
             }
         }
+
         private async void UpdateStatusAsync()
         {
-            LoadUserInfo();
             bool status = await MarketAPI.GetPingAsync();
             if (status == true)
             {

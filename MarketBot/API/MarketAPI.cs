@@ -44,10 +44,14 @@ namespace MarketBot.API
         public static async Task<string> GetMoneyAsync()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/get-money?key={Market_API_Key}";
+            try
+            {
 
-            Balans user_Date = JsonConvert.DeserializeObject<Balans>(await GetResponseAsync(actionUrl));
-            Market_currency = user_Date.Currency;
-            return user_Date.Money.ToString();
+                Balans user_Date = JsonConvert.DeserializeObject<Balans>(await GetResponseAsync(actionUrl));
+                Market_currency = user_Date.Currency;
+                return user_Date.Money.ToString();
+            }
+            catch { return ""; }
         }
         public static async Task<bool> GetPingAsync()
         {
@@ -61,48 +65,70 @@ namespace MarketBot.API
         }
         public static async Task<ItemList> GetItemsAsync()
         {
-            string actionUrl = $"https://market.csgo.com/api/v2/items?key={Market_API_Key}";
+            try
+            {
+                string actionUrl = $"https://market.csgo.com/api/v2/items?key={Market_API_Key}";
 
-            ItemList user_Date = JsonConvert.DeserializeObject<ItemList>(await GetResponseAsync(actionUrl));
-            return user_Date;
+                ItemList user_Date = JsonConvert.DeserializeObject<ItemList>(await GetResponseAsync(actionUrl));
+                return user_Date;
+            }
+            catch { return new ItemList(); }
         }
         public static async Task<Inventory> GetSteamInventoryAsync()
         {
-            string actionUrl = $"https://market.csgo.com/api/v2/my-inventory/?key={Market_API_Key}";
+            try
+            {
+                string actionUrl = $"https://market.csgo.com/api/v2/my-inventory/?key={Market_API_Key}";
 
-            Inventory user_Date = JsonConvert.DeserializeObject<Inventory>(await GetResponseAsync(actionUrl));
-            return user_Date;
+                Inventory user_Date = JsonConvert.DeserializeObject<Inventory>(await GetResponseAsync(actionUrl));
+                return user_Date;
+            }
+            catch { return new Inventory(); }
         }
         public static async Task<MarketPrice> GetMarketPriceAsync(string item_name)
         {
-            item_name = DateParsing.Get_Id_Name(item_name, "name");
-            string actionUrl = $"https://market.csgo.com/api/v2/search-item-by-hash-name?key={Market_API_Key}&hash_name={item_name}";
+            try
+            {
+                item_name = ParseConfig.Get_Id_Name(item_name, "name");
+                string actionUrl = $"https://market.csgo.com/api/v2/search-item-by-hash-name?key={Market_API_Key}&hash_name={item_name}";
 
-            MarketPrice user_Date = JsonConvert.DeserializeObject<MarketPrice>(await GetResponseAsync(actionUrl));
-            return user_Date;
+                MarketPrice user_Date = JsonConvert.DeserializeObject<MarketPrice>(await GetResponseAsync(actionUrl));
+                return user_Date;
+            }
+            catch { return new MarketPrice(); }
         }
         public static async Task<MarketHistory> GetMarketHistoryAsync()
         {
-            string actionUrl = $"https://market.csgo.com/api/v2/operation-history?key={Market_API_Key}&date={DateTimeOffset.Now.Add(TimeSpan.FromDays(-90)).ToUnixTimeSeconds()}&date_end={DateTimeOffset.Now.ToUnixTimeSeconds()}";
+            try
+            {
+                string actionUrl = $"https://market.csgo.com/api/v2/operation-history?key={Market_API_Key}&date={DateTimeOffset.Now.Add(TimeSpan.FromDays(-90)).ToUnixTimeSeconds()}&date_end={DateTimeOffset.Now.ToUnixTimeSeconds()}";
 
-            MarketHistory user_history = JsonConvert.DeserializeObject<MarketHistory>(await GetResponseAsync(actionUrl));
-            return user_history;
+                MarketHistory user_history = JsonConvert.DeserializeObject<MarketHistory>(await GetResponseAsync(actionUrl));
+                return user_history;
+            }
+            catch { return new MarketHistory(); }
         }
-        public static async Task<Sell> SetSellAsync(string id, string price, string currency)
+        public static async Task<Sell> SetSellAsync(string item_id, string price, string currency)
         {
-            id = DateParsing.Get_Id_Name(id, "id");
-            string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key={Market_API_Key}&id={id}&price={price}00&cur={currency}";
+            try
+            {
+                string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key={Market_API_Key}&id={item_id}&price={price}00&cur={currency}";
 
-            Sell user_Date = JsonConvert.DeserializeObject<Sell>(await GetResponseAsync(actionUrl));
-            return user_Date;
+                Sell user_Date = JsonConvert.DeserializeObject<Sell>(await GetResponseAsync(actionUrl));
+                return user_Date;
+            }
+            catch { return new Sell(); }
         }
         public static async Task<Update> SetPriceAsync(string item_id, string price, string currency)
         {
-            item_id = DateParsing.Get_Id_Name(item_id, "id");
-            string actionUrl = $"https://market.csgo.com/api/v2/set-price?key={Market_API_Key}&item_id={item_id}&price={price}00&cur={currency}";
+            try
+            {
+                string actionUrl = $"https://market.csgo.com/api/v2/set-price?key={Market_API_Key}&item_id={item_id}&price={price}00&cur={currency}";
 
-            Update user_Date = JsonConvert.DeserializeObject<Update>(await GetResponseAsync(actionUrl));
-            return user_Date;
+                Update user_Date = JsonConvert.DeserializeObject<Update>(await GetResponseAsync(actionUrl));
+                return user_Date;
+            }
+            catch { return new Update(); }
         }
         public static async Task<bool> GetTradeRequesTakeAsync()
         {

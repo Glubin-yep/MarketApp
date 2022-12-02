@@ -1,16 +1,19 @@
-﻿using AdonisUI.Controls;
+﻿using MarketApp.Settings;
 using MarketBot.API;
 using MarketBot.Notication;
+using System;
 using System.IO;
+using System.Windows;
+using System.Windows.Forms;
 
 namespace MarketBot.Parsing
 {
-    class DateParsing
+    class ParseConfig
     {
         // TODO rewrite for json
         public static void ReadConfig()
         {
-            using var reader = new StreamReader("Config.txt");
+            using var reader = new StreamReader($"{AppDomain.CurrentDomain.BaseDirectory}\\Config.txt");
             string line;
             int i = 1;
             while ((line = reader.ReadLine()) != null)
@@ -37,10 +40,31 @@ namespace MarketBot.Parsing
             }
             if (MarketAPI.Market_API_Key == string.Empty || SteamAPI.StemaId32 == string.Empty || SteamAPI.Steam_API_Key == string.Empty)
             {
-                MessageBox.Show("Entry Steam API or StemaId32 or Market API", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Notification.DisplayInfo("Entry Steam API or StemaId32 or Market API");
                 App.Current.Shutdown();
             }
         }
+
+        public static void ApplySettings (MainWindow mainWindow)
+        {
+            SettingsInfo settingsInfo = SettingsInfo.ReadSettings();
+
+            if (settingsInfo.AutoLoad == true)
+            {
+                Utills.AddToAutoLoad();
+            }
+            else
+            {
+                Utills.RemoveFromAutoLoad();
+            }
+
+            if (settingsInfo.AutoTray == true)
+            {
+                Tray.CloseToTray(mainWindow);
+            }
+        }
+
+        //TODO remove this shit
         public static string Get_Id_Name(string current_item, string mode)
         {
             string[] strings = current_item.Split(" /");

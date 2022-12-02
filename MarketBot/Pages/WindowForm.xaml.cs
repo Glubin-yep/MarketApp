@@ -1,5 +1,6 @@
 ﻿using AdonisUI.Controls;
 using MarketBot.API;
+using MarketBot.Notication;
 using MarketBot.Parsing;
 
 namespace Pages
@@ -48,11 +49,11 @@ namespace Pages
 
             if (status.Success == true)
             {
-                MessageBox.Show("Order successfully added :)", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("Order successfully added :)");
                 this.Close();
             }
             else
-                MessageBox.Show("It is not possible to add this order :(", "Info", MessageBoxButton.OK, MessageBoxImage.Information);
+                Notification.DisplayInfo("It is not possible to add this order :(");
         }
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -74,11 +75,11 @@ namespace Pages
 
         private void TextBox_PreviewTextInput_Count(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            CustomValidation.Validation_TextBox(sender, e);
+            CustomValidation.ValidationTextBox(sender, e);
         }
         private void TextBox_PreviewTextInput_Price(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            CustomValidation.Validation_TextBox(sender, e);
+            CustomValidation.ValidationTextBox(sender, e);
             Add.IsEnabled = true;
         }
     }

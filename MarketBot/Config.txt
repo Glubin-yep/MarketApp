@@ -1,4 +1,0 @@
-﻿Market_API_key : 
-StemaId32 : 
-Steam_API_key : 
-Telegram User_Id : 
