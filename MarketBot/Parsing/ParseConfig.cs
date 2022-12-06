@@ -61,15 +61,5 @@ namespace MarketBot.Parsing
                 Tray.CloseToTray(mainWindow);
             }
         }
-
-        //TODO remove this shit
-        public static string Get_Id_Name(string current_item, string mode)
-        {
-            string[] strings = current_item.Split(" /");
-            if (mode == "name")
-                return strings[0];
-
-            return strings[^1];
-        }
     }
 }

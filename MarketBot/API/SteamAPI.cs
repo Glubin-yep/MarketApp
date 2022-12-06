@@ -34,13 +34,12 @@ namespace MarketBot.API
         }
         public static BitmapImage GetImage(string item_name, string? wear = null)
         {
-            string id_name = ParseConfig.Get_Id_Name(item_name, "name");
             string Image_Url;
 
             if (wear == null)
-                Image_Url = $"https://cdn.csgo.com//item/{id_name}/300.png";
+                Image_Url = $"https://cdn.csgo.com//item/{item_name}/300.png";
             else
-                Image_Url = $"https://cdn.csgo.com//item/{id_name} ({wear})/300.png";
+                Image_Url = $"https://cdn.csgo.com//item/{item_name} ({wear})/300.png";
 
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
