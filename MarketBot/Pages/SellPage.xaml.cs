@@ -4,7 +4,7 @@ using MarketBot.Parsing;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using static MarketBot.Date.MarketDate;
+using static MarketBot.Date.MarketModel;
 
 namespace MarketBot.Pages
 {

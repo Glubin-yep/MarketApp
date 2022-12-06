@@ -8,7 +8,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using static MarketBot.Date.MarketDate;
+using static MarketBot.Date.MarketModel;
 
 namespace MarketBot
 {

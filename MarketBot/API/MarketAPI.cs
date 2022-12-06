@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using static MarketApp.Date.OrdersDate;
-using static MarketApp.Date.UserDate;
-using static MarketBot.Date.MarketDate;
+using static MarketApp.Date.OrdersModel;
+using static MarketApp.Date.UserModel;
+using static MarketBot.Date.MarketModel;
 
 namespace MarketBot.API
 {

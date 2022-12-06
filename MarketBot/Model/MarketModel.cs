@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MarketBot.Date
 {
-    class MarketDate
+    class MarketModel
     {
         public static string Current_sell_item_id { get; set; } = string.Empty;
         public static string Market_currency { get; set; } = string.Empty;

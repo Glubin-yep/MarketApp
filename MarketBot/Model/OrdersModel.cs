@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MarketApp.Date
 {
-    class OrdersDate
+    class OrdersModel
     {
         public struct Order
         {
@@ -16,9 +16,9 @@ namespace MarketApp.Date
                 get
                 {
                     if (price_.Length <= 2)
-                        return "0," + price_ + " " + MarketDate.Market_currency; // its so bad :(
+                        return "0," + price_ + " " + MarketModel.Market_currency; // its so bad :(
                     else
-                        return price_.Insert(price_.Length - 2, ",") + " " + MarketDate.Market_currency;
+                        return price_.Insert(price_.Length - 2, ",") + " " + MarketModel.Market_currency;
                 }
                 set { price_ = value; }
             }

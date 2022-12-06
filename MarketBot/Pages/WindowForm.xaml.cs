@@ -2,7 +2,7 @@
 using MarketBot.API;
 using MarketBot.Notication;
 using MarketBot.Parsing;
-using static MarketApp.Date.OrdersDate;
+using static MarketApp.Date.OrdersModel;
 
 namespace Pages
 {

@@ -4,7 +4,7 @@ using System;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Controls;
-using static MarketApp.Date.OrdersDate;
+using static MarketApp.Date.OrdersModel;
 
 namespace MarketBot.Pages
 {

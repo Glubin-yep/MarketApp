@@ -2,7 +2,7 @@
 
 namespace MarketApp.Date
 {
-    class UserDate
+    class UserModel
     {
         public struct Balans
         {

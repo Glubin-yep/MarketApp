@@ -61,7 +61,7 @@ namespace MarketBot.Notication
         }
     }
 
-    public class Tray
+    public static class Tray
     {
         private static readonly NotifyIcon myNotifyIcon = new()
         {
