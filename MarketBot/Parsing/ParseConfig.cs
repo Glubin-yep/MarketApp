@@ -3,8 +3,6 @@ using MarketBot.API;
 using MarketBot.Notication;
 using System;
 using System.IO;
-using System.Windows;
-using System.Windows.Forms;
 
 namespace MarketBot.Parsing
 {
@@ -45,7 +43,7 @@ namespace MarketBot.Parsing
             }
         }
 
-        public static void ApplySettings (MainWindow mainWindow)
+        public static void ApplySettings(MainWindow mainWindow)
         {
             SettingsInfo settingsInfo = SettingsInfo.ReadSettings();
 

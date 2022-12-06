@@ -1,5 +1,4 @@
-﻿using AdonisUI.Controls;
-using MarketBot.API;
+﻿using MarketBot.API;
 using MarketBot.Notication;
 using MarketBot.Parsing;
 using System;
@@ -52,7 +51,7 @@ namespace MarketBot.Pages
             {
                 await Task.Run(async () =>
                 {
-                    this.Dispatcher.Invoke(new Action( async () =>
+                    this.Dispatcher.Invoke(new Action(async () =>
                     {
                         var items = await MarketAPI.GetSteamInventoryAsync();
 

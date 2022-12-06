@@ -1,5 +1,4 @@
-﻿using AdonisUI.Controls;
-using MarketApp.Settings;
+﻿using MarketApp.Settings;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
@@ -69,7 +68,7 @@ namespace MarketBot.Notication
             Icon = new System.Drawing.Icon($"{AppDomain.CurrentDomain.BaseDirectory}MarketApp.ico")
         };
 
-        public static NotifyIcon MyNotifyIcon { get => myNotifyIcon;}
+        public static NotifyIcon MyNotifyIcon { get => myNotifyIcon; }
 
         public static void CloseToTray(MainWindow mainWindow)
         {

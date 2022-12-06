@@ -4,13 +4,13 @@ using System;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Controls;
+using static MarketApp.Date.OrdersDate;
 
 namespace MarketBot.Pages
 {
     public partial class OrderPage : Page
     {
-        private string? Selected_order_name { get; set; }
-        private object? Selected_Order { get; set; }
+        private Order Selected_Order { get; set; }
 
         private readonly Timer aTimer;
 
@@ -33,17 +33,20 @@ namespace MarketBot.Pages
         {
             var page = new WindowForm();
             page.ShowDialog();
+            Update_Orders();
         }
 
         private async void Remove_order_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            await MarketAPI.SetOrderAsync(Selected_order_name, "", "0", "0");
+            await MarketAPI.SetOrderAsync(Selected_Order.Hash_name, "", "0", "0");
+            Update_Orders();
         }
 
         private void Update_order_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             var page = new WindowForm(Selected_Order);
             page.ShowDialog();
+            Update_Orders();
         }
 
         private void Active_Orders_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -53,10 +56,7 @@ namespace MarketBot.Pages
 
             if (e.AddedItems.Count >= 1)
             {
-                Selected_Order = e.AddedItems[0];
-                var nameOfProperty = "hash_name";
-                var propertyInfo = e.AddedItems[0]?.GetType().GetProperty(nameOfProperty);
-                Selected_order_name = propertyInfo?.GetValue(e.AddedItems[0], null)?.ToString();
+                Selected_Order = (Order)e.AddedItems[0];
             }
         }
         private void Update_Orders()
