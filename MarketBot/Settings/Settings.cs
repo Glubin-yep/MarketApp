@@ -1,10 +1,12 @@
-﻿using Newtonsoft.Json;
+﻿using MarketBot.Notication;
+using MarketBot;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 
 namespace MarketApp.Settings
 {
-    public class SettingsInfo
+    public class Settings
     {
 
         public bool? AutoLoad { get; set; }
@@ -12,10 +14,29 @@ namespace MarketApp.Settings
         public bool? TelegramNotification { get; set; }
         public bool? WindowsNotification { get; set; }
 
-        public static SettingsInfo ReadSettings()
+        public static Settings ReadSettings()
         {
-            var settingsInfo = JsonConvert.DeserializeObject<SettingsInfo>(File.ReadAllText($"{AppDomain.CurrentDomain.BaseDirectory}Settings.json"));
+            var settingsInfo = JsonConvert.DeserializeObject<Settings>(File.ReadAllText($"{AppDomain.CurrentDomain.BaseDirectory}Settings.json"));
             return settingsInfo;
+        }
+
+        public static void ApplySettings(MainWindow mainWindow)
+        {
+            Settings settingsInfo = Settings.ReadSettings();
+
+            if (settingsInfo.AutoLoad == true)
+            {
+                Utills.AddToAutoLoad();
+            }
+            else
+            {
+                Utills.RemoveFromAutoLoad();
+            }
+
+            if (settingsInfo.AutoTray == true)
+            {
+                Tray.CloseToTray(mainWindow);
+            }
         }
     }
 

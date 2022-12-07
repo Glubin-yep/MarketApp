@@ -78,7 +78,6 @@ namespace MarketBot.Pages
                         if (items.Success == false)
                             Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from https://market.csgo.com/");
 
-
                         ItemsLB.ItemsSource = items.Items;
                     }));
                     await Task.Delay(550);

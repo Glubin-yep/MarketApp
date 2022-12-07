@@ -1,4 +1,5 @@
-﻿using MarketBot.Parsing;
+﻿using MarketApp.Settings;
+using MarketBot.Parsing;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
@@ -10,15 +11,12 @@ namespace MarketBot.API
 {
     class SteamAPI
     {
-        public static string StemaId32 { get; set; }
-        public static string Steam_API_Key { get; set; }
-
         public static async Task<BitmapImage> GetAvatarAsync()
         {
             try
             {
 
-                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
+                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Config.Steam_API_Key}&steamids={Config.StemaId32}";
 
                 User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
 
@@ -52,7 +50,7 @@ namespace MarketBot.API
         {
             try
             {
-                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
+                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Config.Steam_API_Key}&steamids={Config.StemaId32}";
 
                 User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
                 return user_Date.Response.Players.First().Personaname;
