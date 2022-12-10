@@ -3,6 +3,7 @@ using MarketBot;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using MarketApp.Utills;
 
 namespace MarketApp.Settings
 {
@@ -16,7 +17,7 @@ namespace MarketApp.Settings
 
         public static Settings ReadSettings()
         {
-            var settingsInfo = JsonConvert.DeserializeObject<Settings>(File.ReadAllText($"{AppDomain.CurrentDomain.BaseDirectory}Settings.json"));
+            var settingsInfo = JsonConvert.DeserializeObject<Settings>(File.ReadAllText($"{IOoperation.PathToMainDir}\\MarketApp\\Settings.json"));
             return settingsInfo;
         }
 
@@ -26,11 +27,11 @@ namespace MarketApp.Settings
 
             if (settingsInfo.AutoLoad == true)
             {
-                Utills.AddToAutoLoad();
+                Regedit.AddToAutoLoad();
             }
             else
             {
-                Utills.RemoveFromAutoLoad();
+                Regedit.RemoveFromAutoLoad();
             }
 
             if (settingsInfo.AutoTray == true)
