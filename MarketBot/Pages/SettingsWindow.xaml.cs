@@ -33,5 +33,11 @@ namespace MarketApp.Pages
             IOoperation.SaveSettings(settingsInfo);
             this.Close();
         }
+
+        private void ChangeConfig_Click(object sender, RoutedEventArgs e)
+        {
+            var conf = new ConfigPage();
+            conf.ShowDialog();
+        }
     }
 }

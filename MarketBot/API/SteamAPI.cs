@@ -16,7 +16,7 @@ namespace MarketBot.API
             try
             {
 
-                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Config.Steam_API_Key}&steamids={Config.StemaId32}";
+                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Config.Steam_API_Key}&steamids={Config.SteamId32}";
 
                 User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
 
@@ -50,7 +50,7 @@ namespace MarketBot.API
         {
             try
             {
-                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Config.Steam_API_Key}&steamids={Config.StemaId32}";
+                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Config.Steam_API_Key}&steamids={Config.SteamId32}";
 
                 User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
                 return user_Date.Response.Players.First().Personaname;

@@ -1,6 +1,7 @@
 ﻿using AdonisUI.Controls;
 using MarketApp.Date;
 using MarketApp.Utills;
+using MarketBot.Notication;
 
 namespace MarketApp.Pages
 {
@@ -9,18 +10,29 @@ namespace MarketApp.Pages
         public ConfigPage()
         {
             InitializeComponent();
+
+            SteamId32.Text = Config.SteamId32;
+            Market_API_Key.Text = Config.Market_API_Key;
+            Steam_API_Key.Text = Config.Steam_API_Key;
+            Telegram_User_Id.Text = Config.Telegram_User_Id;
         }
 
         private void Save_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            Config.StemaId32 = SteamId32.Text;
+            Config.SteamId32 = SteamId32.Text;
             Config.Market_API_Key = Market_API_Key.Text;
             Config.Steam_API_Key = Steam_API_Key.Text;
             Config.Telegram_User_Id = Telegram_User_Id.Text;
 
-            IOoperation.SaveConfig();
-
-            this.Close();
+            if (Config.SteamId32 == string.Empty || Config.Market_API_Key == string.Empty || Config.Steam_API_Key == string.Empty)
+            {
+                Notification.DisplayInfo("Entry data pls");
+            }
+            else
+            {
+                IOoperation.SaveConfig();
+                this.Close();
+            }
         }
     }
 }

@@ -7,7 +7,7 @@ namespace MarketApp.Date
 {
     public class Config
     {
-        public static string StemaId32 { get; set; } = string.Empty;
+        public static string SteamId32 { get; set; } = string.Empty;
         public static string Steam_API_Key { get; set; } = string.Empty;
         public static string Market_API_Key { get; set; } = string.Empty;
         public static string Telegram_User_Id { get; set; } = string.Empty;
@@ -20,7 +20,7 @@ namespace MarketApp.Date
             var conf = Encryption.Decrypt(File.ReadAllText($"{IOoperation.PathToMainDir}\\MarketApp\\Config.txt"));
             var lines = conf.Split('\n');
 
-            StemaId32 = lines[0];
+            SteamId32 = lines[0];
             Steam_API_Key = lines[1];
             Market_API_Key = lines[2];
             Telegram_User_Id = lines[3];
@@ -31,7 +31,7 @@ namespace MarketApp.Date
 
         public static bool ChekConfig()
         {
-            if (Market_API_Key == string.Empty || StemaId32 == string.Empty || Steam_API_Key == string.Empty)
+            if (Market_API_Key == string.Empty || SteamId32 == string.Empty || Steam_API_Key == string.Empty)
             {
                 Notification.DisplayInfo("Entry Steam API or StemaId32 or Market API");
                 var entry = new ConfigPage();
@@ -42,7 +42,7 @@ namespace MarketApp.Date
 
         public override string ToString()
         {
-            return $"{StemaId32}\n{Steam_API_Key}\n{Market_API_Key}\n{Telegram_User_Id}\n";
+            return $"{SteamId32}\n{Steam_API_Key}\n{Market_API_Key}\n{Telegram_User_Id}\n";
         }
     }
 }
