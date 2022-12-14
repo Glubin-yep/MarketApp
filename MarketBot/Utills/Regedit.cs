@@ -9,15 +9,15 @@ namespace MarketApp.Utills
         {
             string BaseDir = AppDomain.CurrentDomain.BaseDirectory;
 
-            Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            Microsoft.Win32.RegistryKey? key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
-            key.SetValue("MarketApp", Path.Combine(BaseDir, "MarketApp.exe"));
+            key?.SetValue("MarketApp", Path.Combine(BaseDir, "MarketApp.exe"));
         }
         public static void RemoveFromAutoLoad()
         {
-            Microsoft.Win32.RegistryKey key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+            Microsoft.Win32.RegistryKey? key = Microsoft.Win32.Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
 
-            key.DeleteValue("MarketApp", false);
+            key?.DeleteValue("MarketApp", false);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace MarketBot.Notication
 {
     public static class Notification
     {
-      
+
         private const string _botKey = "5701818571:AAFTs8zmjlHqr3ZQHYC4Z5HNtse_3-f9jVA";
 
         public static async void TelegramNotificationAsync(string text)

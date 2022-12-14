@@ -1,5 +1,4 @@
 ﻿using MarketApp.Date;
-using MarketBot.Parsing;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -17,16 +16,13 @@ namespace MarketBot.API
             string responseBody = string.Empty;
             try
             {
-                using (var client = new HttpClient())
-                {
-                    HttpResponseMessage response = await client.GetAsync(url);
-                    response.EnsureSuccessStatusCode();
+                using var client = new HttpClient();
 
-                    using (HttpContent content = response.Content)
-                    {
-                        responseBody = await response.Content.ReadAsStringAsync();
-                    }
-                }
+                HttpResponseMessage response = await client.GetAsync(url);
+                response.EnsureSuccessStatusCode();
+
+                using HttpContent content = response.Content;
+                responseBody = await response.Content.ReadAsStringAsync();
             }
             catch
             {

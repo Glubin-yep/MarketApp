@@ -10,6 +10,9 @@ namespace MarketApp.Utills
         private static readonly string pathToMainDir = $"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}";
         public static string PathToMainDir { get => pathToMainDir; }
 
+        private static readonly string fullPathToData = $"{Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData)}\\MarketApp";
+        public static string FullPathToData { get => fullPathToData; }
+
         public static bool CheckDir()
         {
             var dir = Directory.GetDirectories(PathToMainDir, "MarketApp");
@@ -22,20 +25,18 @@ namespace MarketApp.Utills
             if (files.Length < 2)
                 return false;
 
-            if (files[0] != $"{PathToMainDir}\\MarketApp\\Config.txt")
+            if (files[0] != $"{FullPathToData}\\Config.txt")
                 SaveConfig();
 
-
-            if (files[1] != $"{PathToMainDir}\\MarketApp\\Settings.json")
+            if (files[1] != $"{FullPathToData}\\Settings.json")
                 SaveSettings();
-
 
             return true;
         }
 
         public static void CreateDir()
         {
-            Directory.CreateDirectory(PathToMainDir + "\\MarketApp");
+            Directory.CreateDirectory(FullPathToData);
             SaveConfig();
             SaveSettings();
         }
@@ -43,19 +44,19 @@ namespace MarketApp.Utills
         public static void SaveConfig()
         {
             var conf = new Config().ToString();
-            File.WriteAllText(PathToMainDir + "\\MarketApp\\Config.txt", Encryption.Encrypt(conf));
+            File.WriteAllText(FullPathToData + "\\Config.txt", Encryption.Encrypt(conf));
         }
 
         public static void SaveSettings()
         {
-            var settings = Date.Settings.ReadSettings();
+            var settings = Settings.ReadSettings();
             var json = JsonSerializer.Serialize(settings);
-            File.WriteAllText(PathToMainDir + "\\MarketApp\\Settings.json", json);
+            File.WriteAllText(PathToMainDir + "\\Settings.json", json);
         }
-        public static void SaveSettings(Date.Settings settings)
+        public static void SaveSettings(Settings settings)
         {
             var json = JsonSerializer.Serialize(settings);
-            File.WriteAllText(PathToMainDir + "\\MarketApp\\Settings.json", json);
+            File.WriteAllText(PathToMainDir + "\\Settings.json", json);
         }
     }
 }

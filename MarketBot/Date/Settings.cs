@@ -1,5 +1,6 @@
 ﻿using MarketApp.Utills;
 using MarketBot;
+using MarketBot.Notication;
 using Newtonsoft.Json;
 using System.IO;
 
@@ -15,35 +16,35 @@ namespace MarketApp.Date
 
         public static Settings ReadSettings()
         {
-            Settings settingsInfo = new ();
+            Settings settingsInfo = new();
 
             try
             {
-                settingsInfo = JsonConvert.DeserializeObject<Settings>(File.ReadAllText($"{IOoperation.PathToMainDir}\\MarketApp\\Settings.json"));
+                settingsInfo = JsonConvert.DeserializeObject<Settings>(File.ReadAllText($"{IOoperation.FullPathToData}\\Settings.json"));
             }
 
-            catch{}
+            catch { }
 
             return settingsInfo;
         }
 
         public static void ApplySettings(MainWindow mainWindow)
         {
-            //Settings settingsInfo = Settings.ReadSettings();
+            Settings settingsInfo = Settings.ReadSettings();
 
-            //if (settingsInfo.AutoLoad == true)
-            //{
-            //    Regedit.AddToAutoLoad();
-            //}
-            //else
-            //{
-            //    Regedit.RemoveFromAutoLoad();
-            //}
+            if (settingsInfo.AutoLoad == true)
+            {
+                Regedit.AddToAutoLoad();
+            }
+            else
+            {
+                Regedit.RemoveFromAutoLoad();
+            }
 
-            //if (settingsInfo.AutoTray == true)
-            //{
-            //    Tray.CloseToTray(mainWindow);
-            //}
+            if (settingsInfo.AutoTray == true)
+            {
+                Tray.CloseToTray(mainWindow);
+            }
         }
     }
 

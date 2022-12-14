@@ -17,7 +17,7 @@ namespace MarketApp.Date
             if (IOoperation.CheckDir() == false)
                 IOoperation.CreateDir();
 
-            var conf = Encryption.Decrypt(File.ReadAllText($"{IOoperation.PathToMainDir}\\MarketApp\\Config.txt"));
+            var conf = Encryption.Decrypt(File.ReadAllText($"{IOoperation.FullPathToData}\\Config.txt"));
             var lines = conf.Split('\n');
 
             SteamId32 = lines[0];
@@ -25,7 +25,7 @@ namespace MarketApp.Date
             Market_API_Key = lines[2];
             Telegram_User_Id = lines[3];
 
-            if(ChekConfig() == false)
+            if (ChekConfig() == false)
                 ReadConfig();
         }
 
