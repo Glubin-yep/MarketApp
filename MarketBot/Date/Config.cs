@@ -25,11 +25,11 @@ namespace MarketApp.Date
             Market_API_Key = lines[2];
             Telegram_User_Id = lines[3];
 
-            ChekConfig();
-            ReadConfig();
+            if(ChekConfig() == false)
+                ReadConfig();
         }
 
-        public static void ChekConfig()
+        public static bool ChekConfig()
         {
             if (Market_API_Key == string.Empty || StemaId32 == string.Empty || Steam_API_Key == string.Empty)
             {
@@ -37,6 +37,7 @@ namespace MarketApp.Date
                 var entry = new ConfigPage();
                 entry.ShowDialog();
             }
+            return true;
         }
 
         public override string ToString()
