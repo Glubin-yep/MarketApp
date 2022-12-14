@@ -1,5 +1,6 @@
 ﻿using AdonisUI.Controls;
-using MarketApp.Settings;
+using MarketApp.Date;
+using MarketApp.Utills;
 
 namespace MarketApp.Pages
 {
@@ -16,6 +17,8 @@ namespace MarketApp.Pages
             Config.Market_API_Key = Market_API_Key.Text;
             Config.Steam_API_Key = Steam_API_Key.Text;
             Config.Telegram_User_Id = Telegram_User_Id.Text;
+
+            IOoperation.SaveConfig();
 
             this.Close();
         }

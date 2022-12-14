@@ -1,14 +1,13 @@
 ﻿using AdonisUI.Controls;
-using MarketApp.Settings;
-using Newtonsoft.Json;
-using System.IO;
+using MarketApp.Date;
+using MarketApp.Utills;
 using System.Windows;
 
 namespace MarketApp.Pages
 {
     public partial class SettingsWindow : AdonisWindow
     {
-        private readonly Settings.Settings settingsInfo = Settings.Settings.ReadSettings();
+        private readonly Settings settingsInfo = Settings.ReadSettings();
         public SettingsWindow()
         {
             InitializeComponent();
@@ -31,8 +30,7 @@ namespace MarketApp.Pages
             settingsInfo.TelegramNotification = TelegramNotification.IsChecked;
             settingsInfo.WindowsNotification = WindowsNotification.IsChecked;
 
-            var json = JsonConvert.SerializeObject(settingsInfo);
-            File.WriteAllText(@"Settings.json", json);
+            IOoperation.SaveSettings(settingsInfo);
             this.Close();
         }
     }

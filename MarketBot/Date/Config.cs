@@ -3,7 +3,7 @@ using MarketApp.Utills;
 using MarketBot.Notication;
 using System.IO;
 
-namespace MarketApp.Settings
+namespace MarketApp.Date
 {
     public class Config
     {
@@ -26,6 +26,7 @@ namespace MarketApp.Settings
             Telegram_User_Id = lines[3];
 
             ChekConfig();
+            ReadConfig();
         }
 
         public static void ChekConfig()
@@ -35,13 +36,12 @@ namespace MarketApp.Settings
                 Notification.DisplayInfo("Entry Steam API or StemaId32 or Market API");
                 var entry = new ConfigPage();
                 entry.ShowDialog();
-                IOoperation.SaveConfig();
             }
         }
 
         public override string ToString()
         {
-            return $"{StemaId32} \n{Steam_API_Key}\n{Market_API_Key}\n{Telegram_User_Id}";
+            return $"{StemaId32}\n{Steam_API_Key}\n{Market_API_Key}\n{Telegram_User_Id}\n";
         }
     }
 }

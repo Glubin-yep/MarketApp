@@ -1,7 +1,7 @@
 ﻿using AdonisUI;
 using AdonisUI.Controls;
 using MarketApp.Pages;
-using MarketApp.Settings;
+using MarketApp.Date;
 using MarketBot.API;
 using MarketBot.Notication;
 using System;
@@ -37,7 +37,7 @@ namespace MarketBot
             Tray.MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
             Tray.MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
 
-            MarketApp.Settings.Settings.ApplySettings(this);
+            MarketApp.Date.Settings.ApplySettings(this);
 
         }
 

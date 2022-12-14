@@ -1,4 +1,4 @@
-﻿using MarketApp.Settings;
+﻿using MarketApp.Date;
 using System;
 using System.IO;
 using System.Text.Json;
@@ -42,13 +42,18 @@ namespace MarketApp.Utills
 
         public static void SaveConfig()
         {
-            var conf = new Config();
-            File.WriteAllText(PathToMainDir + "\\MarketApp\\Config.txt", Encryption.Encrypt(conf.ToString()));
+            var conf = new Config().ToString();
+            File.WriteAllText(PathToMainDir + "\\MarketApp\\Config.txt", Encryption.Encrypt(conf));
         }
 
         public static void SaveSettings()
         {
-            var settings = new Settings.Settings();
+            var settings = Date.Settings.ReadSettings();
+            var json = JsonSerializer.Serialize(settings);
+            File.WriteAllText(PathToMainDir + "\\MarketApp\\Settings.json", json);
+        }
+        public static void SaveSettings(Date.Settings settings)
+        {
             var json = JsonSerializer.Serialize(settings);
             File.WriteAllText(PathToMainDir + "\\MarketApp\\Settings.json", json);
         }
