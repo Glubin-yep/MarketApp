@@ -6,7 +6,7 @@ namespace MarketBot
 {
     internal class LayoutListbox : ListBox
     {
-        public Layout Layout
+        public Layout layout
         {
             get { return (Layout)GetValue(layoutProperty); }
             set { SetValue(layoutProperty, value); }

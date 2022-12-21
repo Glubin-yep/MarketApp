@@ -51,12 +51,12 @@ namespace MarketApp.Utills
         {
             var settings = Settings.ReadSettings();
             var json = JsonSerializer.Serialize(settings);
-            File.WriteAllText(PathToMainDir + "\\Settings.json", json);
+            File.WriteAllText(FullPathToData + "\\Settings.json", json);
         }
         public static void SaveSettings(Settings settings)
         {
             var json = JsonSerializer.Serialize(settings);
-            File.WriteAllText(PathToMainDir + "\\Settings.json", json);
+            File.WriteAllText(FullPathToData + "\\Settings.json", json);
         }
     }
 }
