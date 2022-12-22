@@ -1,11 +1,10 @@
-﻿using AdonisUI.Controls;
-using MarketBot.API;
+﻿using MarketBot.API;
 using MarketBot.Notication;
 using MarketBot.Parsing;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using static MarketBot.Date.MarketDate;
+using static MarketBot.Date.MarketModel;
 
 namespace MarketBot.Pages
 {
@@ -52,7 +51,7 @@ namespace MarketBot.Pages
             {
                 await Task.Run(async () =>
                 {
-                    this.Dispatcher.Invoke(new Action( async () =>
+                    this.Dispatcher.Invoke(new Action(async () =>
                     {
                         var items = await MarketAPI.GetSteamInventoryAsync();
 
@@ -78,7 +77,6 @@ namespace MarketBot.Pages
 
                         if (items.Success == false)
                             Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from https://market.csgo.com/");
-
 
                         ItemsLB.ItemsSource = items.Items;
                     }));

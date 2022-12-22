@@ -1,24 +1,21 @@
-﻿using MarketBot.Parsing;
+﻿using MarketApp.Date;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using static MarketApp.Date.UserDate;
+using static MarketApp.Date.UserModel;
 
 namespace MarketBot.API
 {
     class SteamAPI
     {
-        public static string StemaId32 { get; set; }
-        public static string Steam_API_Key { get; set; }
-
         public static async Task<BitmapImage> GetAvatarAsync()
         {
             try
             {
 
-                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
+                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Config.Steam_API_Key}&steamids={Config.SteamId32}";
 
                 User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
 
@@ -34,13 +31,12 @@ namespace MarketBot.API
         }
         public static BitmapImage GetImage(string item_name, string? wear = null)
         {
-            string id_name = ParseConfig.Get_Id_Name(item_name, "name");
             string Image_Url;
 
             if (wear == null)
-                Image_Url = $"https://cdn.csgo.com//item/{id_name}/300.png";
+                Image_Url = $"https://cdn.csgo.com//item/{item_name}/300.png";
             else
-                Image_Url = $"https://cdn.csgo.com//item/{id_name} ({wear})/300.png";
+                Image_Url = $"https://cdn.csgo.com//item/{item_name} ({wear})/300.png";
 
             var bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();
@@ -53,7 +49,7 @@ namespace MarketBot.API
         {
             try
             {
-                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Steam_API_Key}&steamids={StemaId32}";
+                string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Config.Steam_API_Key}&steamids={Config.SteamId32}";
 
                 User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
                 return user_Date.Response.Players.First().Personaname;

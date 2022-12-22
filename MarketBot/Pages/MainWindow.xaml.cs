@@ -1,14 +1,14 @@
 ﻿using AdonisUI;
 using AdonisUI.Controls;
+using MarketApp.Date;
 using MarketApp.Pages;
 using MarketBot.API;
 using MarketBot.Notication;
-using MarketBot.Parsing;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using static MarketBot.Date.MarketDate;
+using static MarketBot.Date.MarketModel;
 
 namespace MarketBot
 {
@@ -21,7 +21,7 @@ namespace MarketBot
         {
             InitializeComponent();
 
-            ParseConfig.ReadConfig();
+            Config.ReadConfig();
             UpdateStatusAsync();
             LoadUserInfo();
             MarketAPI.UpdateInventoryAsync();
@@ -37,7 +37,7 @@ namespace MarketBot
             Tray.MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
             Tray.MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
 
-            ParseConfig.ApplySettings(this);
+            MarketApp.Date.Settings.ApplySettings(this);
 
         }
 

@@ -1,6 +1,7 @@
-﻿using AdonisUI.Controls;
-using MarketApp.Settings;
-using System;
+﻿using MarketApp.Date;
+using System.Drawing;
+using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
@@ -8,35 +9,47 @@ using Telegram.Bot;
 
 namespace MarketBot.Notication
 {
+    public static class MyIcon
+    {
+        public static Icon Icon { get => GetIcon(); }
+
+        private static Icon GetIcon()
+        {
+            Stream _iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MarketApp.Resources.MarketApp.ico");
+
+            Icon icon = new(_iconStream);
+
+            return icon;
+        }
+    }
+
     public static class Notification
     {
-        public static string? Telegram_User_Id { get; set; }
-
 
         private const string _botKey = "5701818571:AAFTs8zmjlHqr3ZQHYC4Z5HNtse_3-f9jVA";
 
         public static async void TelegramNotificationAsync(string text)
         {
-            var settings = SettingsInfo.ReadSettings();
+            var settings = Settings.ReadSettings();
 
             if (settings.TelegramNotification != false)
             {
                 var bot = new TelegramBotClient(_botKey);
 
-                if (Telegram_User_Id != null)
-                    await bot.SendTextMessageAsync(Telegram_User_Id, text);
+                if (Config.Telegram_User_Id != null)
+                    await bot.SendTextMessageAsync(Config.Telegram_User_Id, text);
             }
         }
 
         public static async void WindowNotificationAsync(string text)
         {
-            var settings = SettingsInfo.ReadSettings();
+            var settings = Settings.ReadSettings();
 
             if (settings.WindowsNotification != false)
             {
                 var ni = new NotifyIcon
                 {
-                    Icon = new System.Drawing.Icon($"{AppDomain.CurrentDomain.BaseDirectory}MarketApp.ico"),
+                    Icon = MyIcon.Icon,
                     Visible = true,
                     BalloonTipTitle = "Market App",
                     BalloonTipText = text
@@ -51,25 +64,16 @@ namespace MarketBot.Notication
         {
             AdonisUI.Controls.MessageBox.Show(message, "INFO", AdonisUI.Controls.MessageBoxButton.OK, AdonisUI.Controls.MessageBoxImage.Information);
         }
-
-        public static NotifyIcon CreateNoti()
-        {
-            var MyNotifyIcon = new NotifyIcon
-            {
-                Icon = new System.Drawing.Icon($"{AppDomain.CurrentDomain.BaseDirectory}MarketApp.ico")
-            };
-            return MyNotifyIcon;
-        }
     }
 
-    public class Tray
+    public static class Tray
     {
         private static readonly NotifyIcon myNotifyIcon = new()
         {
-            Icon = new System.Drawing.Icon($"{AppDomain.CurrentDomain.BaseDirectory}MarketApp.ico")
+            Icon = MyIcon.Icon
         };
 
-        public static NotifyIcon MyNotifyIcon { get => myNotifyIcon;}
+        public static NotifyIcon MyNotifyIcon { get => myNotifyIcon; }
 
         public static void CloseToTray(MainWindow mainWindow)
         {

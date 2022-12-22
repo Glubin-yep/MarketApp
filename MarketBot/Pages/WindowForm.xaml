@@ -7,7 +7,7 @@
         xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
         xmlns:local="clr-namespace:Pages"
         mc:Ignorable="d"
-        Title="WindowForm" Height="450" Width="600" ResizeMode="NoResize" Loaded="AdonisWindow_Loaded" >
+        Title="WindowForm" Height="450" Width="600" ResizeMode="NoResize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

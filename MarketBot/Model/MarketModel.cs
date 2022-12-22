@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace MarketBot.Date
 {
-    class MarketDate
+    class MarketModel
     {
-        public static string Current_sell_item_id { get; set; } = string.Empty; 
+        public static string Current_sell_item_id { get; set; } = string.Empty;
         public static string Market_currency { get; set; } = string.Empty;
-        
+
         public struct Item
         {
             public string Item_id { get; set; }
@@ -185,6 +185,6 @@ namespace MarketBot.Date
             public string Secret { get; set; }
             public IList<object> Items { get; set; }
             public string Trade { get; set; }
-        }        
+        }
     }
 }

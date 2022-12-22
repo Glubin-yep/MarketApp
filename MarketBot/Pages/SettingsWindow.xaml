@@ -48,6 +48,12 @@
                     <TextBlock Text="System notification" HorizontalAlignment="Left" Margin="15,0,0,0" FontSize="18" FontFamily="Segoe UI" FontWeight="Light" Width="170"/>
                     <CheckBox x:Name="WindowsNotification"   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="50,0,0,0"/>
                 </WrapPanel>
+
+                <WrapPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,15,0,15">
+                    <TextBlock Text="Change config" HorizontalAlignment="Left" Margin="15,0,0,0" FontSize="18" FontFamily="Segoe UI" FontWeight="Light" Width="170"/>
+                    <Button Name="ChangeConfig" Content="Change" HorizontalAlignment="Center" VerticalAlignment="Center"  Margin="15,0,0,0" Style = "{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" FontFamily="Segoe UI " FontSize="12" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" Click="ChangeConfig_Click"/>
+                </WrapPanel>
+                
             </StackPanel>
         </Border>
 

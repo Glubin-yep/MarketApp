@@ -2,12 +2,13 @@
 using MarketBot.API;
 using MarketBot.Notication;
 using MarketBot.Parsing;
+using static MarketApp.Date.OrdersModel;
 
 namespace Pages
 {
     public partial class WindowForm : AdonisWindow
     {
-        private readonly object? _current_order;
+        private readonly Order _current_order;
         public WindowForm()
         {
             InitializeComponent();
@@ -15,32 +16,24 @@ namespace Pages
         public WindowForm(object current_order)
         {
             InitializeComponent();
-            _current_order = current_order;
+            _current_order = (Order)current_order;
+            UpdateOrder();
         }
-        private void AdonisWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
+
+        private void UpdateOrder()
         {
-            if (_current_order != null)
-            {
-                MarketName.IsEnabled = false;
-                Wear_list.IsEnabled = false;
-                Add.Content = "Update";
+            MarketName.IsEnabled = false;
+            Wear_list.IsEnabled = false;
+            Add.Content = "Update";
 
-                var nameOfProperty = "hash_name";
-                var propertyInfo = _current_order.GetType().GetProperty(nameOfProperty);
-                string[] text = propertyInfo.GetValue(_current_order, null).ToString().Split(" (");
-                MarketName.Text = text[0];
-                Wear_list.Text = text[1].Replace(")", "");
+            string[] text = _current_order.Hash_name.Split(" (");
+            MarketName.Text = text[0];
+            Wear_list.Text = text[1].Replace(")", "");
 
-                nameOfProperty = "count";
-                propertyInfo = _current_order.GetType().GetProperty(nameOfProperty);
-                string count = propertyInfo.GetValue(_current_order, null).ToString();
-                Count.Text = count;
+            Count.Text = _current_order.Count;
 
-                nameOfProperty = "price";
-                propertyInfo = _current_order.GetType().GetProperty(nameOfProperty);
-                string price = propertyInfo.GetValue(_current_order, null).ToString();
-                Price.Text = price.Replace(",", ".").Replace(" RUB", "");
-            }
+            string price = _current_order.Price;
+            Price.Text = price.Replace(",", ".").Replace(" RUB", "");
         }
 
         private async void Add_Click(object sender, System.Windows.RoutedEventArgs e)
