@@ -1,5 +1,5 @@
 ﻿using MarketApp.Date;
-using System;
+using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -34,7 +34,7 @@ namespace MarketBot.Notication
             {
                 var ni = new System.Windows.Forms.NotifyIcon
                 {
-                    Icon = new System.Drawing.Icon($"{AppDomain.CurrentDomain.BaseDirectory}MarketApp.ico"),
+                    Icon = Tray.Icon,
                     Visible = true,
                     BalloonTipTitle = "Market App",
                     BalloonTipText = text
@@ -54,7 +54,7 @@ namespace MarketBot.Notication
         {
             var MyNotifyIcon = new System.Windows.Forms.NotifyIcon
             {
-                Icon = new System.Drawing.Icon(Tray.IconStream)
+                Icon = Tray.Icon
             };
             return MyNotifyIcon;
         }
@@ -63,11 +63,12 @@ namespace MarketBot.Notication
     public static class Tray
     {
 
-        public static readonly Stream IconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MarketApp.Resources.MarketApp.ico");
+        private static readonly Stream _iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MarketApp.Resources.MarketApp.ico");
+        public static readonly Icon Icon = new(_iconStream);
 
         private static readonly System.Windows.Forms.NotifyIcon myNotifyIcon = new()
         {
-            Icon = new System.Drawing.Icon(IconStream)
+            Icon = Icon
         };
 
         public static System.Windows.Forms.NotifyIcon MyNotifyIcon { get => myNotifyIcon; }
