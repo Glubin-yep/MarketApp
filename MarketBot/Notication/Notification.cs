@@ -4,10 +4,25 @@ using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Forms;
 using Telegram.Bot;
 
 namespace MarketBot.Notication
 {
+    public static class MyIcon
+    {
+        public static Icon Icon { get => GetIcon(); }
+
+        private static Icon GetIcon()
+        {
+            Stream _iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MarketApp.Resources.MarketApp.ico");
+
+            Icon icon = new(_iconStream);
+
+            return icon;
+        }
+    }
+
     public static class Notification
     {
 
@@ -32,9 +47,9 @@ namespace MarketBot.Notication
 
             if (settings.WindowsNotification != false)
             {
-                var ni = new System.Windows.Forms.NotifyIcon
+                var ni = new NotifyIcon
                 {
-                    Icon = Tray.Icon,
+                    Icon = MyIcon.Icon,
                     Visible = true,
                     BalloonTipTitle = "Market App",
                     BalloonTipText = text
@@ -49,29 +64,16 @@ namespace MarketBot.Notication
         {
             AdonisUI.Controls.MessageBox.Show(message, "INFO", AdonisUI.Controls.MessageBoxButton.OK, AdonisUI.Controls.MessageBoxImage.Information);
         }
-
-        public static System.Windows.Forms.NotifyIcon CreateNoti()
-        {
-            var MyNotifyIcon = new System.Windows.Forms.NotifyIcon
-            {
-                Icon = Tray.Icon
-            };
-            return MyNotifyIcon;
-        }
     }
 
     public static class Tray
     {
-
-        private static readonly Stream _iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MarketApp.Resources.MarketApp.ico");
-        public static readonly Icon Icon = new(_iconStream);
-
-        private static readonly System.Windows.Forms.NotifyIcon myNotifyIcon = new()
+        private static readonly NotifyIcon myNotifyIcon = new()
         {
-            Icon = Icon
+            Icon = MyIcon.Icon
         };
 
-        public static System.Windows.Forms.NotifyIcon MyNotifyIcon { get => myNotifyIcon; }
+        public static NotifyIcon MyNotifyIcon { get => myNotifyIcon; }
 
         public static void CloseToTray(MainWindow mainWindow)
         {
@@ -94,11 +96,11 @@ namespace MarketBot.Notication
             mainWindow.ShowInTaskbar = true;
         }
 
-        public static void OpenContextMenuInTray(MainWindow mainWindow, System.Windows.Forms.MouseEventArgs e)
+        public static void OpenContextMenuInTray(MainWindow mainWindow, MouseEventArgs e)
         {
-            if (e.Button == System.Windows.Forms.MouseButtons.Right)
+            if (e.Button == MouseButtons.Right)
             {
-                myNotifyIcon.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
+                myNotifyIcon.ContextMenuStrip = new ContextMenuStrip();
                 myNotifyIcon.ContextMenuStrip.Items.Add("Exit");
                 myNotifyIcon.ContextMenuStrip.Items[0].Click += (o, e) => { myNotifyIcon.Dispose(); mainWindow.Close(); };
             }
