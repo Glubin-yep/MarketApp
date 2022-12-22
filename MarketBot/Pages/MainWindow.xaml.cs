@@ -48,7 +48,7 @@ namespace MarketBot
 
         private void MyNotifyIcon_MouseClick(object? sender, MouseEventArgs e)
         {
-            Tray.OpenContextMenuInTray(this, e);
+            Tray.OpenContextMenuInTray(e);
         }
 
         private void ChangeTheme(object sender, RoutedEventArgs e)
@@ -87,7 +87,7 @@ namespace MarketBot
 
         private void AdonisWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
+            e.Cancel = true;           
             Tray.CloseToTray(this);
         }
 

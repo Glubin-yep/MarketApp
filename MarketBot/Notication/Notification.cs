@@ -1,4 +1,5 @@
 ﻿using MarketApp.Date;
+using System;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
@@ -9,7 +10,7 @@ using Telegram.Bot;
 
 namespace MarketBot.Notication
 {
-    public static class MyIcon
+    public class MyIcon
     {
         public static Icon Icon { get => GetIcon(); }
 
@@ -96,13 +97,13 @@ namespace MarketBot.Notication
             mainWindow.ShowInTaskbar = true;
         }
 
-        public static void OpenContextMenuInTray(MainWindow mainWindow, MouseEventArgs e)
+        public static void OpenContextMenuInTray(MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Right)
             {
                 myNotifyIcon.ContextMenuStrip = new ContextMenuStrip();
                 myNotifyIcon.ContextMenuStrip.Items.Add("Exit");
-                myNotifyIcon.ContextMenuStrip.Items[0].Click += (o, e) => { myNotifyIcon.Dispose(); mainWindow.Close(); };
+                myNotifyIcon.ContextMenuStrip.Items[0].Click += (o, e) => { myNotifyIcon.Dispose(); Environment.Exit(0); };
             }
         }
     }
