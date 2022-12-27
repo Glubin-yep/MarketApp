@@ -5,7 +5,7 @@ namespace MarketApp.Date
 {
     class OrdersModel
     {
-        public class Order
+        public struct Order
         {
             public string Hash_name { get; set; }
             public string Count { get; set; }
@@ -34,12 +34,12 @@ namespace MarketApp.Date
             }
         }
 
-        public class OrdersList
+        public struct OrdersList
         {
             public bool Success { get; set; }
             public IList<Order> Orders { get; set; }
         }
-        public class Orderlog
+        public struct Orderlog
         {
             public string Hash_name { get; set; }
             public int Item_id { get; set; }
@@ -49,7 +49,7 @@ namespace MarketApp.Date
             public string Currency { get; set; }
         }
 
-        public class OrdersLog
+        public struct OrdersLog
         {
             public bool Success { get; set; }
             public IList<Orderlog> Orders { get; set; }
