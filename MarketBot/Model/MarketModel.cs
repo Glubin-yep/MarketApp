@@ -8,22 +8,22 @@ namespace MarketBot.Date
         public static string Current_sell_item_id { get; set; } = string.Empty;
         public static string Market_currency { get; set; } = string.Empty;
 
-        public struct Item
+        public class Item
         {
-            public string Item_id { get; set; }
-            public string Assetid { get; set; }
-            public string Classid { get; set; }
-            public string Instanceid { get; set; }
-            public string Real_instance { get; set; }
-            public string Market_hash_name { get; set; }
+            public string? Item_id { get; set; }
+            public string? Instanceid { get; set; }
+            public string? Assetid { get; set; }
+            public string? Classid { get; set; }
+            public string? Real_instance { get; set; }
+            public string? Market_hash_name { get; set; }
             public int Position { get; set; }
-            public string Price { get; set; }
-            public string Currency { get; set; }
-            public string Status { get; set; }
+            public string? Price { get; set; }
+            public string? Currency { get; set; }
+            public string? Status { get; set; }
             public int Live_time { get; set; }
-            public object Left { get; set; }
-            public string Botid { get; set; }
-            public string ImageUrl
+            public object? Left { get; set; }
+            public string? Botid { get; set; }
+            public string? ImageUrl
             {
                 get
                 {
@@ -32,20 +32,20 @@ namespace MarketBot.Date
             }
         }
 
-        public struct ItemList
+        public class ItemList
         {
             public bool Success { get; set; }
-            public IList<Item> Items { get; set; }
+            public IList<Item>? Items { get; set; }
         }
-        public struct Item_Steam
+        public class Item_Steam
         {
-            public string Id { get; set; }
-            public string Classid { get; set; }
-            public string Instanceid { get; set; }
-            public string Market_hash_name { get; set; }
+            public string? Id { get; set; }
+            public string? Classid { get; set; }
+            public string? Instanceid { get; set; }
+            public string? Market_hash_name { get; set; }
             public double Market_price { get; set; }
             public int Tradable { get; set; }
-            public string ImageUrl
+            public string? ImageUrl
             {
                 get
                 {
@@ -54,26 +54,26 @@ namespace MarketBot.Date
             }
         }
 
-        public struct Inventory
+        public class Inventory
         {
             public bool Success { get; set; }
-            public IList<Item_Steam> Items { get; set; }
+            public IList<Item_Steam>? Items { get; set; }
         }
-        public struct Sell
+        public class Sell
         {
             public bool Success { get; set; }
-            public string Item_id { get; set; }
+            public string? Item_id { get; set; }
         }
-        public struct Update
+        public class Update
         {
             public bool Success { get; set; }
-            public string Error { get; set; }
+            public string? Error { get; set; }
         }
-        public struct Data
+        public class Data
         {
-            public string Market_hash_name { get; set; }
-            private string price_;
-            public string Price
+            public string? Market_hash_name { get; set; }
+            private string? price_;
+            public string? Price
             {
                 get
                 {
@@ -84,21 +84,21 @@ namespace MarketBot.Date
                 }
                 set { price_ = value; }
             }
-            public string Class_ { get; set; }
+            public string? Class_ { get; set; }
             public int Instance { get; set; }
             public int Count { get; set; }
         }
 
-        public struct MarketPrice
+        public class MarketPrice
         {
             public bool Success { get; set; }
-            public string Currency { get; set; }
-            public IList<Data> Data { get; set; }
+            public string? Currency { get; set; }
+            public IList<Data>? Data { get; set; }
         }
-        public struct Datum
+        public class Datum
         {
-            private string time_;
-            public string Time
+            private string? time_;
+            public string? Time
             {
                 get
                 {
@@ -107,15 +107,16 @@ namespace MarketBot.Date
                 set { time_ = value; }
             }
 
-            public string Event_ { get; set; }
-            public string Item_id { get; set; }
-            public string Market_hash_name { get; set; }
-            public string Class_ { get; set; }
-            public string Instance { get; set; }
-            public string Paid { get; set; }
-            public string Currency { get; set; }
-            private string stage_;
-            public string Stage
+            public string? Event_ { get; set; }
+            public string? Item_id { get; set; }
+            public string? Market_hash_name { get; set; }
+            public string? Class_ { get; set; }
+            public string? Instance { get; set; }
+            public string? Paid { get; set; }
+            public string? Currency { get; set; }
+
+            private string? stage_;
+            public string? Stage
             {
                 get
                 {
@@ -128,12 +129,12 @@ namespace MarketBot.Date
                 }
                 set { stage_ = value; }
             }
-            public object For_ { get; set; }
-            public string Custom_id { get; set; }
+            public object? For_ { get; set; }
+            public string? Custom_id { get; set; }
             public int App { get; set; }
 
-            private string price_;
-            public string Price
+            private string? price_;
+            public string? Price
             {
                 get
                 {
@@ -158,11 +159,11 @@ namespace MarketBot.Date
                     price_ = temp.ToString();
                 }
             }
-            public string Received { get; set; }
-            public string Id { get; set; }
-            public string Amount { get; set; }
-            public string Status { get; set; }
-            public string ImageUrl
+            public string? Received { get; set; }
+            public string? Id { get; set; }
+            public string? Amount { get; set; }
+            public string? Status { get; set; }
+            public string? ImageUrl
             {
                 get
                 {
@@ -171,20 +172,20 @@ namespace MarketBot.Date
             }
         }
 
-        public struct MarketHistory
+        public class MarketHistory
         {
             public bool Success { get; set; }
-            public IList<Datum> Data { get; set; }
+            public IList<Datum>? Data { get; set; }
         }
-        public struct TradeRequestGive
+        public class TradeRequestGive
         {
             public bool Success { get; set; }
-            public string Nick { get; set; }
-            public string Bot_id { get; set; }
-            public string Profile { get; set; }
-            public string Secret { get; set; }
-            public IList<object> Items { get; set; }
-            public string Trade { get; set; }
+            public string? Nick { get; set; }
+            public string? Bot_id { get; set; }
+            public string? Profile { get; set; }
+            public string? Secret { get; set; }
+            public IList<object>? Items { get; set; }
+            public string? Trade { get; set; }
         }
     }
 }

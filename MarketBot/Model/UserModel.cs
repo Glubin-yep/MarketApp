@@ -4,29 +4,29 @@ namespace MarketApp.Date
 {
     class UserModel
     {
-        public struct Balans
+        public class Balans
         {
-            public double Money { get; set; }
-            public string Currency { get; set; }
-            public bool Success { get; set; }
+            public  double Money { get; set; }
+            public  string Currency { get; set; }
+            public  bool Success { get; set; }
         }
 
-        public struct Player
+        public class Player
         {
-            public string Personaname { get; set; }
-            public string Avatarfull { get; set; }
+            public  string Personaname { get; set; }
+            public  string Avatarfull { get; set; }
         }
 
-        public struct Response
+        public class Response
         {
-            public IList<Player> Players { get; set; }
+            public  IList<Player> Players { get; set; }
         }
 
-        public struct User
+        public class User
         {
-            public Response Response { get; set; }
+            public  Response Response { get; set; }
         }
-        public struct PingInfo
+        public class PingInfo
         {
             public bool Success { get; set; }
             public string Ping { get; set; }
