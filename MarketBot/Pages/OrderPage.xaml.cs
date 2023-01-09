@@ -69,7 +69,7 @@ namespace MarketBot.Pages
 
                 var orderslog = await MarketAPI.GetOrdersLogAsync();
 
-                if (orderslog.Orders.Count > 0)
+                if (orderslog.Orders.Count != 0)
                     History_Orders.ItemsSource = orderslog.Orders;
             })));
         }

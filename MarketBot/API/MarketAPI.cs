@@ -11,6 +11,9 @@ namespace MarketBot.API
 {
     class MarketAPI
     {
+        /// <summary>
+        /// Receive a request from the server
+        /// </summary>
         public static async Task<string> GetResponseAsync(string url)
         {
             string responseBody = string.Empty;
@@ -30,24 +33,35 @@ namespace MarketBot.API
             }
             return responseBody;
         }
+
+        /// <summary>
+        /// Request inventory cash update (it is recommended to do after each accepted trade offer).
+        /// </summary>
         public static async void UpdateInventoryAsync()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/update-inventory/?key={Config.Market_API_Key}";
 
             await GetResponseAsync(actionUrl);
         }
+
+        /// <summary>
+        /// Get the amount on the balance and current currency.
+        /// </summary>
         public static async Task<string> GetMoneyAsync()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/get-money?key={Config.Market_API_Key}";
             try
             {
-
                 Balans user_Date = JsonConvert.DeserializeObject<Balans>(await GetResponseAsync(actionUrl));
                 Market_currency = user_Date.Currency;
                 return user_Date.Money.ToString();
             }
             catch { return ""; }
         }
+
+        /// <summary>
+        /// Enable sales on https://market.csgo.com/sell/
+        /// </summary>
         public static async Task<bool> GetPingAsync()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/ping?key={Config.Market_API_Key}";
@@ -58,6 +72,10 @@ namespace MarketBot.API
             }
             catch { return false; }
         }
+
+        /// <summary>
+        /// Get all your items on the market.
+        /// </summary>
         public static async Task<ItemList> GetItemsAsync()
         {
             try
@@ -69,6 +87,10 @@ namespace MarketBot.API
             }
             catch { return new ItemList(); }
         }
+
+        /// <summary>
+        /// Get all your items from Steam inventory.
+        /// </summary>
         public static async Task<Inventory> GetSteamInventoryAsync()
         {
             try
@@ -80,6 +102,11 @@ namespace MarketBot.API
             }
             catch { return new Inventory(); }
         }
+
+        /// <summary>
+        /// Option to request a single item
+        /// </summary>
+        /// <param name="item_name">Item name, it can be taken from the Steam inventory.</param>
         public static async Task<MarketPrice> GetMarketPriceAsync(string item_name)
         {
             try
@@ -91,6 +118,10 @@ namespace MarketBot.API
             }
             catch { return new MarketPrice(); }
         }
+
+        /// <summary>
+        /// Getting a history of purchases and sales at all sites
+        /// </summary>
         public static async Task<MarketHistory> GetMarketHistoryAsync()
         {
             try
@@ -102,6 +133,13 @@ namespace MarketBot.API
             }
             catch { return new MarketHistory(); }
         }
+
+        /// <summary>
+        /// Set item for sale. To get a list of items for selling, use the method <see cref="GetSteamInventoryAsync"/>.
+        /// </summary>
+        ///  <param name="item_id">The ID of the item in Market system</param>
+        ///  <param name="currency">The currency (RUB, USD, EUR) an additional check, if specified is not equal to the current set the purchase will be cancelled.</param>
+        ///  <param name="price">If you specify 0, the item will be removed from sale</param>
         public static async Task<Sell> SetSellAsync(string item_id, string price, string currency)
         {
             try
@@ -113,6 +151,13 @@ namespace MarketBot.API
             }
             catch { return new Sell(); }
         }
+
+        /// <summary>
+        /// Set a new price on the item, or remove from sale.
+        /// </summary>
+        ///  <param name="item_id">The ID of the item in Market system</param>
+        ///   <param name="currency">The currency (RUB, USD, EUR) an additional check, if specified is not equal to the current set the purchase will be cancelled.</param>
+        ///    <param name="price">If you specify 0, the item will be removed from sale</param>
         public static async Task<Update> SetPriceAsync(string item_id, string price, string currency)
         {
             try
@@ -124,6 +169,10 @@ namespace MarketBot.API
             }
             catch { return new Update(); }
         }
+
+        /// <summary>
+        /// Create a request for the transfer of purchased items.
+        /// </summary>
         public static async Task<bool> GetTradeRequesTakeAsync()
         {
             try
@@ -135,6 +184,10 @@ namespace MarketBot.API
             }
             catch { return false; }
         }
+
+        /// <summary>
+        /// Request data to transfer the item to the buyer
+        /// </summary>
         public static async Task<bool> GetTradeRequestGiveAsync()
         {
             try
@@ -146,6 +199,10 @@ namespace MarketBot.API
             }
             catch { return false; }
         }
+
+        /// <summary>
+        /// Getting a list of your orders
+        /// </summary>
         public static async Task<OrdersList> GetOrdersAsync()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/get-orders?key={Config.Market_API_Key}&page=0";
@@ -153,16 +210,28 @@ namespace MarketBot.API
             var ordersRequestGive = JsonConvert.DeserializeObject<OrdersList>(await GetResponseAsync(actionUrl));
             return ordersRequestGive;
         }
-        public static async Task<OrdersList> SetOrderAsync(string market_hash_name, string wear, string count, string price) // if price == 0 order deleted
+
+        /// <summary>
+        /// Adding, modifying and deleting an order
+        /// </summary>
+        ///  <param name="market_hash_name">Item identifiers.</param>
+        ///  <param name="wear">The wear level of the item</param>
+        ///  <param name="count">Number of items to buy</param>
+        ///  <param name="price">If you specify 0, the order will be removed from sale</param>
+        public static async Task<OrdersList> SetOrderAsync(string market_hash_name, string wear, string count, string price)
         {
             string actionUrl = $"https://market.csgo.com/api/v2/set-order?key={Config.Market_API_Key}&market_hash_name={market_hash_name} {wear}&count={count}&price={price}";
 
             var ordersRequestGive = JsonConvert.DeserializeObject<OrdersList>(await GetResponseAsync(actionUrl));
             return ordersRequestGive;
         }
+
+        /// <summary>
+        /// Getting a history of executed orders.
+        /// </summary>
         public static async Task<OrdersLog> GetOrdersLogAsync()
         {
-            string actionUrl = $"https://market.csgo.com/api/v2/get-orders-log?key={Config.Market_API_Key}&page=0";
+            string actionUrl = $"https://market.csgo.com/api/v2/get-orders-log?key={Config.Market_API_Key}&page=1";
 
             var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(await GetResponseAsync(actionUrl));
             return ordersRequestGive;

@@ -51,17 +51,18 @@
             <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="0"  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
 
                 <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
-                    <Border BorderThickness="0,1,0,1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Height="161" >
-                        <Image x:Name="Photo" Height="150" Width="150" />
+                    <Border BorderThickness="0,1,0,1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Height="150" >
+                        <Image x:Name="Photo"/>
                     </Border>
                 </StackPanel>
 
                 <Border BorderThickness="0,1,0,1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  >
                     <StackPanel>
-                        <Label Content="Balans:" FontSize="16" FontFamily="Segoe UI " Margin="15,15,0,0"/>
-                        <Label x:Name="Money"  FontSize="16" FontFamily="Microsoft JhengHei UI Light" Margin="15,15,0,0"/>
+
                         <Label Content="Nickname:" FontSize="16" FontFamily="Segoe UI " Margin="15,15,0,0"/>
                         <Label x:Name="Nickname"  Content="Nickname" FontFamily="Microsoft JhengHei UI Light"  FontSize="16" Margin = "15,15,0,0"/>
+                        <Label Content="Balans:" FontSize="16" FontFamily="Segoe UI " Margin="15,15,0,0"/>
+                        <Label x:Name="Money"  FontSize="16" FontFamily="Microsoft JhengHei UI Light" Margin="15,15,0,0"/>
                         <Label Content="Market Status:" FontSize="16" FontFamily="Segoe UI " Margin="15,15,0,0"/>
 
                         <WrapPanel>
