@@ -231,7 +231,7 @@ namespace MarketBot.API
         /// </summary>
         public static async Task<OrdersLog> GetOrdersLogAsync()
         {
-            string actionUrl = $"https://market.csgo.com/api/v2/get-orders-log?key={Config.Market_API_Key}&page=0";
+            string actionUrl = $"https://market.csgo.com/api/v2/get-orders-log?key={Config.Market_API_Key}&page=1";
 
             var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(await GetResponseAsync(actionUrl));
             return ordersRequestGive;
