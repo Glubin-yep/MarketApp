@@ -1,4 +1,5 @@
 ﻿using MarketBot.API;
+using MarketBot.Notication;
 using Pages;
 using System;
 using System.Threading.Tasks;
@@ -38,7 +39,14 @@ namespace MarketBot.Pages
 
         private async void Remove_order_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            await MarketAPI.SetOrderAsync(Selected_Order.Hash_name, "", "0", "0");
+            var requst = await MarketAPI.SetOrderAsync(Selected_Order.Hash_name, "", "0", "0");
+
+            if (requst.Success)
+                Notification.DisplayInfo("Order deleted");
+
+            if (requst.Success == false)
+                Notification.DisplayInfo("Failed to complete action");
+
             Update_Orders();
         }
 
@@ -69,8 +77,11 @@ namespace MarketBot.Pages
 
                 var orderslog = await MarketAPI.GetOrdersLogAsync();
 
-                if (orderslog.Orders.Count != 0)
+                if (orderslog.Orders != null && orderslog.Orders.Count != 0)
                     History_Orders.ItemsSource = orderslog.Orders;
+
+                Spinner1.Visibility = System.Windows.Visibility.Collapsed;
+                Orders.Visibility = System.Windows.Visibility.Visible;
             })));
         }
     }

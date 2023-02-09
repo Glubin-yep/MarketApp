@@ -1,6 +1,7 @@
 ﻿using MarketApp.Date;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using static MarketApp.Date.OrdersModel;
@@ -206,8 +207,26 @@ namespace MarketBot.API
         public static async Task<OrdersList> GetOrdersAsync()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/get-orders?key={Config.Market_API_Key}&page=0";
+            var ordersRequestGive = new OrdersList();
 
-            var ordersRequestGive = JsonConvert.DeserializeObject<OrdersList>(await GetResponseAsync(actionUrl));
+            try
+            {
+                ordersRequestGive = JsonConvert.DeserializeObject<OrdersList>(await GetResponseAsync(actionUrl));
+
+                for (int i = 1; i < 9999; i++)
+                {
+                    actionUrl = $"https://market.csgo.com/api/v2/get-orders?key={Config.Market_API_Key}&page={i}";
+
+                    var request = JsonConvert.DeserializeObject<OrdersList>(await GetResponseAsync(actionUrl));
+
+                    if (request.Orders.Count == 0)
+                        break;
+
+                    ordersRequestGive.Orders = ordersRequestGive.Orders.Concat(request.Orders).ToList();
+                }
+            }
+            catch { }
+            
             return ordersRequestGive;
         }
 
@@ -231,10 +250,14 @@ namespace MarketBot.API
         /// </summary>
         public static async Task<OrdersLog> GetOrdersLogAsync()
         {
-            string actionUrl = $"https://market.csgo.com/api/v2/get-orders-log?key={Config.Market_API_Key}&page=1";
+            try
+            {
+                string actionUrl = $"https://market.csgo.com/api/v2/get-orders-log?key={Config.Market_API_Key}&page=1";
 
-            var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(await GetResponseAsync(actionUrl));
-            return ordersRequestGive;
+                var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(await GetResponseAsync(actionUrl));
+                return ordersRequestGive;
+            }
+            catch { return new OrdersLog(); }
         }
 
     }

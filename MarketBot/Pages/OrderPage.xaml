@@ -5,12 +5,13 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
       xmlns:local="clr-namespace:MarketBot"
+      xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
       mc:Ignorable="d" 
       d:DesignHeight="800" d:DesignWidth="1200"
       Title="OrderPage">
     <Page.Resources>
         <DataTemplate x:Key="TileTemplate">
-            <StackPanel Orientation="Vertical" Margin="5" Width="160" Height="185">
+            <StackPanel Orientation="Vertical" Margin="5" Width="160" Height="195">
                 <Image Source="{Binding ImageUrl}" Width="130" Height="80"/>
                 <TextBlock TextWrapping="Wrap" Text="{Binding Hash_name}"/>
                 <TextBlock Text="{Binding Price}" />
@@ -69,22 +70,22 @@
         </Border>
 
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Row="1"  Grid.Column="0" Grid.ColumnSpan="2"  >
-            <StackPanel  Orientation="Vertical" Background="#0f0f">                
-                <local:LayoutListbox  x:Name="Active_Orders" BorderThickness="0"   FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="420" SelectionChanged="Active_Orders_SelectionChanged"/>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <fa:FontAwesomeIcon x:Name="Spinner1" SolidIcon="Spinner" AnimationType="Spin"  FontSize="155"   Visibility="Visible" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
+
+                <StackPanel x:Name="Orders" Orientation="Vertical" Background="#0f0f" Visibility="Collapsed">
+                    <local:LayoutListbox  x:Name="Active_Orders" BorderThickness="0"   FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Height="420" SelectionChanged="Active_Orders_SelectionChanged"/>
+                </StackPanel>
             </StackPanel>
         </Border>
         
         
         
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  Grid.Row="2"  Grid.ColumnSpan="2">
-            <StackPanel  Orientation="Vertical" Background="#0f0f">
-                <TextBlock Text="Order operation history"
-                           TextWrapping="Wrap"
-                           FontSize="16"
-                           Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}"
-                           FontFamily="Segoe UI Black"
-                           Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
-                <local:LayoutListbox  x:Name="History_Orders" BorderThickness="0" Height="200"  FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+           
+             <StackPanel  Orientation="Horizontal" Background="#0f0f">
+                
+                <local:LayoutListbox x:Name="History_Orders" BorderThickness="0" Height="200"  FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Hidden">
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" Margin="5" Width="160">
                             <Image Source="{Binding ImageUrl}" Width="130" Height="100"/>
