@@ -1,9 +1,6 @@
-﻿using MarketBot.Date;
-using System.Collections.Generic;
-
-namespace MarketApp.Date
+﻿namespace MarketLIB.Models
 {
-    class OrdersModel
+    public class OrdersModel
     {
         public struct Order
         {

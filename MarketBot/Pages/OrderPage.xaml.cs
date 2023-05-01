@@ -1,11 +1,11 @@
-﻿using MarketBot.API;
-using MarketBot.Notication;
+﻿using MarketBot.Notication;
+using MarketLIB;
 using Pages;
 using System;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Controls;
-using static MarketApp.Date.OrdersModel;
+using static MarketLIB.Models.OrdersModel;
 
 namespace MarketBot.Pages
 {
@@ -39,7 +39,7 @@ namespace MarketBot.Pages
 
         private async void Remove_order_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var requst = await MarketAPI.SetOrderAsync(Selected_Order.Hash_name, "", "0", "0");
+            var requst = await MarketAPI.Instance.SetOrderAsync(Selected_Order.Hash_name, "", "0", "0");
 
             if (requst.Success)
                 Notification.DisplayInfo("Order deleted");
@@ -72,10 +72,10 @@ namespace MarketBot.Pages
             Task.Run(() =>
             this.Dispatcher.Invoke(new Action(async () =>
             {
-                var orders_ = await MarketAPI.GetOrdersAsync();
+                var orders_ = await MarketAPI.Instance.GetOrdersAsync();
                 Active_Orders.ItemsSource = orders_.Orders;
 
-                var orderslog = await MarketAPI.GetOrdersLogAsync();
+                var orderslog = await MarketAPI.Instance.GetOrdersLogAsync();
 
                 if (orderslog.Orders != null && orderslog.Orders.Count != 0)
                     History_Orders.ItemsSource = orderslog.Orders;

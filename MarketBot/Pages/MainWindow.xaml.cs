@@ -1,14 +1,14 @@
 ﻿using AdonisUI;
 using AdonisUI.Controls;
+using MarketApp.API;
 using MarketApp.Date;
 using MarketApp.Pages;
-using MarketBot.API;
 using MarketBot.Notication;
+using MarketLIB;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using static MarketBot.Date.MarketModel;
 
 namespace MarketBot
 {
@@ -20,11 +20,10 @@ namespace MarketBot
         public MainWindow()
         {
             InitializeComponent();
-
-            Config.ReadConfig();
+            ReadConfigAsync();
             UpdateStatusAsync();
             LoadUserInfo();
-            MarketAPI.UpdateInventoryAsync();
+            MarketAPI.Instance.UpdateInventoryAsync();
 
             aTimer = new(180_000);
             aTimer.Elapsed += (o, e) => UpdateStatusAsync();
@@ -39,6 +38,11 @@ namespace MarketBot
 
             MarketApp.Date.Settings.ApplySettings(this);
 
+        }
+
+        private static async void ReadConfigAsync()
+        {
+            await Config.ReadConfig();
         }
 
         private void MyNotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)
@@ -87,7 +91,7 @@ namespace MarketBot
 
         private void AdonisWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;           
+            e.Cancel = true;
             Tray.CloseToTray(this);
         }
 
@@ -103,7 +107,7 @@ namespace MarketBot
             {
                 this.Dispatcher.Invoke(new Action(async () =>
                 {
-                    Money.Content = await MarketAPI.GetMoneyAsync() + " " + Market_currency;
+                    Money.Content = await MarketAPI.Instance.GetMoneyAsync();
                     Photo.Source = await SteamAPI.GetAvatarAsync();
                     Nickname.Content = await SteamAPI.GetNicknameAsync();
                 }));
@@ -113,7 +117,7 @@ namespace MarketBot
         private async void CheckTradeAsync()
         {
             LoadUserInfo();
-            if (await MarketAPI.GetTradeRequesTakeAsync() == true || await MarketAPI.GetTradeRequestGiveAsync() == true)
+            if (await MarketAPI.Instance.GetTradeRequesTakeAsync() == true || await MarketAPI.Instance.GetTradeRequestGiveAsync() == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
@@ -125,7 +129,7 @@ namespace MarketBot
 
         private async void UpdateStatusAsync()
         {
-            bool status = await MarketAPI.GetPingAsync();
+            bool status = await MarketAPI.Instance.GetPingAsync();
             if (status == true)
             {
                 this.Dispatcher.Invoke(new Action(() =>

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace MarketApp.Date
+﻿namespace MarketLIB.Models
 {
-    class UserModel
+    public class UserModel
     {
         public struct Balans
         {

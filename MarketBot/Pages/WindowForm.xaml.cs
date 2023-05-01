@@ -1,8 +1,9 @@
 ﻿using AdonisUI.Controls;
-using MarketBot.API;
+using MarketApp.API;
 using MarketBot.Notication;
 using MarketBot.Parsing;
-using static MarketApp.Date.OrdersModel;
+using MarketLIB;
+using static MarketLIB.Models.OrdersModel;
 
 namespace Pages
 {
@@ -38,7 +39,7 @@ namespace Pages
 
         private async void Add_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var status = await MarketAPI.SetOrderAsync(MarketName.Text, "(" + Wear_list.Text + ")", Count.Text, Price.Text.Replace(".", ""));
+            var status = await MarketAPI.Instance.SetOrderAsync(MarketName.Text, "(" + Wear_list.Text + ")", Count.Text, Price.Text.Replace(".", ""));
 
             if (status.Success == true)
             {

@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MarketBot.Date
+﻿namespace MarketLIB.Models
 {
-    class MarketModel
+    public class MarketModel
     {
         public static string Current_sell_item_id { get; set; } = string.Empty;
         public static string Market_currency { get; set; } = string.Empty;
@@ -153,8 +150,8 @@ namespace MarketBot.Date
                 }
                 set
                 {
-                    int temp = Int32.Parse(value);
-                    temp -= (temp * 5 / 100);
+                    int temp = int.Parse(value);
+                    temp -= temp * 5 / 100;
                     price_ = temp.ToString();
                 }
             }

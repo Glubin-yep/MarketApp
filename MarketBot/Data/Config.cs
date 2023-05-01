@@ -2,6 +2,7 @@
 using MarketApp.Utills;
 using MarketBot.Notication;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace MarketApp.Date
 {
@@ -12,7 +13,7 @@ namespace MarketApp.Date
         public static string Market_API_Key { get; set; } = string.Empty;
         public static string Telegram_User_Id { get; set; } = string.Empty;
 
-        public static void ReadConfig()
+        public static async Task<bool> ReadConfig()
         {
             if (IOoperation.CheckDir() == false)
                 IOoperation.CreateDir();
@@ -26,7 +27,10 @@ namespace MarketApp.Date
             Telegram_User_Id = lines[3];
 
             if (ChekConfig() == false)
-                ReadConfig();
+                await ReadConfig();
+
+            MarketLIB.MarketAPI.Initialize(Market_API_Key);
+            return true;
         }
 
         public static bool ChekConfig()

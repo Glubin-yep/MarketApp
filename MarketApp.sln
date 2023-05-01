@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketApp", "MarketBot\MarketApp.csproj", "{79AD57D2-81BA-4A53-9552-201391E8485F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF} = {D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketLIB", "MarketAPI\MarketLIB.csproj", "{D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{79AD57D2-81BA-4A53-9552-201391E8485F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79AD57D2-81BA-4A53-9552-201391E8485F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79AD57D2-81BA-4A53-9552-201391E8485F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

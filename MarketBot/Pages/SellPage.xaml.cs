@@ -1,10 +1,10 @@
-﻿using MarketBot.API;
-using MarketBot.Notication;
+﻿using MarketBot.Notication;
 using MarketBot.Parsing;
+using MarketLIB;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using static MarketBot.Date.MarketModel;
+using static MarketLIB.Models.MarketModel;
 
 namespace MarketBot.Pages
 {
@@ -25,7 +25,7 @@ namespace MarketBot.Pages
             {
                 this.Dispatcher.Invoke(new Action(async () =>
                 {
-                    var history = await MarketAPI.GetMarketHistoryAsync();
+                    var history = await MarketAPI.Instance.GetMarketHistoryAsync();
                     History_LB.ItemsSource = history.Data;
                 }));
             });
@@ -53,7 +53,7 @@ namespace MarketBot.Pages
                 {
                     this.Dispatcher.Invoke(new Action(async () =>
                     {
-                        var items = await MarketAPI.GetSteamInventoryAsync();
+                        var items = await MarketAPI.Instance.GetSteamInventoryAsync();
 
                         if (items.Items.Count == 0)
                             Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from http://steamcommunity.com/\r\nReason: Unstable operation of the Steam server. Please try again later.");
@@ -70,7 +70,7 @@ namespace MarketBot.Pages
                 {
                     this.Dispatcher.Invoke(new Action(async () =>
                     {
-                        var items = await MarketAPI.GetItemsAsync();
+                        var items = await MarketAPI.Instance.GetItemsAsync();
 
                         if (items.Items.Count == 0)
                             Notification.DisplayInfo("You are not selling any items");
@@ -88,7 +88,7 @@ namespace MarketBot.Pages
 
         private async void Sell_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var sell = await MarketAPI.SetSellAsync(Current_sell_item_id, Sell_Price.Text, Market_currency);
+            var sell = await MarketAPI.Instance.SetSellAsync(Current_sell_item_id, Sell_Price.Text, Market_currency);
 
             if (sell.Success == true)
                 Notification.DisplayInfo("Item is successfully add for sale");
@@ -130,7 +130,7 @@ namespace MarketBot.Pages
 
         private async void Remove_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var update = await MarketAPI.SetPriceAsync(Current_sell_item_id, "0", Market_currency);
+            var update = await MarketAPI.Instance.SetPriceAsync(Current_sell_item_id, "0", Market_currency);
 
             if (update.Success == true)
                 Notification.DisplayInfo("Item successfully deleted");
@@ -142,7 +142,7 @@ namespace MarketBot.Pages
 
         private async void Update_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            var price = await MarketAPI.SetPriceAsync(Current_sell_item_id, Update_Price.Text, Market_currency);
+            var price = await MarketAPI.Instance.SetPriceAsync(Current_sell_item_id, Update_Price.Text, Market_currency);
 
             if (price.Success == true)
                 Notification.DisplayInfo("The item price has been successfully updated");

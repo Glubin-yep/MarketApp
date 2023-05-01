@@ -1,12 +1,13 @@
 ﻿using MarketApp.Date;
+using MarketLIB;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using static MarketApp.Date.UserModel;
+using static MarketLIB.Models.UserModel;
 
-namespace MarketBot.API
+namespace MarketApp.API
 {
     class SteamAPI
     {
