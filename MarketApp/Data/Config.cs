@@ -29,7 +29,7 @@ namespace MarketApp.Date
             if (ChekConfig() == false)
                 await ReadConfig();
 
-            MarketLIB.MarketAPI.Initialize(Market_API_Key);
+            MarketCore.MarketAPI.MarketAPI.Initialize(Market_API_Key);
             return true;
         }
 

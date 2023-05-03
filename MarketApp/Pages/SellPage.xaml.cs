@@ -1,10 +1,10 @@
 ﻿using MarketBot.Notication;
 using MarketBot.Parsing;
-using MarketLIB;
+using MarketCore.MarketAPI;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using static MarketLIB.Models.MarketModel;
+using static MarketCore.MarketAPI.Models.MarketModel;
 
 namespace MarketBot.Pages
 {

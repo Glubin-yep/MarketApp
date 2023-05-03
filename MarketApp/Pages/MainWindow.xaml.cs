@@ -4,7 +4,7 @@ using MarketApp.API;
 using MarketApp.Date;
 using MarketApp.Pages;
 using MarketBot.Notication;
-using MarketLIB;
+using MarketCore.MarketAPI;
 using System;
 using System.Threading.Tasks;
 using System.Windows;

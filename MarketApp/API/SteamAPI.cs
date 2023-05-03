@@ -1,11 +1,11 @@
 ﻿using MarketApp.Date;
-using MarketLIB;
+using MarketCore.MarketAPI;
 using Newtonsoft.Json;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using static MarketLIB.Models.UserModel;
+using static MarketCore.MarketAPI.Models.UserModel;
 
 namespace MarketApp.API
 {

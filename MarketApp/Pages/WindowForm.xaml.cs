@@ -2,8 +2,8 @@
 using MarketApp.API;
 using MarketBot.Notication;
 using MarketBot.Parsing;
-using MarketLIB;
-using static MarketLIB.Models.OrdersModel;
+using MarketCore.MarketAPI;
+using static MarketCore.MarketAPI.Models.OrdersModel;
 
 namespace Pages
 {

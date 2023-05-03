@@ -8,7 +8,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketApp", "MarketApp\Mark
 		{D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF} = {D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarketLIB", "MarketAPI\MarketLIB.csproj", "{D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MarketCore", "MarketCore\MarketCore.csproj", "{D253D2CE-D2B6-47BA-84CF-2175C0FB3ACF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

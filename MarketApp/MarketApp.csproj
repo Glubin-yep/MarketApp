@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MarketAPI\MarketLIB.csproj" />
+    <ProjectReference Include="..\MarketCore\MarketCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>

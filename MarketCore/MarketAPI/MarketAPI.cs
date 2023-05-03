@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
-using static MarketLIB.Models.MarketModel;
-using static MarketLIB.Models.OrdersModel;
-using static MarketLIB.Models.UserModel;
+using static MarketCore.MarketAPI.Models.MarketModel;
+using static MarketCore.MarketAPI.Models.OrdersModel;
+using static MarketCore.MarketAPI.Models.UserModel;
 
-namespace MarketLIB
+namespace MarketCore.MarketAPI
 {
     public sealed class MarketAPI
     {

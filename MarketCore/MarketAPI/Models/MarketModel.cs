@@ -1,4 +1,4 @@
-﻿namespace MarketLIB.Models
+﻿namespace MarketCore.MarketAPI.Models
 {
     public class MarketModel
     {
