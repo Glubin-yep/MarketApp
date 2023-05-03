@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace MarketBot.Parsing
+namespace MarketApp.Parsing
 {
     class CustomValidation
     {

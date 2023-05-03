@@ -1,10 +1,7 @@
-﻿using MarketApp.Utills;
-using MarketBot;
-using MarketBot.Notication;
+﻿using MarketCore.Utills;
 using Newtonsoft.Json;
-using System.IO;
 
-namespace MarketApp.Date
+namespace MarketCore.Data
 {
     public class Settings
     {
@@ -26,25 +23,6 @@ namespace MarketApp.Date
             catch { }
 
             return settingsInfo;
-        }
-
-        public static void ApplySettings(MainWindow mainWindow)
-        {
-            Settings settingsInfo = Settings.ReadSettings();
-
-            if (settingsInfo.AutoLoad == true)
-            {
-                Regedit.AddToAutoLoad();
-            }
-            else
-            {
-                Regedit.RemoveFromAutoLoad();
-            }
-
-            if (settingsInfo.AutoTray == true)
-            {
-                Tray.CloseToTray(mainWindow);
-            }
         }
     }
 

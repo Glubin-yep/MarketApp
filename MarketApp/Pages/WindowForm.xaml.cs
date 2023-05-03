@@ -1,9 +1,9 @@
 ﻿using AdonisUI.Controls;
-using MarketApp.API;
-using MarketBot.Notication;
-using MarketBot.Parsing;
-using MarketCore.MarketAPI;
-using static MarketCore.MarketAPI.Models.OrdersModel;
+using MarketCore.API;
+using MarketApp.Parsing;
+using MarketCore.API.MarketAPI;
+using MarketApp.Notication;
+using static MarketCore.API.MarketAPI.Models.OrdersModel;
 
 namespace Pages
 {

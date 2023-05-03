@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace MarketApp.Utills
+namespace MarketCore.Utills
 {
     public static class Regedit
     {

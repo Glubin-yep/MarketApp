@@ -1,6 +1,6 @@
 ﻿using AdonisUI.Controls;
-using MarketApp.Date;
-using MarketApp.Utills;
+using MarketCore.Data;
+using MarketCore.Utills;
 using System.Windows;
 
 namespace MarketApp.Pages

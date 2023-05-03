@@ -1,13 +1,13 @@
-﻿using MarketBot.Notication;
-using MarketCore.MarketAPI;
+﻿using MarketApp.Notication;
+using MarketCore.API.MarketAPI;
 using Pages;
 using System;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows.Controls;
-using static MarketCore.MarketAPI.Models.OrdersModel;
+using static MarketCore.API.MarketAPI.Models.OrdersModel;
 
-namespace MarketBot.Pages
+namespace MarketApp.Pages
 {
     public partial class OrderPage : Page
     {

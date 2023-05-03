@@ -1,10 +1,7 @@
-﻿using MarketApp.Pages;
-using MarketApp.Utills;
-using MarketBot.Notication;
-using System.IO;
-using System.Threading.Tasks;
+﻿using MarketCore.API.MarketAPI;
+using MarketCore.Utills;
 
-namespace MarketApp.Date
+namespace MarketCore.Data
 {
     public class Config
     {
@@ -29,7 +26,7 @@ namespace MarketApp.Date
             if (ChekConfig() == false)
                 await ReadConfig();
 
-            MarketCore.MarketAPI.MarketAPI.Initialize(Market_API_Key);
+            MarketAPI.Initialize(Market_API_Key);
             return true;
         }
 
@@ -37,9 +34,10 @@ namespace MarketApp.Date
         {
             if (Market_API_Key == string.Empty || SteamId32 == string.Empty || Steam_API_Key == string.Empty)
             {
-                Notification.DisplayInfo("Entry Steam API or StemaId32 or Market API");
-                var entry = new ConfigPage();
-                entry.ShowDialog();
+                return false;
+                //Notification.DisplayInfo("Entry Steam API or StemaId32 or Market API");
+                // var entry = new ConfigPage();
+                // entry.ShowDialog();
             }
             return true;
         }

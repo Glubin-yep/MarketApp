@@ -1,16 +1,18 @@
 ﻿using AdonisUI;
 using AdonisUI.Controls;
-using MarketApp.API;
-using MarketApp.Date;
+using MarketCore.API;
+using MarketCore.Data;
 using MarketApp.Pages;
-using MarketBot.Notication;
-using MarketCore.MarketAPI;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
+using MarketApp.Notication;
+using MarketCore.API.MarketAPI;
+using MarketCore.Utills;
+using System.Windows.Media.Imaging;
 
-namespace MarketBot
+namespace MarketApp
 {
     public partial class MainWindow : AdonisWindow
     {
@@ -36,8 +38,27 @@ namespace MarketBot
             Tray.MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
             Tray.MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
 
-            MarketApp.Date.Settings.ApplySettings(this);
+            ApplySettings(this);
 
+        }
+
+        private static void ApplySettings(MainWindow mainWindow)
+        {
+            Settings settingsInfo = MarketCore.Data.Settings.ReadSettings();
+
+            if (settingsInfo.AutoLoad == true)
+            {
+                Regedit.AddToAutoLoad();
+            }
+            else
+            {
+                Regedit.RemoveFromAutoLoad();
+            }
+
+            if (settingsInfo.AutoTray == true)
+            {
+                Tray.CloseToTray(mainWindow);
+            }
         }
 
         private static async void ReadConfigAsync()
@@ -107,9 +128,10 @@ namespace MarketBot
             {
                 this.Dispatcher.Invoke(new Action(async () =>
                 {
-                    Money.Content = await MarketAPI.Instance.GetMoneyAsync();
-                    Photo.Source = await SteamAPI.GetAvatarAsync();
+                    Money.Content = await MarketAPI.Instance.GetMoneyAsync();                    
                     Nickname.Content = await SteamAPI.GetNicknameAsync();
+                    Photo.Source = new BitmapImage(new Uri(await SteamAPI.GetAvatarUrlAsync()));
+
                 }));
             });
         }

@@ -1,31 +1,22 @@
-﻿using MarketApp.Date;
-using MarketCore.MarketAPI;
+﻿using MarketCore.Utills;
 using Newtonsoft.Json;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
-using static MarketCore.MarketAPI.Models.UserModel;
+using MarketCore.Data;
+using static MarketCore.API.MarketAPI.Models.UserModel;
 
-namespace MarketApp.API
+namespace MarketCore.API
 {
-    class SteamAPI
+    public class SteamAPI
     {
-        public static async Task<BitmapImage> GetAvatarAsync()
+        public static async Task<string> GetAvatarUrlAsync()
         {
             try
             {
-
                 string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Config.Steam_API_Key}&steamids={Config.SteamId32}";
 
-                User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
+                User user_Date = JsonConvert.DeserializeObject<User>(await HttpUtils.GetResponseAsync(actionUrl));
 
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.UriSource = new Uri($"{user_Date.Response.Players.First().Avatarfull}"); ;
-                bitmapImage.EndInit();
-
-                return bitmapImage;
+                return user_Date.Response.Players.First().Avatarfull;
             }
             catch { return null; }
 
@@ -40,9 +31,7 @@ namespace MarketApp.API
                 Image_Url = $"https://cdn.csgo.com//item/{item_name} ({wear})/300.png";
 
             var bitmapImage = new BitmapImage();
-            bitmapImage.BeginInit();
             bitmapImage.UriSource = new Uri(Image_Url);
-            bitmapImage.EndInit();
 
             return bitmapImage;
         }
@@ -52,7 +41,7 @@ namespace MarketApp.API
             {
                 string actionUrl = $"https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={Config.Steam_API_Key}&steamids={Config.SteamId32}";
 
-                User user_Date = JsonConvert.DeserializeObject<User>(await MarketAPI.GetResponseAsync(actionUrl));
+                User user_Date = JsonConvert.DeserializeObject<User>(await HttpUtils.GetResponseAsync(actionUrl));
                 return user_Date.Response.Players.First().Personaname;
             }
             catch { return string.Empty; }

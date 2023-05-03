@@ -1,7 +1,7 @@
 ﻿using AdonisUI.Controls;
-using MarketApp.Date;
-using MarketApp.Utills;
-using MarketBot.Notication;
+using MarketApp.Notication;
+using MarketCore.Data;
+using MarketCore.Utills;
 
 namespace MarketApp.Pages
 {

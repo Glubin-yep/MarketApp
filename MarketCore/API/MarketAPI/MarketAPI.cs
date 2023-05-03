@@ -1,9 +1,10 @@
-﻿using Newtonsoft.Json;
-using static MarketCore.MarketAPI.Models.MarketModel;
-using static MarketCore.MarketAPI.Models.OrdersModel;
-using static MarketCore.MarketAPI.Models.UserModel;
+﻿using MarketCore.Utills;
+using Newtonsoft.Json;
+using static MarketCore.API.MarketAPI.Models.MarketModel;
+using static MarketCore.API.MarketAPI.Models.OrdersModel;
+using static MarketCore.API.MarketAPI.Models.UserModel;
 
-namespace MarketCore.MarketAPI
+namespace MarketCore.API.MarketAPI
 {
     public sealed class MarketAPI
     {
@@ -45,36 +46,13 @@ namespace MarketCore.MarketAPI
         }
 
         /// <summary>
-        /// Receive a request from the server
-        /// </summary>
-        public static async Task<string> GetResponseAsync(string url)
-        {
-            string responseBody = string.Empty;
-            try
-            {
-                using var client = new HttpClient();
-
-                HttpResponseMessage response = await client.GetAsync(url);
-                response.EnsureSuccessStatusCode();
-
-                using HttpContent content = response.Content;
-                responseBody = await response.Content.ReadAsStringAsync();
-            }
-            catch
-            {
-
-            }
-            return responseBody;
-        }
-
-        /// <summary>
         /// Request inventory cash update (it is recommended to do after each accepted trade offer).
         /// </summary>
         public async void UpdateInventoryAsync()
         {
             string actionUrl = $"https://market.csgo.com/api/v2/update-inventory/?key={Market_API_Key}";
 
-            await GetResponseAsync(actionUrl);
+            await HttpUtils.GetResponseAsync(actionUrl);
         }
 
         /// <summary>
@@ -85,7 +63,7 @@ namespace MarketCore.MarketAPI
             string actionUrl = $"https://market.csgo.com/api/v2/get-money?key={Market_API_Key}";
             try
             {
-                Balans user_Date = JsonConvert.DeserializeObject<Balans>(await GetResponseAsync(actionUrl));
+                Balans user_Date = JsonConvert.DeserializeObject<Balans>(await HttpUtils.GetResponseAsync(actionUrl));
                 Market_currency = user_Date.Currency;
                 return user_Date.Money.ToString() + " " + Market_currency;
             }
@@ -100,7 +78,7 @@ namespace MarketCore.MarketAPI
             string actionUrl = $"https://market.csgo.com/api/v2/ping?key={Market_API_Key}";
             try
             {
-                PingInfo user_Date = JsonConvert.DeserializeObject<PingInfo>(await GetResponseAsync(actionUrl));
+                PingInfo user_Date = JsonConvert.DeserializeObject<PingInfo>(await HttpUtils.GetResponseAsync(actionUrl));
                 return user_Date.Online;
             }
             catch { return false; }
@@ -115,7 +93,7 @@ namespace MarketCore.MarketAPI
             {
                 string actionUrl = $"https://market.csgo.com/api/v2/items?key={Market_API_Key}";
 
-                ItemList user_Date = JsonConvert.DeserializeObject<ItemList>(await GetResponseAsync(actionUrl));
+                ItemList user_Date = JsonConvert.DeserializeObject<ItemList>(await HttpUtils.GetResponseAsync(actionUrl));
                 return user_Date;
             }
             catch { return new ItemList(); }
@@ -130,7 +108,7 @@ namespace MarketCore.MarketAPI
             {
                 string actionUrl = $"https://market.csgo.com/api/v2/my-inventory/?key={Market_API_Key}";
 
-                Inventory user_Date = JsonConvert.DeserializeObject<Inventory>(await GetResponseAsync(actionUrl));
+                Inventory user_Date = JsonConvert.DeserializeObject<Inventory>(await HttpUtils.GetResponseAsync(actionUrl));
                 return user_Date;
             }
             catch { return new Inventory(); }
@@ -146,7 +124,7 @@ namespace MarketCore.MarketAPI
             {
                 string actionUrl = $"https://market.csgo.com/api/v2/search-item-by-hash-name?key={Market_API_Key}&hash_name={item_name}";
 
-                MarketPrice user_Date = JsonConvert.DeserializeObject<MarketPrice>(await GetResponseAsync(actionUrl));
+                MarketPrice user_Date = JsonConvert.DeserializeObject<MarketPrice>(await HttpUtils.GetResponseAsync(actionUrl));
                 return user_Date;
             }
             catch { return new MarketPrice(); }
@@ -161,7 +139,7 @@ namespace MarketCore.MarketAPI
             {
                 string actionUrl = $"https://market.csgo.com/api/v2/operation-history?key={Market_API_Key}&date={DateTimeOffset.Now.Add(TimeSpan.FromDays(-90)).ToUnixTimeSeconds()}&date_end={DateTimeOffset.Now.ToUnixTimeSeconds()}";
 
-                MarketHistory user_history = JsonConvert.DeserializeObject<MarketHistory>(await GetResponseAsync(actionUrl));
+                MarketHistory user_history = JsonConvert.DeserializeObject<MarketHistory>(await HttpUtils.GetResponseAsync(actionUrl));
                 return user_history;
             }
             catch { return new MarketHistory(); }
@@ -179,7 +157,7 @@ namespace MarketCore.MarketAPI
             {
                 string actionUrl = $"https://market.csgo.com/api/v2/add-to-sale?key={Market_API_Key}&id={item_id}&price={price}00&cur={currency}";
 
-                Sell user_Date = JsonConvert.DeserializeObject<Sell>(await GetResponseAsync(actionUrl));
+                Sell user_Date = JsonConvert.DeserializeObject<Sell>(await HttpUtils.GetResponseAsync(actionUrl));
                 return user_Date;
             }
             catch { return new Sell(); }
@@ -197,7 +175,7 @@ namespace MarketCore.MarketAPI
             {
                 string actionUrl = $"https://market.csgo.com/api/v2/set-price?key={Market_API_Key}&item_id={item_id}&price={price}00&cur={currency}";
 
-                Update user_Date = JsonConvert.DeserializeObject<Update>(await GetResponseAsync(actionUrl));
+                Update user_Date = JsonConvert.DeserializeObject<Update>(await HttpUtils.GetResponseAsync(actionUrl));
                 return user_Date;
             }
             catch { return new Update(); }
@@ -212,7 +190,7 @@ namespace MarketCore.MarketAPI
             {
                 string actionUrl = $"https://market.csgo.com/api/v2/trade-request-take?key={Market_API_Key}";
 
-                TradeRequestGive tradeRequestTake = JsonConvert.DeserializeObject<TradeRequestGive>(await GetResponseAsync(actionUrl));
+                TradeRequestGive tradeRequestTake = JsonConvert.DeserializeObject<TradeRequestGive>(await HttpUtils.GetResponseAsync(actionUrl));
                 return tradeRequestTake.Success;
             }
             catch { return false; }
@@ -227,7 +205,7 @@ namespace MarketCore.MarketAPI
             {
                 string actionUrl = $"https://market.csgo.com/api/v2/trade-request-give-p2p?key={Market_API_Key}";
 
-                TradeRequestGive tradeRequestGive = JsonConvert.DeserializeObject<TradeRequestGive>(await GetResponseAsync(actionUrl));
+                TradeRequestGive tradeRequestGive = JsonConvert.DeserializeObject<TradeRequestGive>(await HttpUtils.GetResponseAsync(actionUrl));
                 return tradeRequestGive.Success;
             }
             catch { return false; }
@@ -243,13 +221,13 @@ namespace MarketCore.MarketAPI
 
             try
             {
-                ordersRequestGive = JsonConvert.DeserializeObject<OrdersList>(await GetResponseAsync(actionUrl));
+                ordersRequestGive = JsonConvert.DeserializeObject<OrdersList>(await HttpUtils.GetResponseAsync(actionUrl));
 
                 for (int i = 1; i < 9999; i++)
                 {
                     actionUrl = $"https://market.csgo.com/api/v2/get-orders?key={Market_API_Key}&page={i}";
 
-                    var request = JsonConvert.DeserializeObject<OrdersList>(await GetResponseAsync(actionUrl));
+                    var request = JsonConvert.DeserializeObject<OrdersList>(await HttpUtils.GetResponseAsync(actionUrl));
 
                     if (request.Orders.Count == 0)
                         break;
@@ -273,7 +251,7 @@ namespace MarketCore.MarketAPI
         {
             string actionUrl = $"https://market.csgo.com/api/v2/set-order?key={Market_API_Key}&market_hash_name={market_hash_name} {wear}&count={count}&price={price}";
 
-            var ordersRequestGive = JsonConvert.DeserializeObject<OrdersList>(await GetResponseAsync(actionUrl));
+            var ordersRequestGive = JsonConvert.DeserializeObject<OrdersList>(await HttpUtils.GetResponseAsync(actionUrl));
             return ordersRequestGive;
         }
 
@@ -286,7 +264,7 @@ namespace MarketCore.MarketAPI
             {
                 string actionUrl = $"https://market.csgo.com/api/v2/get-orders-log?key={Market_API_Key}&page=1";
 
-                var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(await GetResponseAsync(actionUrl));
+                var ordersRequestGive = JsonConvert.DeserializeObject<OrdersLog>(await HttpUtils.GetResponseAsync(actionUrl));
                 return ordersRequestGive;
             }
             catch { return new OrdersLog(); }

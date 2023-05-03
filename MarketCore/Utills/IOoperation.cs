@@ -1,9 +1,9 @@
-﻿using MarketApp.Date;
+﻿using MarketCore.Data;
 using System;
 using System.IO;
 using System.Text.Json;
 
-namespace MarketApp.Utills
+namespace MarketCore.Utills
 {
     public static class IOoperation
     {

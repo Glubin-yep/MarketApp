@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace MarketApp.Utills
+namespace MarketCore.Utills
 {
     public static class Encryption
     {

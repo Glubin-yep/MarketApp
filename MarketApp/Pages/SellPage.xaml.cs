@@ -1,12 +1,12 @@
-﻿using MarketBot.Notication;
-using MarketBot.Parsing;
-using MarketCore.MarketAPI;
+﻿using MarketApp.Parsing;
+using MarketCore.API.MarketAPI;
+using MarketApp.Notication;
 using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using static MarketCore.MarketAPI.Models.MarketModel;
+using static MarketCore.API.MarketAPI.Models.MarketModel;
 
-namespace MarketBot.Pages
+namespace MarketApp.Pages
 {
 
     public partial class SellPage

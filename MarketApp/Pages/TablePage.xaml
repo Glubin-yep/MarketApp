@@ -1,10 +1,10 @@
-﻿<Page x:Class="MarketBot.Pages.TablePage"
+﻿<Page x:Class="MarketApp.Pages.TablePage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-      xmlns:local="clr-namespace:MarketBot.Pages"
+      xmlns:local="clr-namespace:MarketApp.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="750" d:DesignWidth="1200"
       Title="TablePage" >

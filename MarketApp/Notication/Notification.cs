@@ -1,4 +1,5 @@
-﻿using MarketApp.Date;
+﻿using MarketApp;
+using MarketCore.Data;
 using System;
 using System.Drawing;
 using System.IO;
@@ -8,7 +9,7 @@ using System.Windows;
 using System.Windows.Forms;
 using Telegram.Bot;
 
-namespace MarketBot.Notication
+namespace MarketApp.Notication
 {
     public class MyIcon
     {

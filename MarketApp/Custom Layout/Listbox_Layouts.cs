@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 
 
-namespace MarketBot
+namespace MarketApp
 {
     internal class LayoutListbox : ListBox
     {

@@ -1,8 +1,8 @@
-﻿<Application x:Class="MarketBot.App"
+﻿<Application x:Class="MarketApp.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-             xmlns:local="clr-namespace:MarketBot"
+             xmlns:local="clr-namespace:MarketApp"
              StartupUri="Pages/MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>

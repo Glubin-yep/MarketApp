@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace MarketBot.Pages
+namespace MarketApp.Pages
 {
     /// <summary>
     /// Interaction logic for TablePage.xaml
