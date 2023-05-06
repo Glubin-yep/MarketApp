@@ -1,4 +1,4 @@
-﻿using MarketApp;
+﻿using MarketApp.Properties;
 using MarketCore.Data;
 using System;
 using System.Drawing;
@@ -10,21 +10,7 @@ using System.Windows.Forms;
 using Telegram.Bot;
 
 namespace MarketApp.Notication
-{
-    public class MyIcon
-    {
-        public static Icon Icon { get => GetIcon(); }
-
-        private static Icon GetIcon()
-        {
-            Stream _iconStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("MarketApp.Resources.MarketApp.ico");
-
-            Icon icon = new(_iconStream);
-
-            return icon;
-        }
-    }
-
+{    
     public static class Notification
     {
 
@@ -51,7 +37,8 @@ namespace MarketApp.Notication
             {
                 var ni = new NotifyIcon
                 {
-                    Icon = MyIcon.Icon,
+                    Icon = new Icon(System.Windows.Application.GetResourceStream(
+                    new Uri("pack://application:,,,/Resources/MarketApp.ico")).Stream),
                     Visible = true,
                     BalloonTipTitle = "Market App",
                     BalloonTipText = text
@@ -72,7 +59,8 @@ namespace MarketApp.Notication
     {
         private static readonly NotifyIcon myNotifyIcon = new()
         {
-            Icon = MyIcon.Icon
+            Icon = new Icon(System.Windows.Application.GetResourceStream(
+                    new Uri("pack://application:,,,/Resources/MarketApp.ico")).Stream),
         };
 
         public static NotifyIcon MyNotifyIcon { get => myNotifyIcon; }

@@ -13,13 +13,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<None Remove="Resources\MarketApp.ico" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<EmbeddedResource Include="Resources\MarketApp.ico">
-			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
-		</EmbeddedResource>
+	  <None Remove="Resources\MarketApp.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -32,6 +26,10 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\MarketCore\MarketCore.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Resource Include="Resources\MarketApp.ico" />
 	</ItemGroup>
 
 	<ItemGroup>
