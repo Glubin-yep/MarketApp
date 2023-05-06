@@ -10,36 +10,43 @@ namespace MarketCore.Data
         public static string Market_API_Key { get; set; } = string.Empty;
         public static string Telegram_User_Id { get; set; } = string.Empty;
 
-        public static async Task<bool> ReadConfig()
+        public static bool ReadConfig()
         {
             if (IOoperation.CheckDir() == false)
                 IOoperation.CreateDir();
 
-            var conf = Encryption.Decrypt(File.ReadAllText($"{IOoperation.FullPathToData}\\Config.txt"));
-            var lines = conf.Split('\n');
-
-            SteamId32 = lines[0];
-            Steam_API_Key = lines[1];
-            Market_API_Key = lines[2];
-            Telegram_User_Id = lines[3];
-
             if (ChekConfig() == false)
-                await ReadConfig();
+                return false;
 
-            MarketAPI.Initialize(Market_API_Key);
             return true;
         }
 
         public static bool ChekConfig()
         {
-            if (Market_API_Key == string.Empty || SteamId32 == string.Empty || Steam_API_Key == string.Empty)
+            try
+            {
+                var conf = Encryption.Decrypt(File.ReadAllText($"{IOoperation.FullPathToData}\\Config.txt"));
+                var lines = conf.Split('\n');
+
+                SteamId32 = lines[0];
+                Steam_API_Key = lines[1];
+                Market_API_Key = lines[2];
+                Telegram_User_Id = lines[3];
+
+                if (string.IsNullOrWhiteSpace(SteamId32) ||
+                    string.IsNullOrWhiteSpace(Steam_API_Key) ||
+                    string.IsNullOrWhiteSpace(Market_API_Key) )
+                {
+                    return false;
+                }
+
+                MarketAPI.Initialize(Market_API_Key);
+                return true;
+            }
+            catch
             {
                 return false;
-                //Notification.DisplayInfo("Entry Steam API or StemaId32 or Market API");
-                // var entry = new ConfigPage();
-                // entry.ShowDialog();
             }
-            return true;
         }
 
         public override string ToString()

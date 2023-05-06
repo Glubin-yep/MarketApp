@@ -8,8 +8,8 @@ namespace MarketCore.API.MarketAPI
 {
     public sealed class MarketAPI
     {
-        private static MarketAPI _instance;
-        private string Market_API_Key;
+        private static MarketAPI? _instance;
+        private readonly string Market_API_Key;
 
         private MarketAPI(string apiKey)
         {
@@ -38,11 +38,6 @@ namespace MarketCore.API.MarketAPI
             {
                 throw new InvalidOperationException("MarketAPI has already been initialized");
             }
-        }
-
-        public void SetApiKey(string apiKey)
-        {
-            Market_API_Key = apiKey;
         }
 
         /// <summary>

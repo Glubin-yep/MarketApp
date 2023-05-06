@@ -32,6 +32,8 @@ namespace MarketApp.Pages
             {
                 IOoperation.SaveConfig();
                 this.Close();
+                System.Windows.Forms.Application.Restart();
+                System.Windows.Application.Current.Shutdown();
             }
         }
     }

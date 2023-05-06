@@ -21,10 +21,13 @@ namespace MarketApp
 
         public MainWindow()
         {
+
             InitializeComponent();
-            ReadConfigAsync();
+
+            ReadConfig();
             UpdateStatusAsync();
             LoadUserInfo();
+
             MarketAPI.Instance.UpdateInventoryAsync();
 
             aTimer = new(180_000);
@@ -61,9 +64,14 @@ namespace MarketApp
             }
         }
 
-        private static async void ReadConfigAsync()
+        private static void ReadConfig()
         {
-            await Config.ReadConfig();
+            if (Config.ReadConfig() == false)
+            {
+                Notification.DisplayInfo("Entry Steam API or StemaId32 or Market API");
+                var entry = new ConfigPage();
+                entry.ShowDialog();
+            }
         }
 
         private void MyNotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)
