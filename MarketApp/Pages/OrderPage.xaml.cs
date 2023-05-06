@@ -64,8 +64,12 @@ namespace MarketApp.Pages
 
             if (e.AddedItems.Count >= 1)
             {
-                Selected_Order = (Order)e.AddedItems[0];
+                if (e.AddedItems[0] is Order selectedOrder)
+                {
+                    Selected_Order = selectedOrder;
+                }
             }
+
         }
         private void Update_Orders()
         {

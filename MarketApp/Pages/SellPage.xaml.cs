@@ -105,11 +105,11 @@ namespace MarketApp.Pages
             Sell_Price.IsEnabled = true;
             Sell_Price.Text = "";
 
-            if (e.AddedItems.Count >= 1)
+            if (e.AddedItems?.Count >= 1)
             {
                 var nameOfProperty = "Id";
                 var propertyInfo = e.AddedItems[0]?.GetType().GetProperty(nameOfProperty);
-                Current_sell_item_id = propertyInfo?.GetValue(e.AddedItems[0], null)?.ToString();
+                Current_sell_item_id = propertyInfo?.GetValue(e.AddedItems[0], null)?.ToString() ?? string.Empty;
             }
         }
 
@@ -124,7 +124,7 @@ namespace MarketApp.Pages
             {
                 var nameOfProperty = "Item_id";
                 var propertyInfo = e.AddedItems[0]?.GetType().GetProperty(nameOfProperty);
-                Current_sell_item_id = propertyInfo?.GetValue(e.AddedItems[0], null)?.ToString();
+                Current_sell_item_id = propertyInfo?.GetValue(e.AddedItems[0], null)?.ToString() ?? string.Empty;
             }
         }
 

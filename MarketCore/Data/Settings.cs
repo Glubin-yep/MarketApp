@@ -6,10 +6,10 @@ namespace MarketCore.Data
     public class Settings
     {
 
-        public bool? AutoLoad { get; set; }
-        public bool? AutoTray { get; set; }
-        public bool? TelegramNotification { get; set; }
-        public bool? WindowsNotification { get; set; }
+        public bool AutoLoad { get; set; } = true;
+        public bool AutoTray { get; set; } = true;
+        public bool TelegramNotification { get; set; } = false;
+        public bool WindowsNotification { get; set; } = true;
 
         public static Settings ReadSettings()
         {
@@ -17,7 +17,7 @@ namespace MarketCore.Data
 
             try
             {
-                settingsInfo = JsonConvert.DeserializeObject<Settings>(File.ReadAllText($"{IOoperation.FullPathToData}\\Settings.json"));
+                settingsInfo = JsonConvert.DeserializeObject<Settings>(File.ReadAllText($"{IOoperation.FullPathToData}\\Settings.json")) ?? new();
             }
 
             catch { }

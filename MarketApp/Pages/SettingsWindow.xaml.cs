@@ -25,10 +25,10 @@ namespace MarketApp.Pages
 
         private void Save_Click(object sender, RoutedEventArgs e)
         {
-            settingsInfo.AutoLoad = AutoLoad.IsChecked;
-            settingsInfo.AutoTray = AutoTray.IsChecked;
-            settingsInfo.TelegramNotification = TelegramNotification.IsChecked;
-            settingsInfo.WindowsNotification = WindowsNotification.IsChecked;
+            settingsInfo.AutoLoad = AutoLoad.IsChecked ?? true;
+            settingsInfo.AutoTray = AutoTray.IsChecked ?? false;
+            settingsInfo.TelegramNotification = TelegramNotification.IsChecked ?? false;
+            settingsInfo.WindowsNotification = WindowsNotification.IsChecked ?? true;
 
             IOoperation.SaveSettings(settingsInfo);
             this.Close();

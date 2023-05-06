@@ -18,7 +18,7 @@ namespace MarketCore.API
 
                 return user_Date.Response.Players.First().Avatarfull;
             }
-            catch { return null; }
+            catch { return string.Empty; }
 
         }
         public static BitmapImage GetImage(string item_name, string? wear = null)
@@ -30,8 +30,10 @@ namespace MarketCore.API
             else
                 Image_Url = $"https://cdn.csgo.com//item/{item_name} ({wear})/300.png";
 
-            var bitmapImage = new BitmapImage();
-            bitmapImage.UriSource = new Uri(Image_Url);
+            var bitmapImage = new BitmapImage
+            {
+                UriSource = new Uri(Image_Url)
+            };
 
             return bitmapImage;
         }
