@@ -33,16 +33,20 @@ namespace MarketApp.Pages
 
         private async void Iteams_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            ItemsLB.Visibility = System.Windows.Visibility.Collapsed;
             Spinner1.Visibility = System.Windows.Visibility.Visible;
             await ListUpdate(1);
             Spinner1.Visibility = System.Windows.Visibility.Collapsed;
+            ItemsLB.Visibility = System.Windows.Visibility.Visible;
         }
 
         private async void Inventory_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
+            InventoryLB.Visibility = System.Windows.Visibility.Collapsed;
             Spinner2.Visibility = System.Windows.Visibility.Visible;
             await ListUpdate(0);
             Spinner2.Visibility = System.Windows.Visibility.Collapsed;
+            InventoryLB.Visibility = System.Windows.Visibility.Visible;
         }
 
         public async Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items

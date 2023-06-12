@@ -1,93 +1,88 @@
 ﻿<adonisControls:AdonisWindow
-        x:Class="MarketApp.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
-        xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
-        xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
-        xmlns:local="clr-namespace:MarketApp"
-        mc:Ignorable="d"
-        Title="Market App" Width="1450" Height="800" ResizeMode="CanMinimize"  Closing="AdonisWindow_Closing"
-        Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
-
-    <adonisControls:AdonisWindow.TitleBarContent>        
-        <StackPanel Orientation="Horizontal"
-                    HorizontalAlignment="Right">
+x:Class="MarketApp.MainWindow"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
+xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
+xmlns:local="clr-namespace:MarketApp"
+mc:Ignorable="d"
+Title="Market App" MinWidth="1450" MinHeight="800" Width="1450" Height="800" ResizeMode="CanResize" Closing="AdonisWindow_Closing"
+Background="{DynamicResource {x:Static adonisUi:Brushes.Layer1BackgroundBrush}}">
+    <adonisControls:AdonisWindow.TitleBarContent>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
             <Button Style="{DynamicResource {x:Static adonisUi:Styles.WindowButton}}"
-                    FontFamily="Segoe UI"
-                    FontSize="14"
-                    Click="ChangeTheme">
+                FontFamily="Segoe UI"
+                FontSize="14"
+                Click="ChangeTheme">
                 <StackPanel>
-                    <fa:FontAwesomeIcon x:Name="Theme"  SolidIcon="Sun" Height="20" Foreground ="White"/>
+                    <fa:FontAwesomeIcon x:Name="Theme" SolidIcon="Sun" Height="20" Foreground="White"/>
                 </StackPanel>
             </Button>
-            
+
             <Button Style="{DynamicResource {x:Static adonisUi:Styles.WindowButton}}"
-                    FontFamily="Segoe UI"
-                    FontSize="14"
-                    Click="Settings_Click">
+                FontFamily="Segoe UI"
+                FontSize="14"
+                Click="Settings_Click">
                 <StackPanel>
-                    <fa:FontAwesomeIcon x:Name="Settings"  SolidIcon="Cog" Height="20" Foreground ="White"/>
+                    <fa:FontAwesomeIcon x:Name="Settings" SolidIcon="Cog" Height="20" Foreground="White"/>
                 </StackPanel>
             </Button>
         </StackPanel>
-        
     </adonisControls:AdonisWindow.TitleBarContent>
+
     <Grid>
-        <Grid.ColumnDefinitions >
-            <ColumnDefinition Width ="150"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Frame x:Name="MainFrame" Source="SellPage.xaml" NavigationUIVisibility="Hidden" Grid.Column ="1"/>
+        <Frame x:Name="MainFrame" Source="SellPage.xaml" NavigationUIVisibility="Hidden" Grid.Column="1"/>
 
-        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  >
-
-            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="0"  Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
-
-                <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
-                    <Border BorderThickness="0,1,0,1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Height="150" >
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Grid.Column="0" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
+                <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
+                    <Border BorderThickness="0,1,0,1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Height="150">
                         <Image x:Name="Photo"/>
                     </Border>
                 </StackPanel>
 
-                <Border BorderThickness="0,1,0,1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  >
+                <Border BorderThickness="0,1,0,1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}">
                     <StackPanel>
-
-                        <Label Content="Nickname:" FontSize="16" FontFamily="Segoe UI " Margin="15,15,0,0"/>
-                        <Label x:Name="Nickname"  Content="Nickname" FontFamily="Microsoft JhengHei UI Light"  FontSize="16" Margin = "15,15,0,0"/>
-                        <Label Content="Balans:" FontSize="16" FontFamily="Segoe UI " Margin="15,15,0,0"/>
-                        <Label x:Name="Money"  FontSize="16" FontFamily="Microsoft JhengHei UI Light" Margin="15,15,0,0"/>
-                        <Label Content="Market Status:" FontSize="16" FontFamily="Segoe UI " Margin="15,15,0,0"/>
+                        <Label Content="Nickname:" FontSize="16" FontFamily="Segoe UI" Margin="15,15,0,0"/>
+                        <Label x:Name="Nickname" Content="Nickname" FontFamily="Microsoft JhengHei UI Light" FontSize="16" Margin="15,15,0,0"/>
+                        <Label Content="Balance:" FontSize="16" FontFamily="Segoe UI" Margin="15,15,0,0"/>
+                        <Label x:Name="Money" FontSize="16" FontFamily="Microsoft JhengHei UI Light" Margin="15,15,0,0"/>
+                        <Label Content="Market Status:" FontSize="16" FontFamily="Segoe UI" Margin="15,15,0,0"/>
 
                         <WrapPanel>
-                            <Label x:Name="Status"  Content="Disconnect" FontFamily="Microsoft JhengHei UI Light"  FontSize="16" Margin ="15,15,0,15"/>
-                            <fa:FontAwesomeIcon x:Name="Spinner1" SolidIcon="Spinner"   AnimationType="Spin"  FontSize="22"   Visibility="Visible" Margin ="15,15,0,15" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
+                            <Label x:Name="Status" Content="Disconnect" FontFamily="Microsoft JhengHei UI Light" FontSize="16" Margin="15,15,0,15"/>
+                            <fa:FontAwesomeIcon x:Name="Spinner1" SolidIcon="Spinner" AnimationType="Spin" FontSize="22" Visibility="Visible" Margin="15,15,0,15" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"/>
                         </WrapPanel>
-
                     </StackPanel>
                 </Border>
 
-                <StackPanel Orientation ="Vertical" VerticalAlignment="Stretch"  Margin="0,15,0,0" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
-                    <Border BorderThickness="1" CornerRadius="6" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Margin="10,5,10,0" >
-                        <Button x:Name="Sell"  Content="Sell" Style = "{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" Background="#0f0f" BorderThickness="0" FontFamily="Segoe UI " FontSize="18" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" Click="Sell_Click"/>
+                <StackPanel Orientation="Vertical" VerticalAlignment="Stretch" Margin="0,15,0,0" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
+                    <Border BorderThickness="1" CornerRadius="6" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Margin="10,5,10,0">
+                        <Button x:Name="Sell" Content="Sell" Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" Background="#0f0f" BorderThickness="0" FontFamily="Segoe UI" FontSize="18" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" Click="Sell_Click"/>
                     </Border>
-                    <Border BorderThickness="1" CornerRadius="6"  BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Margin="10,20,10,0">
-                        <Button x:Name="Order" Content="Order" Style = "{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" Background="#0f0f" BorderThickness="0" FontFamily="Segoe UI " FontSize="18" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" Click="Order_Click"/>
+                    <Border BorderThickness="1" CornerRadius="6" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Margin="10,20,10,0">
+                        <Button x:Name="Order" Content="Order" Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" Background="#0f0f" BorderThickness="0" FontFamily="Segoe UI" FontSize="18" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" Click="Order_Click"/>
                     </Border>
-                    <Border BorderThickness="1" CornerRadius="6" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Margin="10,20,10,0" >
-                        <Button x:Name="Table" Content="Table" Style = "{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" Background="#0f0f" BorderThickness="0" FontFamily="Segoe UI " FontSize="18" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" Click="Table_Click"/>
+                    <Border BorderThickness="1" CornerRadius="6" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" Margin="10,20,10,0">
+                        <Button x:Name="Table" Content="Table" Style="{DynamicResource {x:Static adonisUi:Styles.AccentButton}}" Background="#0f0f" BorderThickness="0" FontFamily="Segoe UI" FontSize="18" Foreground="{DynamicResource {x:Static adonisUi:Brushes.ForegroundBrush}}" Click="Table_Click"/>
                     </Border>
                 </StackPanel>
             </StackPanel>
         </Border>
-
     </Grid>
-
-
 </adonisControls:AdonisWindow>
+
+
+
+
