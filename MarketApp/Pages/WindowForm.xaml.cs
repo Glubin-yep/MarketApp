@@ -4,6 +4,8 @@ using MarketApp.Parsing;
 using MarketCore.API.MarketAPI;
 using MarketApp.Notication;
 using static MarketCore.API.MarketAPI.Models.OrdersModel;
+using System.Windows.Media.Imaging;
+using System;
 
 namespace Pages
 {
@@ -54,7 +56,11 @@ namespace Pages
         {
             try
             {
-                Image.Source = SteamAPI.GetImage(MarketName.Text, Wear_list.Text);
+                var bitmapImage = new BitmapImage
+                {
+                    UriSource = new Uri(SteamAPI.GetImageUrl(MarketName.Text, Wear_list.Text))
+                };
+                Image.Source = bitmapImage;
             }
             catch { }
         }
@@ -62,7 +68,11 @@ namespace Pages
         {
             try
             {
-                Image.Source = SteamAPI.GetImage(MarketName.Text, Wear_list.Text);
+                var bitmapImage = new BitmapImage
+                {
+                    UriSource = new Uri(SteamAPI.GetImageUrl(MarketName.Text, Wear_list.Text))
+                };
+                Image.Source = bitmapImage;
             }
             catch { }
         }

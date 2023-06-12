@@ -1,6 +1,5 @@
 ﻿using MarketCore.Utills;
 using Newtonsoft.Json;
-using System.Windows.Media.Imaging;
 using MarketCore.Data;
 using static MarketCore.API.MarketAPI.Models.UserModel;
 
@@ -21,7 +20,7 @@ namespace MarketCore.API
             catch { return string.Empty; }
 
         }
-        public static BitmapImage GetImage(string item_name, string? wear = null)
+        public static string GetImageUrl(string item_name, string? wear = null)
         {
             string Image_Url;
 
@@ -30,12 +29,7 @@ namespace MarketCore.API
             else
                 Image_Url = $"https://cdn.csgo.com//item/{item_name} ({wear})/300.png";
 
-            var bitmapImage = new BitmapImage
-            {
-                UriSource = new Uri(Image_Url)
-            };
-
-            return bitmapImage;
+            return Image_Url;
         }
         public static async Task<string> GetNicknameAsync()
         {
