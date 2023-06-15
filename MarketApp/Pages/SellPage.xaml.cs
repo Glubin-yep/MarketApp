@@ -19,23 +19,21 @@ namespace MarketApp.Pages
             LoadUserHistory();
         }
 
-        private void LoadUserHistory()
+        private async void LoadUserHistory()
         {
-            Task.Run(() =>
-            {
-                this.Dispatcher.Invoke(new Action(async () =>
+            var history = await MarketAPI.Instance.GetMarketHistoryAsync();
+
+            await Dispatcher.InvokeAsync(() =>
                 {
-                    var history = await MarketAPI.Instance.GetMarketHistoryAsync();
                     History_LB.ItemsSource = history.Data;
-                }));
-            });
+                });
         }
 
         private async void Iteams_Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             ItemsLB.Visibility = System.Windows.Visibility.Collapsed;
             Spinner1.Visibility = System.Windows.Visibility.Visible;
-            await ListUpdate(1);
+            await ListUpdateItems();
             Spinner1.Visibility = System.Windows.Visibility.Collapsed;
             ItemsLB.Visibility = System.Windows.Visibility.Visible;
         }
@@ -44,49 +42,52 @@ namespace MarketApp.Pages
         {
             InventoryLB.Visibility = System.Windows.Visibility.Collapsed;
             Spinner2.Visibility = System.Windows.Visibility.Visible;
-            await ListUpdate(0);
+            await ListUpdateInventory();
             Spinner2.Visibility = System.Windows.Visibility.Collapsed;
             InventoryLB.Visibility = System.Windows.Visibility.Visible;
         }
 
-        public async Task<bool> ListUpdate(int mode) // 0 == inventory // 1 == Items
+        public async Task<bool> ListUpdateInventory()
         {
-            if (mode == 0)
+            var items = await MarketAPI.Instance.GetSteamInventoryAsync();
+
+            if (items.Items.Count == 0)
             {
-                await Task.Run(async () =>
-                {
-                    this.Dispatcher.Invoke(new Action(async () =>
-                    {
-                        var items = await MarketAPI.Instance.GetSteamInventoryAsync();
-
-                        if (items.Items.Count == 0)
-                            Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from http://steamcommunity.com/\r\nReason: Unstable operation of the Steam server. Please try again later.");
-
-                        InventoryLB.ItemsSource = items.Items;
-                    }));
-                    await Task.Delay(550);
-                });
-                return true;
+                Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from http://steamcommunity.com/\r\nReason: Unstable operation of the Steam server. Please try again later.");
+                return false;
             }
-            else
+
+            await Dispatcher.InvokeAsync(() =>
             {
-                await Task.Run(async () =>
-                {
-                    this.Dispatcher.Invoke(new Action(async () =>
-                    {
-                        var items = await MarketAPI.Instance.GetItemsAsync();
+                InventoryLB.ItemsSource = items.Items;
+            });
 
-                        if (items.Items.Count == 0)
-                            Notification.DisplayInfo("You are not selling any items");
+            await Task.Delay(550);
 
-                        if (items.Success == false)
-                            Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from https://market.csgo.com/");
+            return true;
+        }
 
-                        ItemsLB.ItemsSource = items.Items;
-                    }));
-                    await Task.Delay(550);
-                });
+        public async Task<bool> ListUpdateItems()
+        {
+            var items = await MarketAPI.Instance.GetItemsAsync();
+
+            if (items.Items.Count == 0)
+            {
+                Notification.DisplayInfo("You are not selling any items");
             }
+
+            if (!items.Success)
+            {
+                Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from https://market.csgo.com/");
+            }
+
+            await Dispatcher.InvokeAsync(() =>
+            {
+                ItemsLB.ItemsSource = items.Items;
+            });
+
+            await Task.Delay(550);
+
             return true;
         }
 
@@ -95,12 +96,12 @@ namespace MarketApp.Pages
             var sell = await MarketAPI.Instance.SetSellAsync(Current_sell_item_id, Sell_Price.Text, Market_currency);
 
             if (sell.Success == true)
-                Notification.DisplayInfo("Item is successfully add for sale");
+                Notification.DisplayInfo("Item is successfully added for sale");
             else
                 Notification.DisplayInfo("Item not added for sale");
 
-            await ListUpdate(0);
-            await ListUpdate(1);
+            await ListUpdateInventory();
+            await ListUpdateItems();
             Sell.IsEnabled = false;
         }
 
@@ -141,7 +142,7 @@ namespace MarketApp.Pages
             else
                 Notification.DisplayInfo("Item not deleted");
 
-            await ListUpdate(1);
+            await ListUpdateItems();
         }
 
         private async void Update_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -153,7 +154,7 @@ namespace MarketApp.Pages
             else
                 Notification.DisplayInfo("The product price was not successfully updated");
 
-            await ListUpdate(1);
+            await ListUpdateItems();
             Update.IsEnabled = false;
         }
 

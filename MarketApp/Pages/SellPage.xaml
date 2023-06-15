@@ -121,23 +121,31 @@
 
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"
         Grid.Column="1" Grid.Row="0">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=ItemsLB}" Value="True">
+                            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto" >
-                <StackPanel >
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel>
                     <fa:FontAwesomeIcon x:Name="Spinner1" SolidIcon="Spinner" Margin="15" AnimationType="Spin" FontSize="192"
-                            Visibility="Collapsed"  Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
+                                Visibility="Collapsed" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
 
                     <local:LayoutListbox x:Name="ItemsLB" Style="{StaticResource ItemsLBStyle}" BorderThickness="0"   
-                                    FontSize="14" FontFamily="Segoe UI" 
-                                    ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                                    SelectionChanged="ItemsLB_SelectionChanged"
-                                          Visibility="Collapsed"
-                                    />
+                                FontSize="14" FontFamily="Segoe UI" 
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                SelectionChanged="ItemsLB_SelectionChanged"
+                                Visibility="Collapsed"/>
+
                 </StackPanel>
-
             </ScrollViewer>
-
         </Border>
+
 
 
 
@@ -160,12 +168,6 @@
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"
                 Grid.Column="1" Grid.Row="1" >
 
-            <!--<StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
-                <fa:FontAwesomeIcon x:Name="Spinner2" SolidIcon="Spinner" Margin="15"  AnimationType="Spin"  FontSize="92"   
-                                    Visibility="Collapsed"  MinHeight="250"
-                                    Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
-            </StackPanel>-->
-
             <ScrollViewer VerticalScrollBarVisibility="Auto">
 
                 <StackPanel>
@@ -176,7 +178,8 @@
                     <local:LayoutListbox  x:Name="InventoryLB" Style="{StaticResource InventoryLBStyle}" BorderThickness="0"   
                                           FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                                           SelectionChanged ="InventoryLB_SelectionChanged"
-                                          Visibility="Collapsed"/>
+                                          Visibility="Collapsed"
+/>
                 </StackPanel>
             </ScrollViewer>
 
