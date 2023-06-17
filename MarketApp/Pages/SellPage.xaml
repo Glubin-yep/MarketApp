@@ -1,0 +1,199 @@
+﻿<Page x:Class="MarketApp.Pages.SellPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MarketApp"
+      xmlns:adonisUi="clr-namespace:AdonisUI;assembly=AdonisUI"
+      xmlns:fa="clr-namespace:Meziantou.WpfFontAwesome;assembly=Meziantou.WpfFontAwesome"
+      mc:Ignorable="d" 
+      d:DesignHeight="800" d:DesignWidth="1200"
+      Title="SellPage"
+      Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}">
+    <Page.Resources>
+        <DataTemplate x:Key="HistoryTemplate">
+            <StackPanel Orientation="Vertical"  Width="170" Height="150" >
+                <Image Source="{Binding ImageUrl}" Width="100" Height="75"/>
+                <TextBlock TextWrapping="Wrap" Text="{Binding Market_hash_name}"/>
+                <TextBlock Text="{Binding Price}" />
+                <TextBlock Text="{Binding Stage}"/>
+                <TextBlock Text="{Binding Time}" />
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ItemsLBTemplate">
+            <StackPanel Orientation="Vertical" Width="150" Height="150">
+                <Image Source="{Binding ImageUrl}"  Width="100" Height="80"/>
+                <TextBlock TextWrapping="Wrap" FontSize="12" FontFamily="Segoe UI" Text="{Binding Market_hash_name}"/>
+                <TextBlock  TextWrapping="WrapWithOverflow" FontSize="14" FontFamily="Segoe UI" >
+                        <Run Text="{Binding Price}"/>
+                        <Run Text="{Binding Currency}"/>
+                </TextBlock>
+                <TextBlock  TextWrapping="WrapWithOverflow" FontSize="14" FontFamily="Segoe UI" >
+                        <Run Text="Position on market"/>
+                        <Run Text="{Binding Position}"/>
+                </TextBlock>
+                <TextBlock  TextWrapping="WrapWithOverflow" FontSize="14" FontFamily="Segoe UI" Visibility="Hidden">
+                     <Run Text="{Binding Item_id}"/>
+                </TextBlock>
+            </StackPanel>
+        </DataTemplate>
+
+        <DataTemplate x:Key="InventoryLBTemplate">
+            <StackPanel Orientation="Vertical" Width="150" Height="150" >
+                <Image Source="{Binding ImageUrl}" Width="100" Height="80"/>
+                <TextBlock TextWrapping="Wrap" FontSize="14" FontFamily="Segoe UI" Text="{Binding Market_hash_name}"/>
+            </StackPanel>
+        </DataTemplate>
+
+        <ItemsPanelTemplate x:Key="HistoryPanel">
+            <WrapPanel Orientation ="Vertical" IsItemsHost="True"  />
+        </ItemsPanelTemplate>
+
+        <ItemsPanelTemplate x:Key="ItemsLBPanel">
+            <WrapPanel Orientation ="Horizontal" IsItemsHost="True"  />
+        </ItemsPanelTemplate>
+
+        <Style TargetType="local:LayoutListbox">
+            <Style.Triggers>
+                <Trigger Property="layout" Value="Tile">
+                    <Setter Property="ItemsPanel" Value="{StaticResource HistoryPanel}"/>
+                    <Setter Property="ItemTemplate" Value="{StaticResource HistoryTemplate}"/>
+                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
+                    <Setter Property="FontSize" Value="12"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="local:LayoutListbox" x:Key="ItemsLBStyle">
+            <Style.Triggers>
+                <Trigger Property="layout" Value="Tile">
+                    <Setter Property="ItemsPanel" Value="{StaticResource ItemsLBPanel}"/>
+                    <Setter Property="ItemTemplate" Value="{StaticResource ItemsLBTemplate}"/>
+                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
+                    <Setter Property="FontSize" Value="12"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="local:LayoutListbox" x:Key="InventoryLBStyle">
+            <Style.Triggers>
+                <Trigger Property="layout" Value="Tile">
+                    <Setter Property="ItemsPanel" Value="{StaticResource ItemsLBPanel}"/>
+                    <Setter Property="ItemTemplate" Value="{StaticResource InventoryLBTemplate}"/>
+                    <Setter Property="Background" Value="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"/>
+                    <Setter Property="FontSize" Value="12"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" MinHeight="170" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" MinWidth="260" />
+            <ColumnDefinition Width="*" />
+
+        </Grid.ColumnDefinitions>
+
+
+        <Border BorderThickness="1"  BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"  
+                Grid.Column="0" Grid.Row="0">
+
+            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}" >
+
+                <Button x:Name="Iteams_Button" Style = "{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"  
+                        Content="Load Your Iteams"  Click="Iteams_Button_Click" Margin="10"/>
+
+                <Button x:Name="Remove"  Content="Remove"  VerticalAlignment="Top" Click="Remove_Click" IsEnabled="False" Margin="10"/>
+                <Button x:Name="Update"   Content="Update" VerticalAlignment="Top" Click="Update_Click" IsEnabled="False" Margin="10"/>
+
+                <TextBox x:Name="Update_Price" Text="Enter Price" VerticalAlignment="Top"  FontSize="16" FontFamily="Segoe UI"
+                         IsEnabled="False" PreviewTextInput ="Update_Price_PreviewTextInput" Margin="10"/>
+
+            </StackPanel>
+        </Border>
+
+
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"
+        Grid.Column="1" Grid.Row="0">
+          
+            <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name="ItemsLB_Scroll">
+                <StackPanel>
+                    <fa:FontAwesomeIcon x:Name="Spinner1" SolidIcon="Spinner" Margin="15" AnimationType="Spin" FontSize="192"
+                                Visibility="Collapsed" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
+
+                    <local:LayoutListbox x:Name="ItemsLB" Style="{StaticResource ItemsLBStyle}" BorderThickness="0"   
+                                FontSize="14" FontFamily="Segoe UI" 
+                                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                SelectionChanged="ItemsLB_SelectionChanged"
+                                Visibility="Collapsed"
+                                PreviewMouseWheel="ItemsLB_PreviewMouseWheel"/>
+
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+
+
+
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"
+                Grid.Column="0"  Grid.Row="1">
+
+            <StackPanel Orientation="Vertical" Background="{DynamicResource {x:Static adonisUi:Brushes.Layer0BackgroundBrush}}"  >
+                <Button x:Name="Inventory_Button" Style = "{DynamicResource {x:Static adonisUi:Styles.AccentButton}}"  
+                        Content="Load Your Inventory"    Click="Inventory_Button_Click" Margin="10"/>
+
+                <Button x:Name="Sell"  Content="Sell"   VerticalAlignment="Top" 
+                        Click="Sell_Click" IsEnabled="False" Margin="10" />
+
+                <TextBox x:Name="Sell_Price"  Text="Enter Price"  FontFamily="Segoe UI" 
+                         IsEnabled="False" PreviewTextInput ="Sell_Price_PreviewTextInput" 
+                         FontSize="16" Margin="10"/>
+            </StackPanel>
+        </Border>
+
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"
+                Grid.Column="1" Grid.Row="1" >
+
+            <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name = "InventoryLB_Scroll">
+
+                <StackPanel>
+                    <fa:FontAwesomeIcon x:Name="Spinner2" SolidIcon="Spinner" Margin="15"  AnimationType="Spin"  FontSize="192"   
+                                    Visibility="Collapsed"  MinHeight="250"
+                                    Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
+                    
+                    <local:LayoutListbox  x:Name="InventoryLB" Style="{StaticResource InventoryLBStyle}" BorderThickness="0"   
+                                          FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+                                          SelectionChanged ="InventoryLB_SelectionChanged"
+                                          Visibility="Collapsed"
+                                          PreviewMouseWheel="InventoryLB_PreviewMouseWheel"/>
+                </StackPanel>
+            </ScrollViewer>
+
+        </Border>
+
+        <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"
+                VerticalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" x:Name="HistoryLB_Scroll">
+                <StackPanel Orientation="Horizontal" Background="#0f0f">
+                    <local:LayoutListbox x:Name="History_LB" BorderThickness="0"
+                                         FontSize="14" FontFamily="Segoe UI"
+                                         PreviewMouseWheel="History_LB_PreviewMouseWheel">
+                        
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </local:LayoutListbox>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+
+    </Grid>
+</Page>
