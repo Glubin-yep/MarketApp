@@ -1,15 +1,15 @@
 ﻿using AdonisUI;
 using AdonisUI.Controls;
-using MarketCore.API;
-using MarketCore.Data;
+using MarketApp.Notification;
 using MarketApp.Pages;
+using MarketCore.API;
+using MarketCore.API.MarketAPI;
+using MarketCore.Data;
+using MarketCore.Utills;
 using System;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Forms;
-using MarketApp.Notication;
-using MarketCore.API.MarketAPI;
-using MarketCore.Utills;
 using System.Windows.Media.Imaging;
 
 namespace MarketApp
@@ -38,8 +38,8 @@ namespace MarketApp
             bTimer.Elapsed += (o, e) => CheckTradeAsync();
             bTimer.Enabled = true;
 
-            Tray.MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
-            Tray.MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
+            TrayNotification.MyNotifyIcon.MouseDoubleClick += MyNotifyIcon_MouseDoubleClick;
+            TrayNotification.MyNotifyIcon.MouseClick += MyNotifyIcon_MouseClick;
 
             ApplySettings(this);
 
@@ -60,7 +60,7 @@ namespace MarketApp
 
             if (settingsInfo.AutoTray == true)
             {
-                Tray.CloseToTray(mainWindow);
+                TrayNotification.CloseToTray(mainWindow);
             }
         }
 
@@ -68,7 +68,7 @@ namespace MarketApp
         {
             if (Config.ReadConfig() == false)
             {
-                Notification.DisplayInfo("Entry Steam API or StemaId32 or Market API");
+                WindowsNotification.DisplayInfo("Entry Steam API or StemaId32 or Market API");
                 var entry = new ConfigPage();
                 entry.ShowDialog();
             }
@@ -76,12 +76,12 @@ namespace MarketApp
 
         private void MyNotifyIcon_MouseDoubleClick(object? sender, MouseEventArgs e)
         {
-            Tray.OpenFromTray(this);
+            TrayNotification.OpenFromTray(this);
         }
 
         private void MyNotifyIcon_MouseClick(object? sender, MouseEventArgs e)
         {
-            Tray.OpenContextMenuInTray(e);
+            TrayNotification.OpenContextMenuInTray(e);
         }
 
         private void ChangeTheme(object sender, RoutedEventArgs e)
@@ -121,7 +121,7 @@ namespace MarketApp
         private void AdonisWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             e.Cancel = true;
-            Tray.CloseToTray(this);
+            TrayNotification.CloseToTray(this);
         }
 
         private void Settings_Click(object sender, RoutedEventArgs e)
@@ -136,7 +136,7 @@ namespace MarketApp
             {
                 this.Dispatcher.Invoke(new Action(async () =>
                 {
-                    Money.Content = await MarketAPI.Instance.GetMoneyAsync();                    
+                    Money.Content = await MarketAPI.Instance.GetMoneyAsync();
                     Nickname.Content = await SteamAPI.GetNicknameAsync();
                     Photo.Source = new BitmapImage(new Uri(await SteamAPI.GetAvatarUrlAsync()));
 
@@ -151,8 +151,8 @@ namespace MarketApp
             {
                 this.Dispatcher.Invoke(new Action(() =>
                 {
-                    Notification.WindowNotificationAsync("Accept trade on website");
-                    Notification.TelegramNotificationAsync("Accept trade on website");
+                    WindowsNotification.WindowNotificationAsync("Accept trade on website");
+                    TelegramNotification.TelegramNotificationAsync("Accept trade on website");
                 }));
             }
         }

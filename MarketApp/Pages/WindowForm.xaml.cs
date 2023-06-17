@@ -1,11 +1,11 @@
 ﻿using AdonisUI.Controls;
-using MarketCore.API;
+using MarketApp.Notification;
 using MarketApp.Parsing;
+using MarketCore.API;
 using MarketCore.API.MarketAPI;
-using MarketApp.Notication;
-using static MarketCore.API.MarketAPI.Models.OrdersModel;
-using System.Windows.Media.Imaging;
 using System;
+using System.Windows.Media.Imaging;
+using static MarketCore.API.MarketAPI.Models.OrdersModel;
 
 namespace Pages
 {
@@ -45,11 +45,11 @@ namespace Pages
 
             if (status.Success == true)
             {
-                Notification.DisplayInfo("Order successfully added :)");
+                WindowsNotification.DisplayInfo("Order successfully added :)");
                 this.Close();
             }
             else
-                Notification.DisplayInfo("It is not possible to add this order :(");
+                WindowsNotification.DisplayInfo("It is not possible to add this order :(");
         }
 
         private void TextBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)

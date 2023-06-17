@@ -35,7 +35,7 @@ namespace MarketCore.Data
 
                 if (string.IsNullOrWhiteSpace(SteamId32) ||
                     string.IsNullOrWhiteSpace(Steam_API_Key) ||
-                    string.IsNullOrWhiteSpace(Market_API_Key) )
+                    string.IsNullOrWhiteSpace(Market_API_Key))
                 {
                     return false;
                 }

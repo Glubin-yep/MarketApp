@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 
 namespace MarketApp
 {
@@ -11,9 +10,9 @@ namespace MarketApp
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            
+
             DispatcherUnhandledException += (sender, e) =>
-            {               
+            {
                 e.Handled = true;
             };
         }

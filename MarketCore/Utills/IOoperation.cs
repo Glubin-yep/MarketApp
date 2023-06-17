@@ -1,6 +1,4 @@
 ﻿using MarketCore.Data;
-using System;
-using System.IO;
 using System.Text.Json;
 
 namespace MarketCore.Utills

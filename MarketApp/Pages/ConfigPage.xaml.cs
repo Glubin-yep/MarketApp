@@ -1,5 +1,5 @@
 ﻿using AdonisUI.Controls;
-using MarketApp.Notication;
+using MarketApp.Notification;
 using MarketCore.Data;
 using MarketCore.Utills;
 
@@ -26,7 +26,7 @@ namespace MarketApp.Pages
 
             if (Config.SteamId32 == string.Empty || Config.Market_API_Key == string.Empty || Config.Steam_API_Key == string.Empty)
             {
-                Notification.DisplayInfo("Entry data pls");
+                WindowsNotification.DisplayInfo("Entry data pls");
             }
             else
             {

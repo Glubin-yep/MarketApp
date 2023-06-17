@@ -1,6 +1,6 @@
-﻿using MarketCore.Utills;
+﻿using MarketCore.Data;
+using MarketCore.Utills;
 using Newtonsoft.Json;
-using MarketCore.Data;
 using static MarketCore.API.MarketAPI.Models.UserModel;
 
 namespace MarketCore.API

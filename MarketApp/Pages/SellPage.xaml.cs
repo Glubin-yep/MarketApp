@@ -1,7 +1,6 @@
-﻿using MarketApp.Parsing;
+﻿using MarketApp.Notification;
+using MarketApp.Parsing;
 using MarketCore.API.MarketAPI;
-using MarketApp.Notication;
-using System;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using static MarketCore.API.MarketAPI.Models.MarketModel;
@@ -53,7 +52,7 @@ namespace MarketApp.Pages
 
             if (items.Items.Count == 0)
             {
-                Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from http://steamcommunity.com/\r\nReason: Unstable operation of the Steam server. Please try again later.");
+                WindowsNotification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from http://steamcommunity.com/\r\nReason: Unstable operation of the Steam server. Please try again later.");
                 return false;
             }
 
@@ -73,12 +72,12 @@ namespace MarketApp.Pages
 
             if (items.Items.Count == 0)
             {
-                Notification.DisplayInfo("You are not selling any items");
+                WindowsNotification.DisplayInfo("You are not selling any items");
             }
 
             if (!items.Success)
             {
-                Notification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from https://market.csgo.com/");
+                WindowsNotification.DisplayInfo("Refresh inventory again and try again, data could not be loaded from https://market.csgo.com/");
             }
 
             await Dispatcher.InvokeAsync(() =>
@@ -96,9 +95,9 @@ namespace MarketApp.Pages
             var sell = await MarketAPI.Instance.SetSellAsync(Current_sell_item_id, Sell_Price.Text, Market_currency);
 
             if (sell.Success == true)
-                Notification.DisplayInfo("Item is successfully added for sale");
+                WindowsNotification.DisplayInfo("Item is successfully added for sale");
             else
-                Notification.DisplayInfo("Item not added for sale");
+                WindowsNotification.DisplayInfo("Item not added for sale");
 
             await ListUpdateInventory();
             await ListUpdateItems();
@@ -138,9 +137,9 @@ namespace MarketApp.Pages
             var update = await MarketAPI.Instance.SetPriceAsync(Current_sell_item_id, "0", Market_currency);
 
             if (update.Success == true)
-                Notification.DisplayInfo("Item successfully deleted");
+                WindowsNotification.DisplayInfo("Item successfully deleted");
             else
-                Notification.DisplayInfo("Item not deleted");
+                WindowsNotification.DisplayInfo("Item not deleted");
 
             await ListUpdateItems();
         }
@@ -150,9 +149,9 @@ namespace MarketApp.Pages
             var price = await MarketAPI.Instance.SetPriceAsync(Current_sell_item_id, Update_Price.Text, Market_currency);
 
             if (price.Success == true)
-                Notification.DisplayInfo("The item price has been successfully updated");
+                WindowsNotification.DisplayInfo("The item price has been successfully updated");
             else
-                Notification.DisplayInfo("The product price was not successfully updated");
+                WindowsNotification.DisplayInfo("The product price was not successfully updated");
 
             await ListUpdateItems();
             Update.IsEnabled = false;

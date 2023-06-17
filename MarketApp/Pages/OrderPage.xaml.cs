@@ -51,7 +51,7 @@ namespace MarketApp.Pages
 
         private void Active_Orders_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var hasSelectedItems = e.AddedItems.Count >= 1 ;
+            var hasSelectedItems = e.AddedItems.Count >= 1;
             Remove_order.IsEnabled = hasSelectedItems;
             Update_order.IsEnabled = hasSelectedItems;
 
