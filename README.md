@@ -25,19 +25,7 @@ The original software (https://marketapp.online) has some issues :
 
 Download last release [#Release](https://github.com/Glubin-yep/MarketBot/releases)
 
-
-Unzip the zip to any folder
-
-Fill in the Config.txt
-
-Example Config.txt
-
-```sh
-Market_API_key : XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-StemaId32 : XXXXXXXXXXXXXXXXX
-Steam_API_key : XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
-Telegram User_Id : XXXXXXXXXX
-```
+Fill in the configuration
 
 If you want to receive notifications in Telegram :
 
