@@ -3,6 +3,7 @@ using MarketApp.Parsing;
 using MarketCore.API.MarketAPI;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Input;
 using static MarketCore.API.MarketAPI.Models.MarketModel;
 
 namespace MarketApp.Pages
@@ -167,6 +168,27 @@ namespace MarketApp.Pages
         {
             CustomValidation.ValidationTextBox(sender, e);
             Update.IsEnabled = true;
+        }
+
+        private void ItemsLB_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollViewer = ItemsLB_Scroll;
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+
+        private void InventoryLB_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollViewer = InventoryLB_Scroll;
+            scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+
+        private void History_LB_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollViewer = HistoryLB_Scroll;
+            scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - e.Delta);
+            e.Handled = true;
         }
     }
 }

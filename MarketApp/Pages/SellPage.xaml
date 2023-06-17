@@ -122,7 +122,7 @@
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"
         Grid.Column="1" Grid.Row="0">
           
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name="ItemsLB_Scroll">
                 <StackPanel>
                     <fa:FontAwesomeIcon x:Name="Spinner1" SolidIcon="Spinner" Margin="15" AnimationType="Spin" FontSize="192"
                                 Visibility="Collapsed" Foreground="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}" />
@@ -131,7 +131,8 @@
                                 FontSize="14" FontFamily="Segoe UI" 
                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                 SelectionChanged="ItemsLB_SelectionChanged"
-                                Visibility="Collapsed"/>
+                                Visibility="Collapsed"
+                                PreviewMouseWheel="ItemsLB_PreviewMouseWheel"/>
 
                 </StackPanel>
             </ScrollViewer>
@@ -159,7 +160,7 @@
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"
                 Grid.Column="1" Grid.Row="1" >
 
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name = "InventoryLB_Scroll">
 
                 <StackPanel>
                     <fa:FontAwesomeIcon x:Name="Spinner2" SolidIcon="Spinner" Margin="15"  AnimationType="Spin"  FontSize="192"   
@@ -170,7 +171,7 @@
                                           FontSize="14" FontFamily="Segoe UI" ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
                                           SelectionChanged ="InventoryLB_SelectionChanged"
                                           Visibility="Collapsed"
-/>
+                                          PreviewMouseWheel="InventoryLB_PreviewMouseWheel"/>
                 </StackPanel>
             </ScrollViewer>
 
@@ -178,9 +179,12 @@
 
         <Border BorderThickness="1" BorderBrush="{DynamicResource {x:Static adonisUi:Brushes.Layer1HighlightBorderBrush}}"
                 VerticalAlignment="Stretch" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="3">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" x:Name="HistoryLB_Scroll">
                 <StackPanel Orientation="Horizontal" Background="#0f0f">
-                    <local:LayoutListbox x:Name="History_LB" BorderThickness="0" FontSize="14" FontFamily="Segoe UI">
+                    <local:LayoutListbox x:Name="History_LB" BorderThickness="0"
+                                         FontSize="14" FontFamily="Segoe UI"
+                                         PreviewMouseWheel="History_LB_PreviewMouseWheel">
+                        
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>

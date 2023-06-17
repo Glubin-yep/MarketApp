@@ -100,10 +100,17 @@ namespace MarketApp.Pages
             Active_Orders.Visibility = System.Windows.Visibility.Visible;
         }
 
-        private void LayoutListbox_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        private void Active_Orders_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            ScrollViewer scrollViewer = Active;
+            ScrollViewer scrollViewer = Active_Orders_Scroll;
             scrollViewer.ScrollToVerticalOffset(scrollViewer.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
+
+        private void History_Orders_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            ScrollViewer scrollViewer = HistoryLB_Scroll;
+            scrollViewer.ScrollToHorizontalOffset(scrollViewer.HorizontalOffset - e.Delta);
             e.Handled = true;
         }
     }
